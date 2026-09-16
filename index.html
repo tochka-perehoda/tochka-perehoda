@@ -1,1 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Точка перехода</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div class="portal"></div>
+      <div class="hero-copy">
+        <div class="eyebrow">АВТОРСКОЕ ПРОСТРАНСТВО</div>
+        <h1>ТОЧКА<br><span>ПЕРЕХОДА</span></h1>
+        <p>Осознанность · Свобода · Трансформация · Результат</p>
+      </div>
+    </header>
 
+    <main id="screen-home" class="screen active">
+      <section class="intro">
+        <h2>Новый этап начинается здесь.</h2>
+        <p>Тесты, авторские курсы и цифровые продукты для тех, кто готов менять свою жизнь.</p>
+      </section>
+      <div class="cards">
+        <button class="card accent" onclick="showScreen('test')">
+          <span class="icon">🔥</span><b>Пройти тест</b><small>«Переход — где ты сейчас?»</small>
+        </button>
+        <button class="card" onclick="showScreen('courses')">
+          <span class="icon">◈</span><b>Курсы</b><small>Авторские программы</small>
+        </button>
+        <button class="card" onclick="showScreen('products')">
+          <span class="icon">◇</span><b>Цифровые продукты</b><small>Выбери то, что тебе нужно</small>
+        </button>
+      </div>
+    </main>
+
+    <main id="screen-test" class="screen">
+      <button class="back" onclick="showScreen('home')">← Назад</button>
+      <div id="test-wrap"></div>
+    </main>
+
+    <main id="screen-courses" class="screen">
+      <button class="back" onclick="showScreen('home')">← Назад</button>
+      <h2>Курсы</h2>
+      <div class="product-list">
+        <article class="product">
+          <div class="tag">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</div>
+          <h3>Точка перехода</h3>
+          <p>Личное сопровождение на пути к реальным изменениям и новой точке жизни.</p>
+          <div class="price">30 000 ₽ / месяц</div>
+          <button class="primary" onclick="buyProgram()">Получить личное сопровождение</button>
+        </article>
+      </div>
+    </main>
+
+    <main id="screen-products" class="screen">
+      <button class="back" onclick="showScreen('home')">← Назад</button>
+      <h2>Цифровые продукты</h2>
+      <div class="product-list">
+        <article class="product">
+          <div class="tag">МИНИ-ПРОДУКТ</div>
+          <h3>Переход</h3>
+          <p>Первый шаг к новой жизни: понять, где ты сейчас, остановить внутренний хаос и начать двигаться дальше.</p>
+          <div class="price">990 ₽</div>
+          <button class="primary" onclick="buyMini()">Получить продукт</button>
+        </article>
+      </div>
+    </main>
+
+    <main id="screen-cart" class="screen">
+      <button class="back" onclick="showScreen('home')">← Назад</button>
+      <h2>Корзина</h2>
+      <div id="cart"></div>
+    </main>
+
+    <nav class="bottom-nav">
+      <button onclick="showScreen('home')">⌂<span>Главная</span></button>
+      <button onclick="showScreen('test')">✦<span>Тест</span></button>
+      <button onclick="showScreen('courses')">◈<span>Курсы</span></button>
+      <button onclick="showScreen('products')">◇<span>Продукты</span></button>
+      <button onclick="showScreen('cart')">🛒<span>Корзина <i id="cart-count">0</i></span></button>
+    </nav>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
