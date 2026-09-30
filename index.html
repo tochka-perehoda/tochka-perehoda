@@ -1,214 +1,162 @@
 <!doctype html>
 <html lang="ru">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1,viewport-fit=cover"
-  >
-
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Точка перехода</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
-
+  <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
-<div class="app">
+  <div class="app">
+
+    <header class="hero">
+      <div class="portal"></div>
+
+      <div class="hero-copy">
+        <div class="eyebrow">АВТОРСКОЕ ПРОСТРАНСТВО</div>
+
+        <h1>
+          ТОЧКА<br>
+          <span>ПЕРЕХОДА</span>
+        </h1>
+
+        <p>
+          Осознанность · Свобода · Трансформация · Результат
+        </p>
+      </div>
+    </header>
 
 
-  <!-- ГЛАВНАЯ -->
+    <!-- ГЛАВНАЯ -->
 
-  <main
-    id="screen-home"
-    class="screen active"
-  >
+    <main id="screen-home" class="screen active">
 
-    <section class="intro">
+      <section class="intro">
 
-      <h2>
-        Новый этап начинается здесь.
-      </h2>
+        <h2>
+          Новый этап начинается здесь.
+        </h2>
 
-      <p>
-        Выбери то, что тебе нужно сейчас.
-      </p>
+        <p>
+          Узнай, где ты находишься сейчас,
+          и сделай следующий шаг.
+        </p>
 
-    </section>
+      </section>
 
 
-    <div class="cards">
+      <div class="cards">
 
 
-      <!-- ТЕСТ -->
+        <!-- ТЕСТ -->
 
-      <button
-        class="card accent"
-        onclick="showScreen('test')"
-      >
+        <button
+          class="card accent"
+          onclick="showScreen('test')"
+        >
 
-        <span class="icon">✦</span>
+          <span class="icon">🔥</span>
 
-        <b>
-          ТЕСТ
-        </b>
+          <b>ТЕСТ</b>
 
-        <small>
-          Бесплатно определяет, на какой ступени
-          осознанности ты находишься сейчас.
-        </small>
+          <small>
+            Бесплатно определяет,
+            на какой ступени осознанности
+            ты находишься сейчас.
+          </small>
 
-      </button>
-
-
-      <!-- ПЕРЕХОД -->
-
-      <button
-        class="card"
-        onclick="showScreen('transition')"
-      >
-
-        <span class="icon">◈</span>
-
-        <b>
-          ПЕРЕХОД
-        </b>
-
-        <small>
-          Практический курс, который помогает
-          самостоятельно перейти на следующий уровень.
-        </small>
-
-      </button>
+        </button>
 
 
-      <!-- КОНСУЛЬТАЦИЯ -->
+        <!-- ПЕРЕХОД -->
 
-      <button
-        class="card"
-        onclick="buyConsultation()"
-      >
+        <button
+          class="card"
+          onclick="openTransitionFromHome()"
+        >
 
-        <span class="icon">◇</span>
+          <span class="icon">◈</span>
 
-        <b>
-          КОНСУЛЬТАЦИЯ
-        </b>
+          <b>ПЕРЕХОД</b>
 
-        <small>
-          Разбор твоей ситуации за 60–90 минут —
-          чтобы увидеть главное и понять,
-          что делать дальше.
-        </small>
+          <small>
+            Практический курс,
+            который помогает самостоятельно
+            перейти на следующий уровень.
+          </small>
 
-      </button>
+        </button>
 
 
-      <!-- ЛИЧНОЕ СОПРОВОЖДЕНИЕ -->
+        <!-- КОНСУЛЬТАЦИЯ -->
 
-      <button
-        class="card"
-        onclick="buySupport()"
-      >
+        <button
+          class="card"
+          onclick="openConsultation()"
+        >
 
-        <span class="icon">◉</span>
+          <span class="icon">◇</span>
 
-        <b>
-          ЛИЧНОЕ СОПРОВОЖДЕНИЕ
-        </b>
+          <b>КОНСУЛЬТАЦИЯ</b>
 
-        <small>
-          Персональная работа со мной —
-          шаг за шагом, с фокусом на твою ситуацию
-          и изменения.
-        </small>
+          <small>
+            Разбор твоей ситуации за 60–90 минут —
+            чтобы увидеть главное
+            и понять, что делать дальше.
+          </small>
 
-      </button>
+        </button>
 
 
-    </div>
+        <!-- ЛИЧНОЕ СОПРОВОЖДЕНИЕ -->
 
-  </main>
+        <button
+          class="card"
+          onclick="openAccompaniment()"
+        >
 
+          <span class="icon">✦</span>
 
+          <b>ЛИЧНОЕ СОПРОВОЖДЕНИЕ</b>
 
-  <!-- ТЕСТ -->
+          <small>
+            Персональная работа со мной —
+            шаг за шагом, с фокусом
+            на твою ситуацию и изменения.
+          </small>
 
-  <main
-    id="screen-test"
-    class="screen"
-  >
-
-    <button
-      class="back"
-      onclick="showScreen('home')"
-    >
-      ← Назад
-    </button>
-
-    <div id="test-wrap"></div>
-
-  </main>
+        </button>
 
 
-
-  <!-- ПЕРЕХОД -->
-
-  <main
-    id="screen-transition"
-    class="screen"
-  >
-
-    <button
-      class="back"
-      onclick="showScreen('home')"
-    >
-      ← Назад
-    </button>
-
-    <div class="result">
-
-      <div class="tag">
-        ПЕРЕХОД
       </div>
 
-      <h2>
-        ТВОЙ СЛЕДУЮЩИЙ УРОВЕНЬ
-      </h2>
+    </main>
 
-      <p>
-        Пройди бесплатный тест, чтобы определить,
-        где ты находишься сейчас и какой переход
-        подходит именно тебе.
-      </p>
+
+    <!-- ТЕСТ -->
+
+    <main id="screen-test" class="screen">
 
       <button
-        class="primary"
-        onclick="showScreen('test')"
+        class="back"
+        onclick="showScreen('home')"
       >
-        ПРОЙТИ БЕСПЛАТНЫЙ ТЕСТ
+        ← Назад
       </button>
 
-    </div>
+      <div id="test-wrap"></div>
 
-  </main>
-
-
-</div>
+    </main>
 
 
-<script src="app.js"></script>
+  </div>
+
+
+  <script src="app.js"></script>
 
 </body>
-
 </html>
