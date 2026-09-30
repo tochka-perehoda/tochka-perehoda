@@ -1,88 +1,214 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  >
+
   <title>Точка перехода</title>
+
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
 </head>
+
+
 <body>
-  <div class="app">
-    <header class="hero">
-      <div class="portal"></div>
-      <div class="hero-copy">
-        <div class="eyebrow">АВТОРСКОЕ ПРОСТРАНСТВО</div>
-        <h1>ТОЧКА<br><span>ПЕРЕХОДА</span></h1>
-        <p>Осознанность · Свобода · Трансформация · Результат</p>
+
+<div class="app">
+
+
+  <!-- ГЛАВНАЯ -->
+
+  <main
+    id="screen-home"
+    class="screen active"
+  >
+
+    <section class="intro">
+
+      <h2>
+        Новый этап начинается здесь.
+      </h2>
+
+      <p>
+        Выбери то, что тебе нужно сейчас.
+      </p>
+
+    </section>
+
+
+    <div class="cards">
+
+
+      <!-- ТЕСТ -->
+
+      <button
+        class="card accent"
+        onclick="showScreen('test')"
+      >
+
+        <span class="icon">✦</span>
+
+        <b>
+          ТЕСТ
+        </b>
+
+        <small>
+          Бесплатно определяет, на какой ступени
+          осознанности ты находишься сейчас.
+        </small>
+
+      </button>
+
+
+      <!-- ПЕРЕХОД -->
+
+      <button
+        class="card"
+        onclick="showScreen('transition')"
+      >
+
+        <span class="icon">◈</span>
+
+        <b>
+          ПЕРЕХОД
+        </b>
+
+        <small>
+          Практический курс, который помогает
+          самостоятельно перейти на следующий уровень.
+        </small>
+
+      </button>
+
+
+      <!-- КОНСУЛЬТАЦИЯ -->
+
+      <button
+        class="card"
+        onclick="buyConsultation()"
+      >
+
+        <span class="icon">◇</span>
+
+        <b>
+          КОНСУЛЬТАЦИЯ
+        </b>
+
+        <small>
+          Разбор твоей ситуации за 60–90 минут —
+          чтобы увидеть главное и понять,
+          что делать дальше.
+        </small>
+
+      </button>
+
+
+      <!-- ЛИЧНОЕ СОПРОВОЖДЕНИЕ -->
+
+      <button
+        class="card"
+        onclick="buySupport()"
+      >
+
+        <span class="icon">◉</span>
+
+        <b>
+          ЛИЧНОЕ СОПРОВОЖДЕНИЕ
+        </b>
+
+        <small>
+          Персональная работа со мной —
+          шаг за шагом, с фокусом на твою ситуацию
+          и изменения.
+        </small>
+
+      </button>
+
+
+    </div>
+
+  </main>
+
+
+
+  <!-- ТЕСТ -->
+
+  <main
+    id="screen-test"
+    class="screen"
+  >
+
+    <button
+      class="back"
+      onclick="showScreen('home')"
+    >
+      ← Назад
+    </button>
+
+    <div id="test-wrap"></div>
+
+  </main>
+
+
+
+  <!-- ПЕРЕХОД -->
+
+  <main
+    id="screen-transition"
+    class="screen"
+  >
+
+    <button
+      class="back"
+      onclick="showScreen('home')"
+    >
+      ← Назад
+    </button>
+
+    <div class="result">
+
+      <div class="tag">
+        ПЕРЕХОД
       </div>
-    </header>
 
-    <main id="screen-home" class="screen active">
-      <section class="intro">
-        <h2>Новый этап начинается здесь.</h2>
-        <p>Тесты, авторские курсы и цифровые продукты для тех, кто готов менять свою жизнь.</p>
-      </section>
-      <div class="cards">
-        <button class="card accent" onclick="showScreen('test')">
-          <span class="icon">🔥</span><b>Пройти тест</b><small>«Переход — где ты сейчас?»</small>
-        </button>
-        <button class="card" onclick="showScreen('courses')">
-          <span class="icon">◈</span><b>Курсы</b><small>Авторские программы</small>
-        </button>
-        <button class="card" onclick="showScreen('products')">
-          <span class="icon">◇</span><b>Цифровые продукты</b><small>Выбери то, что тебе нужно</small>
-        </button>
-      </div>
-    </main>
+      <h2>
+        ТВОЙ СЛЕДУЮЩИЙ УРОВЕНЬ
+      </h2>
 
-    <main id="screen-test" class="screen">
-      <button class="back" onclick="showScreen('home')">← Назад</button>
-      <div id="test-wrap"></div>
-    </main>
+      <p>
+        Пройди бесплатный тест, чтобы определить,
+        где ты находишься сейчас и какой переход
+        подходит именно тебе.
+      </p>
 
-    <main id="screen-courses" class="screen">
-      <button class="back" onclick="showScreen('home')">← Назад</button>
-      <h2>Курсы</h2>
-      <div class="product-list">
-        <article class="product">
-          <div class="tag">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</div>
-          <h3>Точка перехода</h3>
-          <p>Личное сопровождение на пути к реальным изменениям и новой точке жизни.</p>
-          <div class="price">30 000 ₽ / месяц</div>
-          <button class="primary" onclick="buyProgram()">Получить личное сопровождение</button>
-        </article>
-      </div>
-    </main>
+      <button
+        class="primary"
+        onclick="showScreen('test')"
+      >
+        ПРОЙТИ БЕСПЛАТНЫЙ ТЕСТ
+      </button>
 
-    <main id="screen-products" class="screen">
-      <button class="back" onclick="showScreen('home')">← Назад</button>
-      <h2>Цифровые продукты</h2>
-      <div class="product-list">
-        <article class="product">
-          <div class="tag">МИНИ-ПРОДУКТ</div>
-          <h3>Переход</h3>
-          <p>Первый шаг к новой жизни: понять, где ты сейчас, остановить внутренний хаос и начать двигаться дальше.</p>
-          <div class="price">990 ₽</div>
-          <button class="primary" onclick="buyMini()">Получить продукт</button>
-        </article>
-      </div>
-    </main>
+    </div>
 
-    <main id="screen-cart" class="screen">
-      <button class="back" onclick="showScreen('home')">← Назад</button>
-      <h2>Корзина</h2>
-      <div id="cart"></div>
-    </main>
+  </main>
 
-    <nav class="bottom-nav">
-      <button onclick="showScreen('home')">⌂<span>Главная</span></button>
-      <button onclick="showScreen('test')">✦<span>Тест</span></button>
-      <button onclick="showScreen('courses')">◈<span>Курсы</span></button>
-      <button onclick="showScreen('products')">◇<span>Продукты</span></button>
-      <button onclick="showScreen('cart')">🛒<span>Корзина <i id="cart-count">0</i></span></button>
-    </nav>
-  </div>
-  <script src="app.js"></script>
+
+</div>
+
+
+<script src="app.js"></script>
+
 </body>
+
 </html>
