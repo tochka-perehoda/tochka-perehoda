@@ -1,154 +1,370 @@
-const tg=window.Telegram?.WebApp;
-if(tg){tg.ready();tg.expand();}
+const tg = window.Telegram?.WebApp;
 
-let cart=JSON.parse(localStorage.getItem('tp_cart')||'[]');
+if (tg) {
+    tg.ready();
+    tg.expand();
+}
 
-const stages=['Автопилот','Толчок','Пробуждение','Творец'];
+let cart = JSON.parse(localStorage.getItem('tp_cart') || '[]');
 
-const questions=[
- {t:'Я понимаю, что прежний образ жизни больше меня не устраивает.',a:['Это почти не про меня','Иногда ловлю себя на этой мысли','Это уже стало очевидно','Я давно это чувствую','Я полностью готов(а) к новому этапу']},
- {t:'Когда жизнь резко меняется, я обычно…',a:['Продолжаю жить как раньше','Чувствую внутреннее сопротивление','Начинаю искать ответы','Беру ответственность за выбор','Создаю новый сценарий']},
- {t:'Что сейчас происходит с моими привычными целями?',a:['Меня всё устраивает','Некоторые цели перестали радовать','Я пересматриваю приоритеты','Я выбираю свои цели осознанно','Я создаю цели из нового состояния']},
- {t:'Насколько я слышу собственные желания?',a:['Почти не слышу','Иногда слышу, но сомневаюсь','Начинаю различать своё и чужое','Доверяю себе больше','Опираюсь на себя в решениях']},
- {t:'Если старый сценарий больше не работает, я…',a:['Держусь за него','Не знаю, что делать','Начинаю отпускать','Создаю новые правила','Осознанно создаю новую реальность']},
- {t:'Мои кризисы чаще всего…',a:['Кажутся случайными','Вынуждают меня остановиться','Показывают, что пора меняться','Становятся точками роста','Становятся материалом для нового выбора']},
- {t:'Я отношусь к неизвестности как к…',a:['Угрозе','Сильному дискомфорту','Пространству поиска','Возможности','Пространству создания']},
- {t:'Что важнее всего в моих решениях?',a:['Стабильность','Не разочаровать других','Понять, чего хочу я','Взять ответственность за себя','Создать жизнь, которая соответствует мне']},
- {t:'Я чувствую, что стою перед новым этапом жизни.',a:['Нет','Скорее нет','Да, но не понимаю каким он будет','Да, я уже меняю многое','Да, я сознательно создаю следующий этап']},
- {t:'Что мне сейчас нужнее всего?',a:['Остановиться и выжить','Понять, что происходит','Увидеть себя честно','Перестать жить по старым правилам','Сделать первый шаг в новую жизнь']}
+const stages = [
+    'Автопилот',
+    'Толчок',
+    'Пробуждение',
+    'Творец'
 ];
 
-let answers=[];
-
-function showScreen(name){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+name).classList.add('active');
-  if(name==='test')renderTest();
-  if(name==='cart')renderCart();
-  window.scrollTo(0,0);
-}
-
-function renderTest(){
-  const w=document.getElementById('test-wrap');
-
-  if(answers.length===questions.length){
-    renderResult();
-    return;
-  }
-
-  let i=answers.length;
-
-  w.innerHTML=`
-    <div class="progress">ВОПРОС ${i+1} ИЗ ${questions.length}</div>
-    <div class="question">
-      <h3>${questions[i].t}</h3>
-      <div class="answers">
-        ${questions[i].a.map((x,j)=>
-          `<button class="answer" onclick="choose(${j})">${String.fromCharCode(65+j)}. ${x}</button>`
-        ).join('')}
-      </div>
-    </div>`;
-}
-
-function choose(j){
-  answers.push(j);
-  renderTest();
-}
-
-function renderResult(){
-
-  let counts=[0,0,0,0];
-
-  answers.forEach(x=>{
-    if(x===0){
-      counts[0]++;
-    }else if(x===1){
-      counts[1]++;
-    }else if(x===2){
-      counts[2]++;
-    }else{
-      counts[3]++;
+const questions = [
+    {
+        t: 'Я понимаю, что прежний образ жизни больше меня не устраивает.',
+        a: [
+            'Это почти не про меня',
+            'Иногда ловлю себя на этой мысли',
+            'Это уже стало очевидно',
+            'Я давно это чувствую',
+            'Я полностью готов(а) к новому этапу'
+        ]
+    },
+    {
+        t: 'Когда жизнь резко меняется, я обычно…',
+        a: [
+            'Продолжаю жить как раньше',
+            'Чувствую внутреннее сопротивление',
+            'Начинаю искать ответы',
+            'Беру ответственность за выбор',
+            'Создаю новый сценарий'
+        ]
+    },
+    {
+        t: 'Что сейчас происходит с моими привычными целями?',
+        a: [
+            'Меня всё устраивает',
+            'Некоторые цели перестали радовать',
+            'Я пересматриваю приоритеты',
+            'Я выбираю свои цели осознанно',
+            'Я создаю цели из нового состояния'
+        ]
+    },
+    {
+        t: 'Насколько я слышу собственные желания?',
+        a: [
+            'Почти не слышу',
+            'Иногда слышу, но сомневаюсь',
+            'Начинаю различать своё и чужое',
+            'Доверяю себе больше',
+            'Опираюсь на себя в решениях'
+        ]
+    },
+    {
+        t: 'Если старый сценарий больше не работает, я…',
+        a: [
+            'Держусь за него',
+            'Не знаю, что делать',
+            'Начинаю отпускать',
+            'Создаю новые правила',
+            'Осознанно создаю новую реальность'
+        ]
+    },
+    {
+        t: 'Мои кризисы чаще всего…',
+        a: [
+            'Кажутся случайными',
+            'Вынуждают меня остановиться',
+            'Показывают, что пора меняться',
+            'Становятся точками роста',
+            'Становятся материалом для нового выбора'
+        ]
+    },
+    {
+        t: 'Я отношусь к неизвестности как к…',
+        a: [
+            'Угрозе',
+            'Сильному дискомфорту',
+            'Пространству поиска',
+            'Возможности',
+            'Пространству создания'
+        ]
+    },
+    {
+        t: 'Что важнее всего в моих решениях?',
+        a: [
+            'Стабильность',
+            'Не разочаровать других',
+            'Понять, чего хочу я',
+            'Взять ответственность за себя',
+            'Создать жизнь, которая соответствует мне'
+        ]
+    },
+    {
+        t: 'Я чувствую, что стою перед новым этапом жизни.',
+        a: [
+            'Нет',
+            'Скорее нет',
+            'Да, но не понимаю каким он будет',
+            'Да, я уже меняю многое',
+            'Да, я сознательно создаю следующий этап'
+        ]
+    },
+    {
+        t: 'Что мне сейчас нужнее всего?',
+        a: [
+            'Остановиться и выжить',
+            'Понять, что происходит',
+            'Увидеть себя честно',
+            'Перестать жить по старым правилам',
+            'Сделать первый шаг в новую жизнь'
+        ]
     }
-  });
+];
 
-  let max=Math.max(...counts);
-  let idx=counts.indexOf(max);
-  let stage=stages[idx];
+let answers = [];
 
-  document.getElementById('test-wrap').innerHTML=`
-    <div class="result">
-      <div class="tag">ТВОЙ РЕЗУЛЬТАТ</div>
-      <h2>${stage}</h2>
-      <p>Ты находишься на этапе «${stage}». Этот результат показывает твою текущую точку перехода и направление дальнейшей работы.</p>
-      <p>Следующий шаг — посмотреть, что именно требует внимания сейчас.</p>
-      <button class="primary" onclick="showScreen('products')">
-        Посмотреть следующий шаг
-      </button>
-    </div>
-    <button class="back" style="margin-top:18px" onclick="answers=[];renderTest()">
-      Пройти заново
-    </button>`;
+function showScreen(name) {
+    document
+        .querySelectorAll('.screen')
+        .forEach(s => s.classList.remove('active'));
+
+    const screen = document.getElementById('screen-' + name);
+
+    if (screen) {
+        screen.classList.add('active');
+    }
+
+    if (name === 'test') {
+        renderTest();
+    }
+
+    if (name === 'cart') {
+        renderCart();
+    }
+
+    window.scrollTo(0, 0);
 }
 
-function openTribute(url){
-  if(window.Telegram?.WebApp?.openLink){
-    window.Telegram.WebApp.openLink(url)
-  }else{
-    window.open(url,'_blank')
-  }
+function renderTest() {
+    const w = document.getElementById('test-wrap');
+
+    if (!w) return;
+
+    if (answers.length === questions.length) {
+        renderResult();
+        return;
+    }
+
+    const i = answers.length;
+
+    w.innerHTML = `
+        <div class="progress">
+            ВОПРОС ${i + 1} ИЗ ${questions.length}
+        </div>
+
+        <div class="question">
+            <h3>${questions[i].t}</h3>
+
+            <div class="answers">
+                ${questions[i].a.map((x, j) => `
+                    <button
+                        class="answer"
+                        onclick="choose(${j})"
+                    >
+                        ${String.fromCharCode(65 + j)}. ${x}
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+    `;
 }
 
-function buyMini(){
-  openTribute('https://web.tribute.tg/p/EBu')
+function choose(j) {
+    answers.push(j);
+    renderTest();
 }
 
-function buyProgram(){
-  openTribute('https://web.tribute.tg/p/EBv')
-}
+function renderResult() {
 
-function addToCart(id,name,price){
-  if(!cart.find(x=>x.id===id)){
-    cart.push({id,name,price});
-  }
+    /*
+      5 вариантов ответа → 4 этапа:
 
-  localStorage.setItem('tp_cart',JSON.stringify(cart));
-  updateCartCount();
-  showScreen('cart');
-}
+      А (0) → Автопилот
+      Б (1) → Толчок
+      В (2) → Пробуждение
+      Г (3) → Творец
+      Д (4) → Творец
+    */
 
-function removeFromCart(id){
-  cart=cart.filter(x=>x.id!==id);
-  localStorage.setItem('tp_cart',JSON.stringify(cart));
-  renderCart();
-  updateCartCount();
-}
+    let counts = [0, 0, 0, 0, 0];
 
-function renderCart(){
-  const el=document.getElementById('cart');
+    answers.forEach(x => {
+        if (x >= 0 && x <= 4) {
+            counts[x]++;
+        }
+    });
 
-  if(!cart.length){
-    el.innerHTML='<div class="empty">Корзина пока пуста.</div>';
-    return;
-  }
+    const max = Math.max(...counts);
+    const idx = counts.indexOf(max);
 
-  el.innerHTML=
-    cart.map(x=>
-      `<div class="cart-item">
-        <span>${x.name}</span>
-        <button class="back" onclick="removeFromCart('${x.id}')">
-          Удалить
+    let stage;
+
+    if (idx === 0) {
+        stage = 'Автопилот';
+    } else if (idx === 1) {
+        stage = 'Толчок';
+    } else if (idx === 2) {
+        stage = 'Пробуждение';
+    } else {
+        stage = 'Творец';
+    }
+
+    const testWrap = document.getElementById('test-wrap');
+
+    if (!testWrap) return;
+
+    testWrap.innerHTML = `
+        <div class="result">
+
+            <div class="tag">
+                ТВОЙ РЕЗУЛЬТАТ
+            </div>
+
+            <h2>
+                ${stage}
+            </h2>
+
+            <p>
+                Ты находишься на этапе «${stage}».
+                Этот результат показывает твою текущую точку
+                перехода и направление дальнейшей работы.
+            </p>
+
+            <p>
+                Следующий шаг — посмотреть, что именно
+                требует внимания сейчас.
+            </p>
+
+            <button
+                class="primary"
+                onclick="showScreen('products')"
+            >
+                Посмотреть следующий шаг
+            </button>
+
+        </div>
+
+        <button
+            class="back"
+            style="margin-top:18px"
+            onclick="answers=[];renderTest()"
+        >
+            Пройти заново
         </button>
-      </div>`
-    ).join('')+
-    `<div style="margin-top:20px">
-      <button class="primary" onclick="alert('Оплата подключается следующим этапом.')">
-        Перейти к оформлению
-      </button>
-    </div>`;
+    `;
 }
 
-function updateCartCount(){
-  document.getElementById('cart-count').textContent=cart.length;
+function openTribute(url) {
+
+    if (window.Telegram?.WebApp?.openLink) {
+        window.Telegram.WebApp.openLink(url);
+    } else {
+        window.open(url, '_blank');
+    }
+}
+
+function buyMini() {
+    openTribute('https://web.tribute.tg/p/EBu');
+}
+
+function buyProgram() {
+    openTribute('https://web.tribute.tg/p/EBv');
+}
+
+function addToCart(id, name, price) {
+
+    if (!cart.find(x => x.id === id)) {
+        cart.push({
+            id: id,
+            name: name,
+            price: price
+        });
+    }
+
+    localStorage.setItem(
+        'tp_cart',
+        JSON.stringify(cart)
+    );
+
+    updateCartCount();
+
+    showScreen('cart');
+}
+
+function removeFromCart(id) {
+
+    cart = cart.filter(x => x.id !== id);
+
+    localStorage.setItem(
+        'tp_cart',
+        JSON.stringify(cart)
+    );
+
+    renderCart();
+    updateCartCount();
+}
+
+function renderCart() {
+
+    const el = document.getElementById('cart');
+
+    if (!el) return;
+
+    if (!cart.length) {
+
+        el.innerHTML = `
+            <div class="empty">
+                Корзина пока пуста.
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = `
+        ${cart.map(x => `
+            <div class="cart-item">
+
+                <span>
+                    ${x.name}
+                </span>
+
+                <button
+                    class="back"
+                    onclick="removeFromCart('${x.id}')"
+                >
+                    Удалить
+                </button>
+
+            </div>
+        `).join('')}
+
+        <div style="margin-top:20px">
+
+            <button
+                class="primary"
+                onclick="alert('Оплата подключается следующим этапом.')"
+            >
+                Перейти к оформлению
+            </button>
+
+        </div>
+    `;
+}
+
+function updateCartCount() {
+
+    const count = document.getElementById('cart-count');
+
+    if (count) {
+        count.textContent = cart.length;
+    }
 }
 
 updateCartCount();
