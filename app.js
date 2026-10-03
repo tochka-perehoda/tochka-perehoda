@@ -1,3 +1,7 @@
+/* =====================================================
+   TELEGRAM
+===================================================== */
+
 const tg = window.Telegram?.WebApp;
 
 if (tg) {
@@ -7,19 +11,56 @@ if (tg) {
 
 
 /* =====================================================
-   НАСТРОЙКИ
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+  'https://vxhoavgkiratylcfeqnz.supabase.co';
+
+const SUPABASE_KEY =
+  'sb_publishable_s_PuUbLuT_aerFgVmywXDw_fVcZWjNv';
+
+const supabaseClient =
+  window.supabase?.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =====================================================
+   TRIBUTE
 ===================================================== */
 
 const LINKS = {
-  transitionAwakening: 'https://web.tribute.tg/p/EBu',
-  transitionCreator: 'https://web.tribute.tg/p/FKI',
-  consultation: 'https://web.tribute.tg/p/tiX',
-  accompaniment: 'https://web.tribute.tg/p/EBv'
+
+  transitionAwakening:
+    'https://web.tribute.tg/p/EBu',
+
+  transitionCreator:
+    'https://web.tribute.tg/p/FKI',
+
+  consultation:
+    'https://web.tribute.tg/p/tiX',
+
+  accompaniment:
+    'https://web.tribute.tg/p/EBv'
+
 };
 
 
 /* =====================================================
-   ВОПРОСЫ ТЕСТА
+   ПОЛЬЗОВАТЕЛЬ
+===================================================== */
+
+let currentUser = null;
+
+let userProduct = null;
+
+let currentStage = 0;
+
+
+/* =====================================================
+   ТЕСТ
 ===================================================== */
 
 const questions = [
@@ -140,6 +181,508 @@ let answers = [];
 
 
 /* =====================================================
+   7 ЭТАПОВ
+   АВТОПИЛОТ / ТОЛЧОК → ПРОБУЖДЕНИЕ
+===================================================== */
+
+const awakeningStages = [
+
+  {
+    title: 'ПРИЗНАТЬ, ЧТО СТАРОЕ БОЛЬШЕ НЕ РАБОТАЕТ',
+
+    text: `
+      <p>
+        Иногда самый первый шаг — честно признать:
+        <strong>«Я больше не хочу жить так, как жила раньше».</strong>
+      </p>
+
+      <p>
+        Возможно, внешне всё выглядит нормально.
+        Но внутри уже давно есть ощущение,
+        что ты больше не на своём месте.
+      </p>
+
+      <p>
+        Иногда проблема не в том,
+        что жизнь стала плохой.
+        Просто ты изменилась.
+      </p>
+    `,
+
+    practice: `
+      <h3>ТВОЯ ПРАКТИКА</h3>
+
+      <p><strong>Я больше не хочу…</strong></p>
+
+      <p><strong>Я устала от…</strong></p>
+
+      <p><strong>Я продолжаю это только потому, что…</strong></p>
+
+      <p><strong>Мне на самом деле хочется…</strong></p>
+
+      <p>
+        <strong>
+          Если бы мне не нужно было никому ничего доказывать,
+          я бы…
+        </strong>
+      </p>
+    `
+  },
+
+
+  {
+    title: 'УВИДЕТЬ, ЧТО ДЕРЖИТ ТЕБЯ В СТАРОМ',
+
+    text: `
+      <p>
+        Если ты уже понимаешь, что больше так не хочешь,
+        возникает следующий вопрос:
+        <strong>«Почему я продолжаю?»</strong>
+      </p>
+
+      <p>
+        Старое — это не только привычка.
+        Это безопасность, предсказуемость,
+        одобрение и страх перемен.
+      </p>
+
+      <p>
+        Иногда человек знает правду,
+        но боится последствий этой правды.
+      </p>
+    `,
+
+    practice: `
+      <h3>ТВОЯ ПРАКТИКА</h3>
+
+      <p>
+        Если я действительно изменю свою жизнь,
+        я боюсь, что…
+      </p>
+
+      <p>
+        Продолжи минимум 7 раз.
+      </p>
+
+      <p>
+        Затем ответь:
+      </p>
+
+      <p>
+        <strong>
+          Если я ничего не изменю в ближайший год,
+          я боюсь, что…
+        </strong>
+      </p>
+    `
+  },
+
+
+  {
+    title: 'УВИДЕТЬ СВОЙ СЦЕНАРИЙ',
+
+    text: `
+      <p>
+        Иногда меняются декорации,
+        но сценарий остаётся тем же.
+      </p>
+
+      <p>
+        Ты снова выбираешь похожее.
+        Снова терпишь.
+        Снова пытаешься заслужить.
+      </p>
+
+      <p>
+        И тогда возникает вопрос:
+        <strong>«Почему со мной опять это происходит?»</strong>
+      </p>
+    `,
+
+    practice: `
+      <h3>ТВОЯ ПРАКТИКА</h3>
+
+      <p>
+        Какие ситуации в моей жизни повторяются?
+      </p>
+
+      <p>
+        Каких людей я выбираю снова и снова?
+      </p>
+
+      <p>
+        Что я постоянно терплю?
+      </p>
+
+      <p>
+        В какой момент я предаю себя?
+      </p>
+
+      <p>
+        <strong>
+          Мой сценарий выглядит так: …
+        </strong>
+      </p>
+    `
+  },
+
+
+  {
+    title: 'ОТДЕЛИТЬ СВОЁ ОТ ЧУЖОГО',
+
+    text: `
+      <p>
+        Очень легко перепутать своё желание
+        с тем, чему тебя когда-то научили.
+      </p>
+
+      <p>
+        Что правильно?
+        Что скажут другие?
+        Чего от тебя ждут?
+      </p>
+
+      <p>
+        И постепенно становится трудно понять:
+        <strong>«А чего хочу я?»</strong>
+      </p>
+    `,
+
+    practice: `
+      <h3>ТВОЯ ПРАКТИКА</h3>
+
+      <p>
+        Раздели лист на две колонки:
+        <strong>МОЁ</strong> и <strong>ЧУЖОЕ</strong>.
+      </p>
+
+      <p>
+        Запиши туда свои желания,
+        цели, правила и страхи.
+      </p>
+
+      <p>
+        Затем ответь:
+      </p>
+
+      <p>
+        <strong>
+          Если убрать мнение всех остальных —
+          чего хочу я?
+        </strong>
+      </p>
+    `
+  },
+
+
+  {
+    title: 'ПЕРЕСТАТЬ ЖДАТЬ, ЧТО КТО-ТО РЕШИТ ЗА ТЕБЯ',
+
+    text: `
+      <p>
+        Можно бесконечно анализировать,
+        искать знаки и читать книги.
+      </p>
+
+      <p>
+        Но знание само по себе
+        ничего не меняет.
+      </p>
+
+      <p>
+        <strong>Меняет выбор.</strong>
+      </p>
+    `,
+
+    practice: `
+      <h3>ТВОЯ ПРАКТИКА</h3>
+
+      <p>
+        Возьми одну ситуацию,
+        которая сейчас тебя беспокоит.
+      </p>
+
+      <p>
+        Что я не могу контролировать?
+      </p>
+
+      <p>
+        Что я могу выбрать?
+      </p>
+
+      <p>
+        <strong>
+          Какое решение я откладываю,
+          хотя уже знаю, что мне нужно сделать?
+        </strong>
+      </p>
+    `
+  },
+
+
+  {
+    title: 'ВЫБРАТЬ СЕБЯ',
+
+    text: `
+      <p>
+        Выбрать себя — не значит бросить всё
+        и не значит стать эгоисткой.
+      </p>
+
+      <p>
+        Выбрать себя —
+        значит перестать жить против себя.
+      </p>
+
+      <p>
+        Перестать соглашаться там,
+        где внутри звучит «нет».
+      </p>
+    `,
+
+    practice: `
+      <h3>ТВОЯ ПРАКТИКА</h3>
+
+      <p>
+        <strong>Я больше не буду…</strong>
+      </p>
+
+      <p>
+        <strong>Я начинаю…</strong>
+      </p>
+
+      <p>
+        <strong>Я разрешаю себе…</strong>
+      </p>
+
+      <p>
+        <strong>
+          Мой выбор сейчас:
+        </strong>
+      </p>
+    `
+  },
+
+
+  {
+    title: 'СДЕЛАТЬ ПЕРВЫЙ ШАГ',
+
+    text: `
+      <p>
+        Ты уже увидела, что больше не работает.
+      </p>
+
+      <p>
+        Теперь начинается самое важное:
+        <strong>действие.</strong>
+      </p>
+
+      <p>
+        Не глобальное.
+        Не идеальное.
+        Просто первый настоящий шаг.
+      </p>
+    `,
+
+    practice: `
+      <h3>ТВОЯ ПРАКТИКА</h3>
+
+      <p>
+        <strong>
+          Что я сделаю в течение ближайших 72 часов?
+        </strong>
+      </p>
+
+      <p>
+        Запиши конкретное действие.
+      </p>
+
+      <p>
+        <strong>МОЙ ПЕРВЫЙ ШАГ:</strong>
+      </p>
+
+      <p>
+        ______________________________
+      </p>
+
+      <p>
+        <strong>КОГДА Я ЕГО СДЕЛАЮ:</strong>
+      </p>
+
+      <p>
+        ______________________________
+      </p>
+    `
+  }
+
+];
+
+
+/* =====================================================
+   ЗАПУСК
+===================================================== */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  async () => {
+
+    await loadUser();
+
+  }
+);
+
+
+/* =====================================================
+   TELEGRAM USER
+===================================================== */
+
+function getTelegramUser() {
+
+  if (
+    tg &&
+    tg.initDataUnsafe &&
+    tg.initDataUnsafe.user
+  ) {
+
+    return tg.initDataUnsafe.user;
+
+  }
+
+  return null;
+
+}
+
+
+/* =====================================================
+   ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ
+===================================================== */
+
+async function loadUser() {
+
+  const telegramUser =
+    getTelegramUser();
+
+  if (!telegramUser) {
+
+    console.log(
+      'Mini App открыт не внутри Telegram.'
+    );
+
+    return null;
+
+  }
+
+  currentUser =
+    telegramUser;
+
+
+  if (!supabaseClient) {
+
+    console.log(
+      'Supabase не подключён.'
+    );
+
+    return telegramUser;
+
+  }
+
+
+  try {
+
+    const telegramId =
+      String(telegramUser.id);
+
+
+    const { data, error } =
+      await supabaseClient
+        .from('users')
+        .select('*')
+        .eq(
+          'telegram_id',
+          telegramId
+        )
+        .maybeSingle();
+
+
+    if (error) {
+
+      console.error(
+        'Supabase:',
+        error
+      );
+
+      return telegramUser;
+
+    }
+
+
+    if (data) {
+
+      userProduct =
+        data.product || null;
+
+      currentStage =
+        Number(
+          data.current_stage || 0
+        );
+
+      return data;
+
+    }
+
+
+    const { data: newUser, error: insertError } =
+      await supabaseClient
+        .from('users')
+        .insert({
+
+          telegram_id:
+            telegramId,
+
+          product:
+            null,
+
+          current_stage:
+            0
+
+        })
+        .select()
+        .single();
+
+
+    if (insertError) {
+
+      console.error(
+        'Создание пользователя:',
+        insertError
+      );
+
+      return telegramUser;
+
+    }
+
+
+    currentStage = 0;
+
+    userProduct = null;
+
+    return newUser;
+
+  } catch (error) {
+
+    console.error(
+      'loadUser:',
+      error
+    );
+
+    return telegramUser;
+
+  }
+
+}
+
+
+/* =====================================================
    НАВИГАЦИЯ
 ===================================================== */
 
@@ -147,158 +690,105 @@ function showScreen(name) {
 
   document
     .querySelectorAll('.screen')
-    .forEach(s => s.classList.remove('active'));
+    .forEach(
+      screen =>
+        screen.classList.remove(
+          'active'
+        )
+    );
 
-  const screen = document.getElementById('screen-' + name);
+
+  const screen =
+    document.getElementById(
+      'screen-' + name
+    );
+
 
   if (screen) {
-    screen.classList.add('active');
+
+    screen.classList.add(
+      'active'
+    );
+
   }
+
 
   if (name === 'test') {
+
     renderTest();
+
   }
 
-  window.scrollTo(0, 0);
+
+  if (name === 'cabinet') {
+
+    renderCabinet();
+
+  }
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
 }
 
 
 /* =====================================================
-   ОТКРЫТИЕ ССЫЛОК TRIBUTE
+   TRIBUTE
 ===================================================== */
 
 function openTribute(url) {
 
-  if (tg && tg.openLink) {
+  if (
+    tg &&
+    tg.openLink
+  ) {
+
     tg.openLink(url);
+
   } else {
-    window.open(url, '_blank');
+
+    window.open(
+      url,
+      '_blank'
+    );
+
   }
 
 }
 
 
 /* =====================================================
-   КНОПКА "ПЕРЕХОД" НА ГЛАВНОЙ
-===================================================== */
-
-function openTransitionFromHome() {
-
-  const savedStage = localStorage.getItem('tp_stage');
-
-  if (savedStage) {
-    openTransition(savedStage);
-    return;
-  }
-
-  const w = document.getElementById('test-wrap');
-
-  if (!w) return;
-
-  showScreen('test');
-
-  w.innerHTML = `
-
-    <div class="result">
-
-      <div class="tag">
-        ПЕРЕХОД
-      </div>
-
-      <h2>
-        ВЫБЕРИ СВОЙ ПЕРЕХОД
-      </h2>
-
-      <p>
-        Если ты уже проходила тест,
-        выбери направление своего следующего уровня.
-      </p>
-
-
-      <div style="
-        margin-top:24px;
-        padding:20px;
-        border:1px solid rgba(214,169,91,.4);
-        border-radius:18px;
-      ">
-
-        <h3>
-          АВТОПИЛОТ / ТОЛЧОК → ПРОБУЖДЕНИЕ
-        </h3>
-
-        <p>
-          Практический курс для перехода
-          из Автопилота или Толчка
-          в состояние Пробуждения.
-        </p>
-
-        <button
-          class="primary"
-          onclick="openTribute(LINKS.transitionAwakening)"
-        >
-          НАЧАТЬ ПЕРЕХОД
-        </button>
-
-      </div>
-
-
-      <div style="
-        margin-top:20px;
-        padding:20px;
-        border:1px solid rgba(214,169,91,.4);
-        border-radius:18px;
-      ">
-
-        <h3>
-          ПРОБУЖДЕНИЕ → ТВОРЕЦ
-        </h3>
-
-        <p>
-          Практический курс для перехода
-          от понимания себя
-          к созданию своей жизни.
-        </p>
-
-        <button
-          class="primary"
-          onclick="openTribute(LINKS.transitionCreator)"
-        >
-          НАЧАТЬ ПЕРЕХОД
-        </button>
-
-      </div>
-
-    </div>
-
-    <button
-      class="back"
-      style="margin-top:18px"
-      onclick="showScreen('home')"
-    >
-      ← Вернуться
-    </button>
-
-  `;
-
-}
-
-
-/* =====================================================
-   ТЕСТ
+   ОТКРЫТИЕ ТЕСТА
 ===================================================== */
 
 function renderTest() {
 
-  const w = document.getElementById('test-wrap');
+  const w =
+    document.getElementById(
+      'test-wrap'
+    );
 
   if (!w) return;
 
-  if (answers.length === questions.length) {
+
+  if (
+    answers.length ===
+    questions.length
+  ) {
+
     renderResult();
+
     return;
+
   }
 
-  const i = answers.length;
+
+  const i =
+    answers.length;
+
 
   w.innerHTML = `
 
@@ -314,16 +804,21 @@ function renderTest() {
 
       <div class="answers">
 
-        ${questions[i].a.map((x, j) => `
+        ${questions[i].a
+          .map(
+            (answer, index) => `
 
-          <button
-            class="answer"
-            onclick="choose(${j})"
-          >
-            ${String.fromCharCode(65 + j)}. ${x}
-          </button>
+              <button
+                class="answer"
+                onclick="choose(${index})"
+              >
+                ${String.fromCharCode(65 + index)}.
+                ${answer}
+              </button>
 
-        `).join('')}
+            `
+          )
+          .join('')}
 
       </div>
 
@@ -334,49 +829,13 @@ function renderTest() {
 }
 
 
-function choose(j) {
+function choose(index) {
 
-  answers.push(j);
+  answers.push(
+    index
+  );
 
   renderTest();
-
-}
-
-
-/* =====================================================
-   ОПРЕДЕЛЕНИЕ УРОВНЯ
-===================================================== */
-
-function getStage() {
-
-  const counts = [0, 0, 0, 0, 0];
-
-  answers.forEach(x => {
-
-    if (x >= 0 && x <= 4) {
-      counts[x]++;
-    }
-
-  });
-
-  const max = Math.max(...counts);
-
-  const idx = counts.indexOf(max);
-
-
-  if (idx === 0) {
-    return 'Автопилот';
-  }
-
-  if (idx === 1) {
-    return 'Толчок';
-  }
-
-  if (idx === 2) {
-    return 'Пробуждение';
-  }
-
-  return 'Творец';
 
 }
 
@@ -385,13 +844,70 @@ function getStage() {
    РЕЗУЛЬТАТ
 ===================================================== */
 
+function getStage() {
+
+  const counts =
+    [0, 0, 0, 0, 0];
+
+
+  answers.forEach(
+    answer => {
+
+      if (
+        answer >= 0 &&
+        answer <= 4
+      ) {
+
+        counts[answer]++;
+
+      }
+
+    }
+  );
+
+
+  const max =
+    Math.max(
+      ...counts
+    );
+
+
+  const index =
+    counts.indexOf(
+      max
+    );
+
+
+  if (index === 0)
+    return 'Автопилот';
+
+  if (index === 1)
+    return 'Толчок';
+
+  if (index === 2)
+    return 'Пробуждение';
+
+  return 'Творец';
+
+}
+
+
 function renderResult() {
 
-  const stage = getStage();
+  const stage =
+    getStage();
 
-  localStorage.setItem('tp_stage', stage);
 
-  const w = document.getElementById('test-wrap');
+  localStorage.setItem(
+    'tp_stage',
+    stage
+  );
+
+
+  const w =
+    document.getElementById(
+      'test-wrap'
+    );
 
   if (!w) return;
 
@@ -401,47 +917,27 @@ function renderResult() {
   let button = '';
 
 
-  /* =========================================
-     АВТОПИЛОТ
-  ========================================= */
+  if (
+    stage === 'Автопилот'
+  ) {
 
-  if (stage === 'Автопилот') {
-
-    title = 'ТЫ ЖИВЁШЬ НА АВТОПИЛОТЕ';
+    title =
+      'ТЫ ЖИВЁШЬ НА АВТОПИЛОТЕ';
 
     text = `
 
       <p>
-        Внешне твоя жизнь может выглядеть совершенно нормально.
-        Ты работаешь, решаешь вопросы, заботишься о других,
-        выполняешь то, что от тебя ждут.
-      </p>
-
-      <p>
+        Внешне твоя жизнь может выглядеть нормально.
         Но внутри всё чаще появляется ощущение:
         <strong>«Я живу не свою жизнь».</strong>
       </p>
 
       <p>
-        Автопилот — это состояние, в котором человек
-        продолжает идти по знакомому маршруту,
-        даже когда этот маршрут больше не делает его счастливым.
-      </p>
-
-      <p>
-        И самое важное:
-        <strong>
-          тебе не обязательно ждать кризиса,
-          чтобы начать менять свою жизнь.
-        </strong>
-      </p>
-
-      <p>
-        Ты можешь перейти из Автопилота
-        сразу в <strong>Пробуждение</strong> —
-        начать видеть себя, свои желания,
-        свои сценарии и наконец выбирать,
-        как тебе жить.
+        Автопилот — это состояние,
+        в котором человек продолжает идти
+        по знакомому маршруту,
+        даже когда этот маршрут
+        больше ему не подходит.
       </p>
 
     `;
@@ -450,7 +946,9 @@ function renderResult() {
 
       <button
         class="primary"
-        onclick="openTransition('Автопилот')"
+        onclick="
+          openTransition('Автопилот')
+        "
       >
         ХОЧУ ВЫЙТИ ИЗ АВТОПИЛОТА
       </button>
@@ -460,13 +958,12 @@ function renderResult() {
   }
 
 
-  /* =========================================
-     ТОЛЧОК
-  ========================================= */
+  if (
+    stage === 'Толчок'
+  ) {
 
-  if (stage === 'Толчок') {
-
-    title = 'ТЫ В ТОЧКЕ ТОЛЧКА';
+    title =
+      'ТЫ В ТОЧКЕ ТОЛЧКА';
 
     text = `
 
@@ -476,28 +973,14 @@ function renderResult() {
       </p>
 
       <p>
-        Что-то разрушилось, изменилось
-        или перестало работать так,
-        как раньше.
+        Что-то разрушилось,
+        изменилось или перестало работать
+        так, как раньше.
       </p>
 
       <p>
-        Толчок приходит тогда,
-        когда по-старому уже невозможно,
-        но по-новому ты ещё не умеешь.
-      </p>
-
-      <p>
-        Самое сложное здесь —
-        <strong>
-          не попытаться вернуть прежнюю жизнь
-          только потому, что она была привычной.
-        </strong>
-      </p>
-
-      <p>
-        Твой Толчок может стать не концом,
-        а началом нового этапа —
+        Толчок может стать
+        началом нового этапа —
         <strong>Пробуждения.</strong>
       </p>
 
@@ -507,7 +990,9 @@ function renderResult() {
 
       <button
         class="primary"
-        onclick="openTransition('Толчок')"
+        onclick="
+          openTransition('Толчок')
+        "
       >
         ХОЧУ ПРОЙТИ ТОЛЧОК В ПРОБУЖДЕНИЕ
       </button>
@@ -517,48 +1002,30 @@ function renderResult() {
   }
 
 
-  /* =========================================
-     ПРОБУЖДЕНИЕ
-  ========================================= */
+  if (
+    stage === 'Пробуждение'
+  ) {
 
-  if (stage === 'Пробуждение') {
-
-    title = 'ТЫ В ПРОБУЖДЕНИИ';
+    title =
+      'ТЫ В ПРОБУЖДЕНИИ';
 
     text = `
 
       <p>
-        Ты уже не можешь делать вид,
-        что ничего не происходит.
+        Ты уже начинаешь задавать себе вопросы:
+        чего хочу я?
+        Где моё, а где чужое?
       </p>
 
       <p>
-        Ты начинаешь задавать себе вопросы.
-        Почему я живу именно так?
-        Чего хочу я?
-        Где моё, а где то,
-        что мне когда-то навязали?
+        Но Пробуждение —
+        не конечная точка.
       </p>
 
       <p>
-        Ты начинаешь видеть себя честно.
-        И это уже невозможно развидеть.
-      </p>
-
-      <p>
-        Но здесь есть следующий шаг.
-      </p>
-
-      <p>
-        <strong>
-          Перестать бесконечно искать ответы
-          и начать создавать.
-        </strong>
-      </p>
-
-      <p>
-        Именно поэтому следующий переход —
-        <strong>из Пробуждения в Творца.</strong>
+        Следующий шаг —
+        перестать только искать ответы
+        и начать создавать.
       </p>
 
     `;
@@ -567,7 +1034,9 @@ function renderResult() {
 
       <button
         class="primary"
-        onclick="openTransition('Пробуждение')"
+        onclick="
+          openTransition('Пробуждение')
+        "
       >
         ХОЧУ ПЕРЕЙТИ В ТВОРЦА
       </button>
@@ -577,24 +1046,20 @@ function renderResult() {
   }
 
 
-  /* =========================================
-     ТВОРЕЦ
-  ========================================= */
+  if (
+    stage === 'Творец'
+  ) {
 
-  if (stage === 'Творец') {
-
-    title = 'ТЫ — ТВОРЕЦ';
+    title =
+      'ТЫ — ТВОРЕЦ';
 
     text = `
 
       <p>
-        Ты уже не находишься в поиске себя.
-      </p>
-
-      <p>
-        Ты начинаешь понимать,
-        что твоя жизнь — не то,
-        что с тобой просто происходит.
+        Ты уже начинаешь понимать,
+        что твоя жизнь —
+        не просто то,
+        что с тобой происходит.
       </p>
 
       <p>
@@ -603,31 +1068,17 @@ function renderResult() {
         Создавать.
       </p>
 
-      <p>
-        <strong>
-          Творец — это состояние,
-          в котором ты перестаёшь ждать
-          подходящего момента и начинаешь
-          создавать свою жизнь сама.
-        </strong>
-      </p>
-
-      <p>
-        Твой путь теперь не в поиске
-        следующего уровня.
-        Он в реализации того,
-        что ты уже увидела в себе.
-      </p>
-
     `;
 
     button = `
 
       <button
         class="primary"
-        onclick="openTransition('Творец')"
+        onclick="
+          openTransition('Творец')
+        "
       >
-        ПЕРЕЙТИ К МОЕМУ ПУТЮ
+        ПЕРЕЙТИ К МОЕМУ ПУТИ
       </button>
 
     `;
@@ -677,18 +1128,18 @@ function renderResult() {
 
 function openTransition(stage) {
 
-  const w = document.getElementById('test-wrap');
+  const w =
+    document.getElementById(
+      'test-wrap'
+    );
 
   if (!w) return;
 
-  window.scrollTo(0, 0);
 
-
-  /* =========================================
-     АВТОПИЛОТ → ПРОБУЖДЕНИЕ
-  ========================================= */
-
-  if (stage === 'Автопилот') {
+  if (
+    stage === 'Автопилот' ||
+    stage === 'Толчок'
+  ) {
 
     w.innerHTML = `
 
@@ -699,75 +1150,21 @@ function openTransition(stage) {
         </div>
 
         <h2>
-          АВТОПИЛОТ → ПРОБУЖДЕНИЕ
+          ${stage.toUpperCase()} → ПРОБУЖДЕНИЕ
         </h2>
 
         <p>
-          Ты уже заметила главное:
-          <strong>
-            прежняя жизнь больше не даёт
-            тебе того ощущения, которого хочется.
-          </strong>
+          Ты уже увидела главное:
+          прежний сценарий больше
+          не работает так, как раньше.
         </p>
 
         <p>
-          Но одного понимания недостаточно.
+          Здесь тебя ждут 7 последовательных
+          этапов с практическими заданиями.
         </p>
 
-        <p>
-          Можно годами думать:
-          «Когда-нибудь я начну жить для себя».
-          Можно ждать подходящего момента.
-          Можно ждать, пока жизнь сама заставит
-          всё изменить.
-        </p>
-
-        <p>
-          Но тебе не обязательно ждать Толчка.
-        </p>
-
-        <p>
-          <strong>
-            Ты можешь начать переход уже сейчас.
-          </strong>
-        </p>
-
-        <p>
-          Переход из Автопилота в Пробуждение —
-          это путь от
-          <strong>«я живу так, как привыкла»</strong>
-          к
-          <strong>«я начинаю выбирать сама».</strong>
-        </p>
-
-        <p>
-          Ты начнёшь видеть свои сценарии,
-          свои автоматические решения,
-          чужие ожидания и то,
-          чего на самом деле хочешь именно ты.
-        </p>
-
-        <p>
-          Это не теория.
-          Внутри тебя ждут
-          <strong>
-            практические задания и мои голосовые сообщения,
-          </strong>
-          которые будут вести тебя через этот переход.
-        </p>
-
-        <p>
-          Не нужно менять всю жизнь за один день.
-          Нужно сделать первый настоящий шаг.
-        </p>
-
-
-        <div style="
-          margin-top:26px;
-          padding:20px;
-          border:1px solid rgba(214,169,91,.4);
-          border-radius:18px;
-        ">
+        <div class="product-box">
 
           <div class="tag">
             ТВОЙ СЛЕДУЮЩИЙ УРОВЕНЬ
@@ -778,21 +1175,17 @@ function openTransition(stage) {
           </h3>
 
           <p>
-            Из «живу не свою жизнь»
-            в «начинаю выбирать».
+            Из «живу по старому сценарию»
+            в «начинаю выбирать сама».
           </p>
 
-          <div style="
-            font-size:30px;
-            font-weight:700;
-            margin:18px 0;
-          ">
+          <div class="price">
             990 ₽
           </div>
 
           <button
             class="primary"
-            onclick="openTribute(LINKS.transitionAwakening)"
+            onclick="buyAwakening()"
           >
             🔥 НАЧАТЬ СВОЙ ПЕРЕХОД
           </button>
@@ -804,7 +1197,6 @@ function openTransition(stage) {
 
       <button
         class="back"
-        style="margin-top:18px"
         onclick="renderResult()"
       >
         ← Вернуться к результату
@@ -813,149 +1205,14 @@ function openTransition(stage) {
     `;
 
     return;
+
   }
 
 
-  /* =========================================
-     ТОЛЧОК → ПРОБУЖДЕНИЕ
-  ========================================= */
-
-  if (stage === 'Толчок') {
-
-    w.innerHTML = `
-
-      <div class="result">
-
-        <div class="tag">
-          ПЕРЕХОД
-        </div>
-
-        <h2>
-          ТОЛЧОК → ПРОБУЖДЕНИЕ
-        </h2>
-
-        <p>
-          Ты уже получила то,
-          чего человек на Автопилоте
-          часто пытается избежать —
-          <strong>Толчок.</strong>
-        </p>
-
-        <p>
-          Жизнь показала тебе,
-          что прежний сценарий больше
-          не работает.
-        </p>
-
-        <p>
-          И теперь у тебя есть выбор:
-          пытаться вернуть то,
-          что уже закончилось,
-          или использовать этот момент
-          как точку перехода.
-        </p>
-
-        <p>
-          <strong>
-            Толчок — это не конечная точка.
-            Это дверь.
-          </strong>
-        </p>
-
-        <p>
-          Переход из Толчка в Пробуждение —
-          это путь от
-          <strong>«со мной это произошло»</strong>
-          к
-          <strong>
-            «я начинаю понимать,
-            что теперь выбираю сама».
-          </strong>
-        </p>
-
-        <p>
-          Ты перестаёшь жить прошлым,
-          перестаёшь ждать возвращения
-          прежней реальности и начинаешь
-          смотреть на себя и свою жизнь
-          по-новому.
-        </p>
-
-        <p>
-          Внутри —
-          <strong>
-            практические задания и мои
-            голосовые сообщения.
-          </strong>
-        </p>
-
-        <p>
-          Они помогут тебе не просто
-          пережить происходящее,
-          а пройти через него
-          в следующий уровень.
-        </p>
-
-
-        <div style="
-          margin-top:26px;
-          padding:20px;
-          border:1px solid rgba(214,169,91,.4);
-          border-radius:18px;
-        ">
-
-          <div class="tag">
-            ТВОЙ СЛЕДУЮЩИЙ УРОВЕНЬ
-          </div>
-
-          <h3>
-            ПРОБУЖДЕНИЕ
-          </h3>
-
-          <p>
-            Из «со мной это произошло»
-            в «я начинаю выбирать».
-          </p>
-
-          <div style="
-            font-size:30px;
-            font-weight:700;
-            margin:18px 0;
-          ">
-            990 ₽
-          </div>
-
-          <button
-            class="primary"
-            onclick="openTribute(LINKS.transitionAwakening)"
-          >
-            🔥 ПРОЙТИ СВОЙ ПЕРЕХОД
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <button
-        class="back"
-        style="margin-top:18px"
-        onclick="renderResult()"
-      >
-        ← Вернуться к результату
-      </button>
-
-    `;
-
-    return;
-  }
-
-
-  /* =========================================
-     ПРОБУЖДЕНИЕ → ТВОРЕЦ
-  ========================================= */
-
-  if (stage === 'Пробуждение') {
+  if (
+    stage === 'Пробуждение' ||
+    stage === 'Творец'
+  ) {
 
     w.innerHTML = `
 
@@ -970,82 +1227,26 @@ function openTransition(stage) {
         </h2>
 
         <p>
-          Ты уже начала видеть.
+          Ты уже начала видеть себя
+          и свою жизнь по-другому.
         </p>
 
         <p>
-          Ты задаёшь вопросы,
-          на которые раньше могла
-          даже не смотреть.
+          Следующий шаг —
+          от понимания к созданию.
         </p>
 
         <p>
-          Ты начинаешь слышать себя,
-          различать своё и чужое,
-          замечать старые сценарии
-          и понимать, чего хочешь на самом деле.
-        </p>
-
-        <p>
-          Но здесь легко застрять.
-        </p>
-
-        <p>
-          Можно бесконечно искать ответы,
-          читать, анализировать,
-          разбирать себя и ждать,
-          когда наконец станет понятно,
-          что делать дальше.
-        </p>
-
-        <p>
-          <strong>
-            Но Пробуждение — не конечная точка.
-          </strong>
-        </p>
-
-        <p>
-          Следующий переход —
-          от
-          <strong>«я начинаю слышать себя»</strong>
-          к
-          <strong>«я создаю свою жизнь».</strong>
-        </p>
-
-        <p>
-          Это переход в состояние
-          <strong>Творца.</strong>
-        </p>
-
-        <p>
-          Здесь ты перестаёшь только понимать
-          и начинаешь действовать из нового
-          состояния.
-        </p>
-
-        <p>
-          Внутри тебя ждут
-          <strong>
-            практические задания,
-            мои голосовые сообщения
-            и 7 последовательных медитаций.
-          </strong>
+          Внутри —
+          практические задания
+          и 7 последовательных медитаций.
         </p>
 
         <p>
           Ты проходишь их в своём темпе.
-          Это не гонка и не программа,
-          которую нужно закончить
-          за семь календарных дней.
         </p>
 
-
-        <div style="
-          margin-top:26px;
-          padding:20px;
-          border:1px solid rgba(214,169,91,.4);
-          border-radius:18px;
-        ">
+        <div class="product-box">
 
           <div class="tag">
             ТВОЙ СЛЕДУЮЩИЙ УРОВЕНЬ
@@ -1060,17 +1261,13 @@ function openTransition(stage) {
             в «я создаю свою жизнь».
           </p>
 
-          <div style="
-            font-size:30px;
-            font-weight:700;
-            margin:18px 0;
-          ">
+          <div class="price">
             990 ₽
           </div>
 
           <button
             class="primary"
-            onclick="openTribute(LINKS.transitionCreator)"
+            onclick="buyCreator()"
           >
             🔥 ПЕРЕЙТИ В ТВОРЦА
           </button>
@@ -1082,7 +1279,6 @@ function openTransition(stage) {
 
       <button
         class="back"
-        style="margin-top:18px"
         onclick="renderResult()"
       >
         ← Вернуться к результату
@@ -1090,100 +1286,520 @@ function openTransition(stage) {
 
     `;
 
-    return;
   }
 
+}
 
-  /* =========================================
-     ТВОРЕЦ
-  ========================================= */
 
-  if (stage === 'Творец') {
+/* =====================================================
+   ПОКУПКА
+===================================================== */
 
-    w.innerHTML = `
+/*
+  ВАЖНО:
+  здесь НЕ выдаём доступ.
+  Просто отправляем человека на Tribute.
+
+  После подключения подтверждения оплаты
+  здесь появится автоматическая активация продукта.
+*/
+
+function buyAwakening() {
+
+  openTribute(
+    LINKS.transitionAwakening
+  );
+
+}
+
+
+function buyCreator() {
+
+  openTribute(
+    LINKS.transitionCreator
+  );
+
+}
+
+
+/* =====================================================
+   ЛИЧНЫЙ КАБИНЕТ
+===================================================== */
+
+async function renderCabinet() {
+
+  const cabinet =
+    document.getElementById(
+      'cabinet-wrap'
+    );
+
+  if (!cabinet) return;
+
+
+  cabinet.innerHTML = `
+
+    <div class="result">
+
+      <div class="tag">
+        МОЙ ПУТЬ
+      </div>
+
+      <h2>
+        ТОЧКА ПЕРЕХОДА
+      </h2>
+
+      <p>
+        Загружаем твой путь...
+      </p>
+
+    </div>
+
+  `;
+
+
+  await loadUser();
+
+
+  /*
+    Если покупка ещё не подтверждена,
+    показываем сообщение.
+  */
+
+  if (!userProduct) {
+
+    cabinet.innerHTML = `
 
       <div class="result">
 
         <div class="tag">
-          ПЕРЕХОД
+          МОЙ ПУТЬ
         </div>
 
         <h2>
-          ТЫ — ТВОРЕЦ
+          ТВОЙ ПУТЬ ЕЩЁ НЕ ОТКРЫТ
         </h2>
 
         <p>
-          Ты уже умеешь видеть себя,
-          свои желания и свои решения
-          по-другому.
+          Здесь появится приобретённый тобой
+          продукт и весь твой прогресс.
         </p>
 
         <p>
-          Теперь следующий шаг —
-          не просто понимать,
-          а создавать свою жизнь
-          из нового состояния.
+          Сначала пройди тест,
+          чтобы определить свой текущий уровень.
         </p>
 
-        <p>
-          Этот курс поможет тебе
-          углубить состояние Творца
-          и перевести внутренние изменения
-          в действия.
-        </p>
+        <button
+          class="primary"
+          onclick="
+            showScreen('test')
+          "
+        >
+          ПРОЙТИ ТЕСТ
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
 
 
-        <div style="
-          margin-top:26px;
-          padding:20px;
-          border:1px solid rgba(214,169,91,.4);
-          border-radius:18px;
-        ">
+  /*
+    Пока показываем первую ветку
+    как основной кабинет.
+  */
 
-          <div class="tag">
-            ПЕРЕХОД
-          </div>
+  const total =
+    awakeningStages.length;
 
-          <h3>
-            ТВОРЕЦ
-          </h3>
 
-          <p>
-            Практический курс
-            для следующего этапа.
-          </p>
+  const progress =
+    Math.min(
+      100,
+      Math.round(
+        (
+          currentStage /
+          total
+        ) * 100
+      )
+    );
 
-          <div style="
-            font-size:30px;
-            font-weight:700;
-            margin:18px 0;
-          ">
-            990 ₽
-          </div>
 
-          <button
-            class="primary"
-            onclick="openTribute(LINKS.transitionCreator)"
-          >
-            🔥 ПРОДОЛЖИТЬ ПЕРЕХОД
-          </button>
+  cabinet.innerHTML = `
+
+    <div class="result">
+
+      <div class="tag">
+        МОЙ ПУТЬ
+      </div>
+
+      <h2>
+        ${getProductTitle()}
+      </h2>
+
+      <div class="progress-box">
+
+        <div class="progress-line">
+
+          <span>
+            ПРОГРЕСС
+          </span>
+
+          <strong>
+            ${currentStage} / ${total}
+          </strong>
+
+        </div>
+
+        <div class="progress-track">
+
+          <div
+            class="progress-fill"
+            style="width:${progress}%"
+          ></div>
 
         </div>
 
       </div>
 
 
-      <button
-        class="back"
-        style="margin-top:18px"
-        onclick="renderResult()"
-      >
-        ← Вернуться к результату
-      </button>
+      <div class="stages">
 
+        ${awakeningStages
+          .map(
+            (item, index) => {
+
+              const number =
+                index + 1;
+
+              const unlocked =
+                number <=
+                currentStage + 1;
+
+              const completed =
+                number <=
+                currentStage;
+
+
+              return `
+
+                <button
+                  class="stage-card"
+                  ${
+                    unlocked
+                      ? `onclick="openStage(${index})"`
+                      : 'disabled'
+                  }
+                >
+
+                  <span class="stage-number">
+
+                    ${
+                      completed
+                        ? '✓'
+                        : unlocked
+                        ? number
+                        : '🔒'
+                    }
+
+                  </span>
+
+                  <span>
+                    ${item.title}
+                  </span>
+
+                </button>
+
+              `;
+
+            }
+          )
+          .join('')}
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =====================================================
+   НАЗВАНИЕ ПРОДУКТА
+===================================================== */
+
+function getProductTitle() {
+
+  if (
+    userProduct ===
+    'creator'
+  ) {
+
+    return `
+      ПРОБУЖДЕНИЕ → ТВОРЕЦ
     `;
 
   }
+
+
+  return `
+    АВТОПИЛОТ / ТОЛЧОК → ПРОБУЖДЕНИЕ
+  `;
+
+}
+
+
+/* =====================================================
+   ОТКРЫТЬ ЭТАП
+===================================================== */
+
+function openStage(index) {
+
+  const stage =
+    awakeningStages[index];
+
+  if (!stage) return;
+
+
+  const number =
+    index + 1;
+
+
+  if (
+    number >
+    currentStage + 1
+  ) {
+
+    return;
+
+  }
+
+
+  const cabinet =
+    document.getElementById(
+      'cabinet-wrap'
+    );
+
+  if (!cabinet) return;
+
+
+  cabinet.innerHTML = `
+
+    <div class="result">
+
+      <div class="tag">
+        ЭТАП ${number} ИЗ 7
+      </div>
+
+      <h2>
+        ${stage.title}
+      </h2>
+
+      ${stage.text}
+
+
+      <div class="practice-box">
+
+        ${stage.practice}
+
+      </div>
+
+
+      <button
+        class="primary"
+        onclick="
+          completeStage(${number})
+        "
+      >
+        ✓ Я ПРОШЛА ЭТАП
+      </button>
+
+
+      <button
+        class="back"
+        style="margin-top:18px"
+        onclick="
+          renderCabinet()
+        "
+      >
+        ← МОЙ ПУТЬ
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =====================================================
+   СОХРАНИТЬ ПРОГРЕСС
+===================================================== */
+
+async function saveProgress(stage) {
+
+  currentStage =
+    stage;
+
+
+  localStorage.setItem(
+    'tp_current_stage',
+    String(stage)
+  );
+
+
+  if (
+    !currentUser ||
+    !supabaseClient
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const { error } =
+      await supabaseClient
+        .from('users')
+        .update({
+
+          current_stage:
+            stage
+
+        })
+        .eq(
+          'telegram_id',
+          String(
+            currentUser.id
+          )
+        );
+
+
+    if (error) {
+
+      console.error(
+        'Сохранение прогресса:',
+        error
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   ЗАВЕРШИТЬ ЭТАП
+===================================================== */
+
+async function completeStage(number) {
+
+  if (
+    number >
+    currentStage + 1
+  ) {
+
+    return;
+
+  }
+
+
+  await saveProgress(
+    number
+  );
+
+
+  if (
+    number ===
+    awakeningStages.length
+  ) {
+
+    renderFinished();
+
+    return;
+
+  }
+
+
+  renderCabinet();
+
+}
+
+
+/* =====================================================
+   ФИНИШ
+===================================================== */
+
+function renderFinished() {
+
+  const cabinet =
+    document.getElementById(
+      'cabinet-wrap'
+    );
+
+  if (!cabinet) return;
+
+
+  cabinet.innerHTML = `
+
+    <div class="result">
+
+      <div class="tag">
+        ПЕРЕХОД ЗАВЕРШЁН
+      </div>
+
+      <h2>
+        ТЫ ДОШЛА ДО ПРОБУЖДЕНИЯ
+      </h2>
+
+      <p>
+        Ты увидела,
+        что больше не работает.
+      </p>
+
+      <p>
+        Увидела свои сценарии.
+      </p>
+
+      <p>
+        Отделила своё от чужого.
+      </p>
+
+      <p>
+        И сделала выбор.
+      </p>
+
+      <p>
+        Теперь важно не возвращаться
+        к прежнему сценарию автоматически,
+        а продолжать выбирать себя.
+      </p>
+
+      <button
+        class="primary"
+        onclick="
+          showScreen('home')
+        "
+      >
+        НА ГЛАВНУЮ
+      </button>
+
+    </div>
+
+  `;
 
 }
 
@@ -1194,18 +1810,22 @@ function openTransition(stage) {
 
 function openConsultation() {
 
-  openTribute(LINKS.consultation);
+  openTribute(
+    LINKS.consultation
+  );
 
 }
 
 
 /* =====================================================
-   ЛИЧНОЕ СОПРОВОЖДЕНИЕ
+   СОПРОВОЖДЕНИЕ
 ===================================================== */
 
 function openAccompaniment() {
 
-  openTribute(LINKS.accompaniment);
+  openTribute(
+    LINKS.accompaniment
+  );
 
 }
 
@@ -1218,7 +1838,9 @@ function resetTest() {
 
   answers = [];
 
-  localStorage.removeItem('tp_stage');
+  localStorage.removeItem(
+    'tp_stage'
+  );
 
   renderTest();
 
