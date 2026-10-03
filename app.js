@@ -1,5 +1,13 @@
 /* =====================================================
-   ТОЧКА ПЕРЕХОДА — APP.JS
+   ТОЧКА ПЕРЕХОДА
+   APP.JS
+
+   4 уровня:
+   1. Автопилот
+   2. Толчок
+   3. Пробуждение
+   4. Творец
+
    Telegram ID + Supabase + личный прогресс
 ===================================================== */
 
@@ -8,7 +16,7 @@
    TELEGRAM
 ===================================================== */
 
-const tg = window.Telegram?.WebApp;
+const tg = window.Telegram?.WebApp || null;
 
 if (tg) {
   tg.ready();
@@ -26,11 +34,23 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   'sb_publishable_s_PuUbLuT_aerFgVmywXDw_fVcZWjNv';
 
-const db =
-  window.supabase.createClient(
+
+let db = null;
+
+if (window.supabase) {
+
+  db = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
+
+} else {
+
+  console.error(
+    'Supabase SDK не подключён.'
+  );
+
+}
 
 
 /* =====================================================
@@ -55,7 +75,7 @@ const LINKS = {
 
 
 /* =====================================================
-   ПОЛЬЗОВАТЕЛЬ TELEGRAM
+   TELEGRAM USER
 ===================================================== */
 
 function getTelegramUser() {
@@ -81,18 +101,24 @@ function getTelegramId() {
 
 
 /* =====================================================
-   СОЗДАНИЕ / ПОЛУЧЕНИЕ ПОЛЬЗОВАТЕЛЯ
+   ПОЛЬЗОВАТЕЛЬ
 ===================================================== */
 
 async function ensureUser() {
 
+  if (!db) {
+    return null;
+  }
+
+
   const telegramId =
     getTelegramId();
+
 
   if (!telegramId) {
 
     console.warn(
-      'Telegram ID не найден'
+      'Telegram ID не найден.'
     );
 
     return null;
@@ -179,8 +205,14 @@ async function ensureUser() {
 
 async function loadUser() {
 
+  if (!db) {
+    return null;
+  }
+
+
   const telegramId =
     getTelegramId();
+
 
   if (!telegramId) {
     return null;
@@ -203,7 +235,7 @@ async function loadUser() {
   if (error) {
 
     console.error(
-      'Ошибка загрузки:',
+      'Ошибка загрузки пользователя:',
       error
     );
 
@@ -227,13 +259,19 @@ async function saveProgress(
   stage = null
 ) {
 
+  if (!db) {
+    return false;
+  }
+
+
   const telegramId =
     getTelegramId();
+
 
   if (!telegramId) {
 
     console.warn(
-      'Невозможно сохранить прогресс: нет Telegram ID'
+      'Нет Telegram ID — прогресс не сохранён.'
     );
 
     return false;
@@ -301,7 +339,7 @@ async function saveProgress(
 
 
 /* =====================================================
-   СОХРАНЕНИЕ ЭТАПА ПОСЛЕ ТЕСТА
+   СОХРАНЕНИЕ РЕЗУЛЬТАТА ТЕСТА
 ===================================================== */
 
 async function saveStage(stage) {
@@ -325,9 +363,11 @@ function showScreen(name) {
     .querySelectorAll('.screen')
     .forEach(
       screen => {
+
         screen.classList.remove(
           'active'
         );
+
       }
     );
 
@@ -361,6 +401,15 @@ function showScreen(name) {
 
   }
 
+
+  if (
+    name === 'cabinet'
+  ) {
+
+    openCabinet();
+
+  }
+
 }
 
 
@@ -369,6 +418,11 @@ function showScreen(name) {
 ===================================================== */
 
 function openTribute(url) {
+
+  if (!url) {
+    return;
+  }
+
 
   if (
     tg &&
@@ -658,15 +712,19 @@ function renderTest() {
   wrap.innerHTML = `
 
     <div class="progress">
+
       ВОПРОС ${number + 1}
       ИЗ ${questions.length}
+
     </div>
+
 
     <div class="question">
 
       <h3>
         ${question.text}
       </h3>
+
 
       <div class="answers">
 
@@ -678,8 +736,10 @@ function renderTest() {
                 class="answer"
                 onclick="chooseAnswer(${index})"
               >
+
                 ${String.fromCharCode(65 + index)}.
                 ${answer}
+
               </button>
 
             `
@@ -774,6 +834,147 @@ function calculateStage() {
 
 
 /* =====================================================
+   ОПИСАНИЕ ЭТАПОВ
+===================================================== */
+
+const STAGES = {
+
+  'Автопилот': {
+
+    title:
+      'ТЫ ЖИВЁШЬ НА АВТОПИЛОТЕ',
+
+    text: `
+
+      <p>
+        Внешне всё может выглядеть нормально.
+        Ты работаешь, решаешь вопросы,
+        заботишься о других.
+      </p>
+
+      <p>
+        Но внутри всё чаще появляется ощущение,
+        что прежний сценарий больше не подходит.
+      </p>
+
+      <p>
+        Это точка, в которой можно
+        начать выбирать себя.
+      </p>
+
+    `,
+
+    button:
+      'НАЧАТЬ ПЕРЕХОД',
+
+    product:
+      'awakening'
+
+  },
+
+
+  'Толчок': {
+
+    title:
+      'ТЫ В ТОЧКЕ ТОЛЧКА',
+
+    text: `
+
+      <p>
+        В твоей жизни уже произошло то,
+        что заставило остановиться.
+      </p>
+
+      <p>
+        Что-то изменилось,
+        разрушилось или перестало работать
+        так, как раньше.
+      </p>
+
+      <p>
+        Теперь важно не вернуть прошлое,
+        а увидеть, куда двигаться дальше.
+      </p>
+
+    `,
+
+    button:
+      'ПЕРЕЙТИ В ПРОБУЖДЕНИЕ',
+
+    product:
+      'awakening'
+
+  },
+
+
+  'Пробуждение': {
+
+    title:
+      'ТЫ В ПРОБУЖДЕНИИ',
+
+    text: `
+
+      <p>
+        Ты уже начинаешь видеть себя
+        и свою жизнь по-другому.
+      </p>
+
+      <p>
+        Появляются вопросы,
+        на которые раньше ты могла
+        даже не смотреть.
+      </p>
+
+      <p>
+        Следующий шаг —
+        перестать только искать ответы
+        и начать создавать.
+      </p>
+
+    `,
+
+    button:
+      'ПЕРЕЙТИ В ТВОРЦА',
+
+    product:
+      'creator'
+
+  },
+
+
+  'Творец': {
+
+    title:
+      'ТЫ — ТВОРЕЦ',
+
+    text: `
+
+      <p>
+        Ты уже находишься в состоянии,
+        где можно не ждать,
+        а создавать.
+      </p>
+
+      <p>
+        Твоя задача —
+        продолжать реализовывать
+        то, что ты уже увидела в себе.
+      </p>
+
+    `,
+
+    button:
+      null,
+
+    product:
+      null
+
+  }
+
+};
+
+
+/* =====================================================
    РЕЗУЛЬТАТ
 ===================================================== */
 
@@ -799,159 +1000,30 @@ async function renderResult() {
   }
 
 
-  let title = '';
-  let text = '';
+  const data =
+    STAGES[stage];
+
+
   let action = '';
 
 
   if (
-    stage === 'Автопилот'
+    data.button &&
+    data.product
   ) {
-
-    title =
-      'ТЫ ЖИВЁШЬ НА АВТОПИЛОТЕ';
-
-    text = `
-
-      <p>
-        Внешне всё может выглядеть нормально.
-        Ты работаешь, решаешь вопросы,
-        заботишься о других.
-      </p>
-
-      <p>
-        Но внутри всё чаще появляется ощущение,
-        что прежний сценарий больше не подходит.
-      </p>
-
-      <p>
-        Это точка, в которой можно
-        начать выбирать себя.
-      </p>
-
-    `;
 
     action = `
 
       <button
         class="primary"
-        onclick="openProduct('awakening')"
+        onclick="openProduct('${data.product}')"
       >
-        НАЧАТЬ ПЕРЕХОД
+
+        ${data.button}
+
       </button>
 
     `;
-
-  }
-
-
-  if (
-    stage === 'Толчок'
-  ) {
-
-    title =
-      'ТЫ В ТОЧКЕ ТОЛЧКА';
-
-    text = `
-
-      <p>
-        В твоей жизни уже произошло то,
-        что заставило остановиться.
-      </p>
-
-      <p>
-        Что-то изменилось,
-        разрушилось или перестало работать
-        так, как раньше.
-      </p>
-
-      <p>
-        Теперь важно не вернуть прошлое,
-        а увидеть, куда двигаться дальше.
-      </p>
-
-    `;
-
-    action = `
-
-      <button
-        class="primary"
-        onclick="openProduct('awakening')"
-      >
-        ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
-      </button>
-
-    `;
-
-  }
-
-
-  if (
-    stage === 'Пробуждение'
-  ) {
-
-    title =
-      'ТЫ В ПРОБУЖДЕНИИ';
-
-    text = `
-
-      <p>
-        Ты уже начинаешь видеть себя
-        и свою жизнь по-другому.
-      </p>
-
-      <p>
-        Появляются вопросы,
-        на которые раньше ты могла
-        даже не смотреть.
-      </p>
-
-      <p>
-        Следующий шаг —
-        перестать только искать ответы
-        и начать создавать.
-      </p>
-
-    `;
-
-    action = `
-
-      <button
-        class="primary"
-        onclick="openProduct('creator')"
-      >
-        ПЕРЕЙТИ В ТВОРЦА
-      </button>
-
-    `;
-
-  }
-
-
-  if (
-    stage === 'Творец'
-  ) {
-
-    title =
-      'ТЫ — ТВОРЕЦ';
-
-    text = `
-
-      <p>
-        Ты уже находишься в состоянии,
-        где можно не ждать,
-        а создавать.
-      </p>
-
-      <p>
-        Твоя задача —
-        продолжать реализовывать
-        то, что ты уже увидела в себе.
-      </p>
-
-    `;
-
-    action = '';
 
   }
 
@@ -969,21 +1041,24 @@ async function renderResult() {
       </h2>
 
       <h3>
-        ${title}
+        ${data.title}
       </h3>
 
-      ${text}
+      ${data.text}
 
       ${action}
 
     </div>
+
 
     <button
       class="back"
       style="margin-top:20px"
       onclick="resetTest()"
     >
+
       Пройти тест заново
+
     </button>
 
   `;
@@ -1031,8 +1106,42 @@ function openProduct(type) {
 
 async function openCabinet() {
 
-  showScreen(
-    'cabinet'
+  /*
+    Здесь не вызываем showScreen('cabinet'),
+    чтобы избежать повторного вызова openCabinet.
+  */
+
+  document
+    .querySelectorAll('.screen')
+    .forEach(
+      screen => {
+
+        screen.classList.remove(
+          'active'
+        );
+
+      }
+    );
+
+
+  const screen =
+    document.getElementById(
+      'screen-cabinet'
+    );
+
+
+  if (screen) {
+
+    screen.classList.add(
+      'active'
+    );
+
+  }
+
+
+  window.scrollTo(
+    0,
+    0
   );
 
 
@@ -1041,20 +1150,28 @@ async function openCabinet() {
       'cabinet-stage'
     );
 
+
   const progressElement =
     document.getElementById(
       'cabinet-progress'
     );
+
 
   const progressText =
     document.getElementById(
       'cabinet-progress-text'
     );
 
+
   const message =
     document.getElementById(
       'cabinet-message'
     );
+
+
+  if (!stageElement) {
+    return;
+  }
 
 
   stageElement.textContent =
@@ -1069,6 +1186,10 @@ async function openCabinet() {
     'Загрузка...';
 
 
+  message.innerHTML =
+    '';
+
+
   const user =
     await ensureUser();
 
@@ -1076,11 +1197,11 @@ async function openCabinet() {
   if (!user) {
 
     stageElement.textContent =
-      'Не удалось загрузить';
+      'Не определён';
 
 
     progressText.textContent =
-      'Открой приложение именно через Telegram';
+      'Открой приложение через Telegram';
 
 
     message.innerHTML = `
@@ -1126,6 +1247,148 @@ async function openCabinet() {
     `${progress}% пройдено`;
 
 
+  highlightCurrentStage(
+    stage
+  );
+
+
+  renderCabinetMessage(
+    stage,
+    progress
+  );
+
+}
+
+
+/* =====================================================
+   ПОДСВЕТКА ТЕКУЩЕГО ЭТАПА
+===================================================== */
+
+function highlightCurrentStage(stage) {
+
+  const ids = {
+
+    'Автопилот':
+      'stage-autopilot',
+
+    'Толчок':
+      'stage-push',
+
+    'Пробуждение':
+      'stage-awakening',
+
+    'Творец':
+      'stage-creator'
+
+  };
+
+
+  document
+    .querySelectorAll('.stage-card')
+    .forEach(
+      card => {
+
+        card.classList.remove(
+          'active'
+        );
+
+        card.classList.remove(
+          'completed'
+        );
+
+      }
+    );
+
+
+  const currentId =
+    ids[stage];
+
+
+  if (!currentId) {
+    return;
+  }
+
+
+  const current =
+    document.getElementById(
+      currentId
+    );
+
+
+  if (current) {
+
+    current.classList.add(
+      'active'
+    );
+
+  }
+
+
+  const order = [
+    'Автопилот',
+    'Толчок',
+    'Пробуждение',
+    'Творец'
+  ];
+
+
+  const currentIndex =
+    order.indexOf(stage);
+
+
+  order.forEach(
+    (name, index) => {
+
+      if (
+        index < currentIndex
+      ) {
+
+        const id =
+          ids[name];
+
+
+        const element =
+          document.getElementById(
+            id
+          );
+
+
+        if (element) {
+
+          element.classList.add(
+            'completed'
+          );
+
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   СООБЩЕНИЕ В ЛИЧНОМ КАБИНЕТЕ
+===================================================== */
+
+function renderCabinetMessage(
+  stage,
+  progress
+) {
+
+  const message =
+    document.getElementById(
+      'cabinet-message'
+    );
+
+
+  if (!message) {
+    return;
+  }
+
+
   if (
     stage === 'Не определён'
   ) {
@@ -1138,8 +1401,8 @@ async function openCabinet() {
 
       <p>
         Пройди тест — и приложение
-        автоматически сохранит твой этап
-        за твоим Telegram ID.
+        автоматически определит твой текущий этап
+        и сохранит его за твоим Telegram ID.
       </p>
 
       <button
@@ -1151,263 +1414,117 @@ async function openCabinet() {
 
     `;
 
-  } else {
+    return;
+
+  }
+
+
+  if (
+    stage === 'Автопилот'
+  ) {
 
     message.innerHTML = `
 
       <h3>
-        ТВОЙ ПУТЬ СОХРАНЁН
+        ТВОЙ СЛЕДУЮЩИЙ ПЕРЕХОД
       </h3>
 
       <p>
-        Этап:
-        <strong>${stage}</strong>
+        Из Автопилота — в Пробуждение.
+        Начни с первой ветки продукта.
       </p>
 
+      <button
+        class="primary"
+        onclick="openProduct('awakening')"
+      >
+        НАЧАТЬ ПЕРЕХОД
+      </button>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (
+    stage === 'Толчок'
+  ) {
+
+    message.innerHTML = `
+
+      <h3>
+        ТВОЙ СЛЕДУЮЩИЙ ПЕРЕХОД
+      </h3>
+
       <p>
-        Твой прогресс сохраняется автоматически.
-        При следующем входе ты продолжишь
-        с того места, где остановилась.
+        Ты уже в точке Толчка.
+        Следующий переход — в Пробуждение.
+      </p>
+
+      <button
+        class="primary"
+        onclick="openProduct('awakening')"
+      >
+        ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
+      </button>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (
+    stage === 'Пробуждение'
+  ) {
+
+    message.innerHTML = `
+
+      <h3>
+        ТВОЙ СЛЕДУЮЩИЙ ПЕРЕХОД
+      </h3>
+
+      <p>
+        Следующая ветка — Пробуждение → Творец.
+        Именно здесь появятся медитации.
+      </p>
+
+      <button
+        class="primary"
+        onclick="openProduct('creator')"
+      >
+        ПЕРЕЙТИ В ТВОРЦА
+      </button>
+
+    `;
+
+    return;
+
+  }
+
+
+  if (
+    stage === 'Творец'
+  ) {
+
+    message.innerHTML = `
+
+      <h3>
+        ТЫ В ТОЧКЕ ТВОРЦА
+      </h3>
+
+      <p>
+        Твой текущий этап сохранён.
+        Продолжай создавать и реализовывать
+        то, что выбрала для себя.
       </p>
 
     `;
 
   }
-
-
-  updateLessonButtons(
-    progress
-  );
-
-}
-
-
-/* =====================================================
-   УРОКИ
-===================================================== */
-
-function updateLessonButtons(
-  progress
-) {
-
-  for (
-    let i = 1;
-    i <= 7;
-    i++
-  ) {
-
-    const button =
-      document.getElementById(
-        'stage-' + i
-      );
-
-
-    if (!button) {
-      continue;
-    }
-
-
-    /*
-      Урок 1 доступен сразу.
-      Каждый следующий открывается
-      после прохождения предыдущего.
-    */
-
-    const required =
-      Math.round(
-        ((i - 1) / 7) * 100
-      );
-
-
-    button.disabled =
-      progress < required;
-
-  }
-
-}
-
-
-/* =====================================================
-   ОТКРЫТЬ УРОК
-===================================================== */
-
-async function openLesson(
-  lessonNumber
-) {
-
-  const user =
-    await loadUser();
-
-
-  if (!user) {
-    return;
-  }
-
-
-  const stage =
-    user.stage;
-
-
-  const progress =
-    Number(
-      user.progress || 0
-    );
-
-
-  const required =
-    Math.round(
-      ((lessonNumber - 1) / 7) * 100
-    );
-
-
-  if (
-    progress < required
-  ) {
-
-    return;
-
-  }
-
-
-  showScreen(
-    'lesson'
-  );
-
-
-  const wrap =
-    document.getElementById(
-      'lesson-wrap'
-    );
-
-
-  const lessons = {
-
-    1: {
-      title:
-        'ТОЧКА ОСОЗНАНИЯ',
-
-      text:
-        'Начни замечать, где ты живёшь на автомате. Не исправляй себя. Просто увидь то, что происходит.'
-    },
-
-    2: {
-      title:
-        'СТАРЫЕ СЦЕНАРИИ',
-
-      text:
-        'Посмотри на повторяющиеся решения и реакции. Что в твоей жизни происходит по привычке?'
-    },
-
-    3: {
-      title:
-        'ЧТО БОЛЬШЕ НЕ МОЁ',
-
-      text:
-        'Определи то, что когда-то было твоим выбором, но сегодня больше тебе не соответствует.'
-    },
-
-    4: {
-      title:
-        'НОВЫЙ ВЫБОР',
-
-      text:
-        'Сформулируй, что ты выбираешь теперь — не из страха, не из привычки и не ради чужого одобрения.'
-    },
-
-    5: {
-      title:
-        'ДЕЙСТВИЕ',
-
-      text:
-        'Выбери одно конкретное действие, которое соответствует твоему новому выбору.'
-    },
-
-    6: {
-      title:
-        'СОЗДАНИЕ',
-
-      text:
-        'Начни создавать новую реальность через свои решения, действия и ответственность за результат.'
-    },
-
-    7: {
-      title:
-        'НОВАЯ РЕАЛЬНОСТЬ',
-
-      text:
-        'Посмотри назад и зафиксируй, что изменилось. Новый этап начинается не тогда, когда исчезают сложности, а когда ты начинаешь действовать иначе.'
-    }
-
-  };
-
-
-  const lesson =
-    lessons[lessonNumber];
-
-
-  if (!lesson) {
-    return;
-  }
-
-
-  wrap.innerHTML = `
-
-    <div class="tag">
-      УРОК ${lessonNumber}
-    </div>
-
-    <h2>
-      ${lesson.title}
-    </h2>
-
-    <p>
-      ${lesson.text}
-    </p>
-
-    <div class="lesson-complete">
-
-      <p>
-        Когда закончишь,
-        отметь этот этап пройденным.
-      </p>
-
-      <button
-        class="primary"
-        onclick="
-          completeLesson(${lessonNumber})
-        "
-      >
-        Я ПРОШЛА ЭТОТ ЭТАП
-      </button>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =====================================================
-   ЗАВЕРШЕНИЕ УРОКА
-===================================================== */
-
-async function completeLesson(
-  lessonNumber
-) {
-
-  const progress =
-    Math.round(
-      (lessonNumber / 7) * 100
-    );
-
-
-  await saveProgress(
-    progress,
-    lessonNumber
-  );
-
-
-  await openCabinet();
 
 }
 
@@ -1443,11 +1560,6 @@ document.addEventListener(
       getTelegramId()
     );
 
-
-    /*
-      Пользователь создаётся автоматически
-      при первом запуске Mini App.
-    */
 
     await ensureUser();
 
