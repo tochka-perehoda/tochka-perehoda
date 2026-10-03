@@ -1,53 +1,43 @@
-/* =====================================================
-   ОСНОВНЫЕ НАСТРОЙКИ
-===================================================== */
-
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
+html,
 body {
   margin: 0;
   padding: 0;
+  min-height: 100%;
+}
 
+body {
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(214, 169, 91, 0.12),
-      transparent 35%
+      rgba(150, 110, 55, 0.14),
+      transparent 38%
     ),
-    #0b0b0b;
+    #11100e;
 
-  color: #f3eee5;
+  color: #eee8dc;
 
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
-    Roboto,
-    Arial,
     sans-serif;
 
   line-height: 1.55;
 }
 
-
-/* =====================================================
-   APP
-===================================================== */
+button {
+  font: inherit;
+}
 
 .app {
   width: 100%;
   max-width: 620px;
-
   margin: 0 auto;
-
   min-height: 100vh;
-
   padding-bottom: 40px;
 }
 
@@ -58,35 +48,33 @@ body {
 
 .hero {
   position: relative;
-
-  min-height: 330px;
+  min-height: 300px;
 
   display: flex;
   align-items: flex-end;
 
   overflow: hidden;
 
-  border-bottom:
-    1px solid
-    rgba(214, 169, 91, 0.25);
+  padding: 34px 22px 28px;
 
   background:
     linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.05),
-      rgba(0, 0, 0, 0.9)
+      rgba(0,0,0,0.05),
+      rgba(0,0,0,0.82)
+    ),
+    radial-gradient(
+      ellipse at center,
+      #4a4135 0%,
+      #24211c 45%,
+      #11100e 100%
     );
 }
-
-
-/* =====================================================
-   СВЕТ / ПОРТАЛ
-===================================================== */
 
 .portal {
   position: absolute;
 
-  width: 300px;
+  width: 210px;
   height: 300px;
 
   left: 50%;
@@ -94,96 +82,70 @@ body {
 
   transform: translateX(-50%);
 
-  border-radius: 50%;
+  border-radius: 50% 50% 8px 8px;
 
-  background:
-    radial-gradient(
-      circle,
-      rgba(214, 169, 91, 0.28),
-      rgba(214, 169, 91, 0.08) 35%,
-      transparent 70%
-    );
+  border:
+    1px solid rgba(221, 187, 126, 0.45);
 
-  filter: blur(2px);
+  box-shadow:
+    0 0 50px rgba(196, 151, 79, 0.15),
+    inset 0 0 40px rgba(0,0,0,0.5);
 
-  opacity: 0.9;
+  opacity: 0.7;
 }
-
-
-/* =====================================================
-   HERO TEXT
-===================================================== */
 
 .hero-copy {
   position: relative;
-
-  width: 100%;
-
-  padding:
-    40px 24px 28px;
-
   z-index: 2;
 }
 
+.eyebrow,
+.tag {
+  display: inline-block;
 
-.eyebrow {
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 700;
 
-  letter-spacing: 3px;
+  letter-spacing: 0.16em;
 
-  color:
-    rgba(214, 169, 91, 0.9);
-
-  margin-bottom: 10px;
+  color: #c9a76c;
 }
 
-
 .hero h1 {
-  margin: 0;
+  margin: 10px 0 12px;
 
-  font-size: clamp(
-    42px,
-    13vw,
-    70px
-  );
+  font-size: 48px;
+  line-height: 0.92;
 
-  line-height: 0.9;
-
-  letter-spacing: -2px;
+  letter-spacing: -0.04em;
 
   font-weight: 800;
 }
 
-
 .hero h1 span {
-  color: #d6a95b;
+  color: #c9a76c;
 }
 
-
 .hero p {
-  margin:
-    18px 0 0;
+  margin: 0;
+
+  max-width: 360px;
+
+  color: rgba(238, 232, 220, 0.68);
 
   font-size: 13px;
-
-  color:
-    rgba(243, 238, 229, 0.65);
-
-  letter-spacing: 0.4px;
 }
 
 
 /* =====================================================
-   SCREEN
+   SCREENS
 ===================================================== */
 
 .screen {
   display: none;
 
-  padding:
-    28px 18px 40px;
+  padding: 24px 18px;
 }
-
 
 .screen.active {
   display: block;
@@ -195,29 +157,20 @@ body {
 ===================================================== */
 
 .intro {
-  padding:
-    8px 6px 24px;
+  padding: 10px 4px 22px;
 }
-
 
 .intro h2 {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 
   font-size: 25px;
-
-  line-height: 1.15;
-
-  letter-spacing: -0.5px;
+  line-height: 1.2;
 }
-
 
 .intro p {
   margin: 0;
 
-  color:
-    rgba(243, 238, 229, 0.68);
-
-  font-size: 15px;
+  color: rgba(238, 232, 220, 0.64);
 }
 
 
@@ -226,31 +179,33 @@ body {
 ===================================================== */
 
 .cards {
-  display: flex;
-
-  flex-direction: column;
-
+  display: grid;
   gap: 12px;
 }
-
 
 .card {
   width: 100%;
 
-  padding: 22px 20px;
-
-  border-radius: 20px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.09);
-
-  background:
-    rgba(255, 255, 255, 0.035);
-
-  color: #f3eee5;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  grid-template-rows: auto auto;
 
   text-align: left;
+
+  padding: 18px;
+
+  border: 1px solid rgba(255,255,255,0.09);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.055),
+      rgba(255,255,255,0.018)
+    );
+
+  color: #eee8dc;
 
   cursor: pointer;
 
@@ -260,184 +215,149 @@ body {
     background 0.2s ease;
 }
 
-
 .card:active {
   transform: scale(0.98);
 }
 
-
 .card:hover {
   border-color:
-    rgba(214, 169, 91, 0.45);
-
-  background:
-    rgba(255, 255, 255, 0.055);
+    rgba(201,167,108,0.45);
 }
-
 
 .card.accent {
   border-color:
-    rgba(214, 169, 91, 0.5);
+    rgba(201,167,108,0.42);
 
   background:
     linear-gradient(
-      135deg,
-      rgba(214, 169, 91, 0.12),
-      rgba(255, 255, 255, 0.035)
+      145deg,
+      rgba(201,167,108,0.14),
+      rgba(255,255,255,0.025)
     );
 }
 
-
 .card .icon {
-  display: block;
+  grid-row: 1 / span 2;
 
-  margin-bottom: 9px;
+  width: 34px;
+  height: 34px;
 
-  font-size: 24px;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  border-radius: 50%;
 
-.card b {
-  display: block;
+  background:
+    rgba(201,167,108,0.11);
+
+  color: #d2b277;
 
   font-size: 17px;
-
-  letter-spacing: 0.4px;
 }
 
+.card b {
+  align-self: end;
+
+  font-size: 15px;
+
+  letter-spacing: 0.04em;
+}
 
 .card small {
   display: block;
 
-  margin-top: 7px;
-
-  font-size: 13px;
-
-  line-height: 1.45;
+  margin-top: 4px;
 
   color:
-    rgba(243, 238, 229, 0.62);
+    rgba(238,232,220,0.58);
+
+  font-size: 12px;
 }
 
 
 /* =====================================================
-   КНОПКА НАЗАД
+   BACK
 ===================================================== */
 
 .back {
   border: 0;
 
+  padding: 0;
+
   background: transparent;
 
-  color:
-    rgba(243, 238, 229, 0.6);
+  color: #c9a76c;
 
-  font-size: 14px;
-
-  padding: 8px 0;
+  font-size: 13px;
 
   cursor: pointer;
-}
 
-
-.back:hover {
-  color: #d6a95b;
+  margin-bottom: 20px;
 }
 
 
 /* =====================================================
-   ПРОГРЕСС ТЕСТА
+   TEST
 ===================================================== */
 
 .progress {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 
-  font-size: 10px;
+  color: #c9a76c;
 
-  letter-spacing: 2px;
+  font-size: 11px;
 
-  color:
-    #d6a95b;
+  letter-spacing: 0.14em;
 
-  text-align: center;
+  font-weight: 700;
 }
-
-
-/* =====================================================
-   ВОПРОС
-===================================================== */
-
-.question {
-  padding:
-    4px 2px;
-}
-
 
 .question h3 {
-  margin:
-    0 0 22px;
+  margin: 0 0 22px;
 
-  font-size: 22px;
+  font-size: 24px;
 
   line-height: 1.25;
-
-  letter-spacing: -0.3px;
 }
-
-
-/* =====================================================
-   ОТВЕТЫ
-===================================================== */
 
 .answers {
-  display: flex;
-
-  flex-direction: column;
-
+  display: grid;
   gap: 10px;
 }
-
 
 .answer {
   width: 100%;
 
-  padding:
-    15px 16px;
+  padding: 16px;
+
+  text-align: left;
 
   border-radius: 15px;
 
   border:
-    1px solid
-    rgba(255, 255, 255, 0.09);
+    1px solid rgba(255,255,255,0.1);
 
   background:
-    rgba(255, 255, 255, 0.035);
+    rgba(255,255,255,0.035);
 
-  color: #f3eee5;
-
-  text-align: left;
-
-  font-size: 14px;
-
-  line-height: 1.4;
+  color: #eee8dc;
 
   cursor: pointer;
 
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
-    transform 0.15s ease;
+    transform 0.2s ease;
 }
-
 
 .answer:hover {
   border-color:
-    rgba(214, 169, 91, 0.5);
+    rgba(201,167,108,0.45);
 
   background:
-    rgba(214, 169, 91, 0.08);
+    rgba(201,167,108,0.08);
 }
-
 
 .answer:active {
   transform: scale(0.98);
@@ -445,119 +365,69 @@ body {
 
 
 /* =====================================================
-   РЕЗУЛЬТАТ
+   RESULT
 ===================================================== */
 
 .result {
-  animation:
-    fadeIn 0.35s ease;
+  padding-bottom: 10px;
 }
-
-
-@keyframes fadeIn {
-
-  from {
-    opacity: 0;
-    transform:
-      translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform:
-      translateY(0);
-  }
-
-}
-
-
-.tag {
-  display: inline-block;
-
-  margin-bottom: 10px;
-
-  font-size: 9px;
-
-  letter-spacing: 2.5px;
-
-  color:
-    #d6a95b;
-}
-
 
 .result h2 {
-  margin:
-    0 0 20px;
+  margin: 8px 0 20px;
 
-  font-size: 29px;
+  font-size: 31px;
 
   line-height: 1.05;
-
-  letter-spacing: -0.7px;
 }
-
 
 .result h3 {
   font-size: 20px;
 
-  line-height: 1.2;
+  line-height: 1.25;
 }
-
 
 .result p {
-  margin:
-    0 0 15px;
-
-  font-size: 15px;
-
   color:
-    rgba(243, 238, 229, 0.82);
-}
+    rgba(238,232,220,0.78);
 
+  font-size: 14px;
+}
 
 .result strong {
-  color: #f3eee5;
+  color: #eee8dc;
 }
-
-
-/* =====================================================
-   ОСНОВНАЯ КНОПКА
-===================================================== */
 
 .primary {
   width: 100%;
 
   margin-top: 10px;
 
-  padding:
-    16px 18px;
+  padding: 16px 18px;
 
   border: 0;
 
-  border-radius: 15px;
+  border-radius: 14px;
 
   background:
     linear-gradient(
       135deg,
-      #d6a95b,
-      #b88432
+      #c9a76c,
+      #967544
     );
 
-  color: #111;
+  color: #17130d;
 
   font-size: 13px;
 
   font-weight: 800;
 
-  letter-spacing: 0.6px;
+  letter-spacing: 0.05em;
 
   cursor: pointer;
 
   box-shadow:
-    0 8px 30px
-    rgba(214, 169, 91, 0.15);
+    0 8px 25px rgba(0,0,0,0.22);
 }
-
 
 .primary:active {
   transform: scale(0.98);
@@ -565,291 +435,242 @@ body {
 
 
 /* =====================================================
-   КОРОБКА ПРОДУКТА
+   CABINET
 ===================================================== */
 
-.product-box {
-  margin-top: 25px;
-
-  padding: 22px 20px;
-
-  border-radius: 20px;
-
-  border:
-    1px solid
-    rgba(214, 169, 91, 0.4);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(214, 169, 91, 0.09),
-      rgba(255, 255, 255, 0.025)
-    );
-}
-
-
-.product-box h3 {
-  margin:
-    4px 0 10px;
-
-  font-size: 24px;
-}
-
-
-.product-box p {
-  font-size: 14px;
-}
-
-
-.price {
-  margin:
-    18px 0;
+.cabinet h2 {
+  margin: 8px 0 22px;
 
   font-size: 30px;
 
-  font-weight: 800;
-
-  color:
-    #d6a95b;
+  line-height: 1.05;
 }
 
-
-/* =====================================================
-   ЛИЧНЫЙ КАБИНЕТ
-===================================================== */
-
-#screen-cabinet {
-  padding-top: 18px;
-}
-
-
-.progress-box {
-  margin:
-    20px 0 25px;
-
-  padding: 18px;
+.cabinet-stage {
+  padding: 20px;
 
   border-radius: 18px;
 
   border:
-    1px solid
-    rgba(255, 255, 255, 0.08);
+    1px solid rgba(201,167,108,0.25);
 
   background:
-    rgba(255, 255, 255, 0.035);
+    rgba(201,167,108,0.06);
 }
 
-
-.progress-line {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-bottom: 10px;
-
-  font-size: 11px;
-
-  letter-spacing: 1px;
-}
-
-
-.progress-line strong {
+.cabinet-stage small {
   color:
-    #d6a95b;
+    rgba(238,232,220,0.5);
+
+  font-size: 10px;
+
+  letter-spacing: 0.14em;
 }
 
+.cabinet-stage h3 {
+  margin: 7px 0 0;
+
+  font-size: 25px;
+
+  color: #c9a76c;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress-box {
+  margin: 20px 0;
+}
 
 .progress-track {
-  height: 7px;
+  width: 100%;
+  height: 8px;
 
   overflow: hidden;
 
-  border-radius: 10px;
+  border-radius: 20px;
 
   background:
-    rgba(255, 255, 255, 0.08);
+    rgba(255,255,255,0.08);
 }
-
 
 .progress-fill {
   height: 100%;
 
-  border-radius: 10px;
+  border-radius: inherit;
 
   background:
     linear-gradient(
       90deg,
-      #a8782d,
-      #d6a95b
+      #8d6c3c,
+      #d4b477
     );
 
   transition:
-    width 0.4s ease;
+    width 0.35s ease;
+}
+
+.progress-text {
+  margin-top: 8px;
+
+  text-align: right;
+
+  color:
+    rgba(238,232,220,0.55);
+
+  font-size: 11px;
 }
 
 
 /* =====================================================
-   ЭТАПЫ
+   CABINET MESSAGE
 ===================================================== */
 
-.stages {
-  display: flex;
+.cabinet-message {
+  margin: 18px 0;
+}
 
-  flex-direction: column;
+.cabinet-message h3 {
+  margin: 0 0 8px;
 
-  gap: 9px;
+  font-size: 18px;
+}
+
+.cabinet-message p {
+  color:
+    rgba(238,232,220,0.68);
+
+  font-size: 13px;
 }
 
 
-.stage-card {
-  display: flex;
+/* =====================================================
+   LESSONS
+===================================================== */
 
+.lessons {
+  display: grid;
+  gap: 9px;
+
+  margin-top: 20px;
+}
+
+.lesson {
+  width: 100%;
+
+  display: flex;
   align-items: center;
 
   gap: 14px;
 
-  width: 100%;
-
-  min-height: 62px;
-
-  padding:
-    12px 14px;
-
-  border-radius: 16px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.08);
-
-  background:
-    rgba(255, 255, 255, 0.035);
-
-  color: #f3eee5;
+  padding: 15px;
 
   text-align: left;
 
-  font-size: 13px;
+  border-radius: 14px;
 
-  line-height: 1.3;
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  background:
+    rgba(255,255,255,0.025);
+
+  color:
+    rgba(238,232,220,0.82);
 
   cursor: pointer;
 }
 
+.lesson span {
+  width: 30px;
+  height: 30px;
 
-.stage-card:not(:disabled):hover {
-  border-color:
-    rgba(214, 169, 91, 0.45);
-}
+  flex: 0 0 30px;
 
-
-.stage-card:disabled {
-  opacity: 0.4;
-
-  cursor: default;
-}
-
-
-.stage-number {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  flex-shrink: 0;
-
-  width: 34px;
-  height: 34px;
 
   border-radius: 50%;
 
   background:
-    rgba(214, 169, 91, 0.12);
+    rgba(201,167,108,0.09);
 
-  color:
-    #d6a95b;
+  color: #c9a76c;
 
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 700;
+}
 
-  font-size: 12px;
+.lesson:not(:disabled):hover {
+  border-color:
+    rgba(201,167,108,0.4);
+}
+
+.lesson:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
 }
 
 
 /* =====================================================
-   ПРАКТИКА
+   LESSON SCREEN
 ===================================================== */
 
-.practice-box {
-  margin:
-    24px 0;
+#lesson-wrap h2 {
+  margin: 8px 0 20px;
 
-  padding:
-    20px;
+  font-size: 28px;
 
-  border-radius: 18px;
-
-  border-left:
-    2px solid
-    #d6a95b;
-
-  background:
-    rgba(214, 169, 91, 0.06);
+  line-height: 1.1;
 }
 
-
-.practice-box h3 {
-  margin-top: 0;
-
-  font-size: 15px;
-
-  letter-spacing: 1px;
-
+#lesson-wrap p {
   color:
-    #d6a95b;
-}
+    rgba(238,232,220,0.76);
 
-
-.practice-box p {
   font-size: 14px;
 }
 
+.lesson-complete {
+  margin-top: 25px;
 
-/* =====================================================
-   АДАПТАЦИЯ
-===================================================== */
+  padding: 18px;
 
-@media (max-width: 380px) {
+  border-radius: 16px;
 
-  .hero {
-    min-height: 290px;
-  }
+  border:
+    1px solid rgba(201,167,108,0.25);
 
-  .hero h1 {
-    font-size: 45px;
-  }
-
-  .screen {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-
-  .question h3 {
-    font-size: 20px;
-  }
-
+  background:
+    rgba(201,167,108,0.06);
 }
 
 
 /* =====================================================
-   TELEGRAM SAFE AREA
+   MOBILE
 ===================================================== */
 
-body {
-  padding-top:
-    env(safe-area-inset-top);
+@media (max-width: 420px) {
 
-  padding-bottom:
-    env(safe-area-inset-bottom);
+  .hero {
+    min-height: 275px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .screen {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .question h3 {
+    font-size: 22px;
+  }
+
 }
