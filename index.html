@@ -1,10 +1,7 @@
 <!doctype html>
 <html lang="ru">
-
 <head>
-
   <meta charset="UTF-8">
-
   <meta
     name="viewport"
     content="width=device-width,initial-scale=1,viewport-fit=cover"
@@ -12,477 +9,366 @@
 
   <title>Точка перехода</title>
 
-
-  <!-- TELEGRAM -->
-
+  <!-- Telegram -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-
-  <!-- SUPABASE -->
-
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
-  <!-- СТИЛИ -->
-
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
+  <div class="app">
 
-<div class="app">
+    <!-- =================================================
+         HERO
+    ================================================== -->
 
+    <header class="hero">
 
-  <!-- =====================================================
-       HERO
-  ====================================================== -->
+      <div class="portal"></div>
 
-  <header class="hero">
+      <div class="hero-copy">
 
-    <div class="portal"></div>
+        <div class="eyebrow">
+          АВТОРСКОЕ ПРОСТРАНСТВО
+        </div>
 
-    <div class="hero-copy">
+        <h1>
+          ТОЧКА<br>
+          <span>ПЕРЕХОДА</span>
+        </h1>
 
-      <div class="eyebrow">
-        АВТОРСКОЕ ПРОСТРАНСТВО
+        <p>
+          Осознанность · Свобода · Трансформация · Результат
+        </p>
+
       </div>
 
-      <h1>
-        ТОЧКА<br>
-        <span>ПЕРЕХОДА</span>
-      </h1>
-
-      <p>
-        Осознанность · Свобода · Трансформация · Результат
-      </p>
-
-    </div>
-
-  </header>
+    </header>
 
 
+    <!-- =================================================
+         ГЛАВНАЯ
+    ================================================== -->
 
-  <!-- =====================================================
-       ГЛАВНАЯ
-  ====================================================== -->
-
-  <main
-    id="screen-home"
-    class="screen active"
-  >
-
-    <section class="intro">
-
-      <h2>
-        Новый этап начинается здесь.
-      </h2>
-
-      <p>
-        Узнай, где ты находишься сейчас,
-        и сделай следующий шаг.
-      </p>
-
-    </section>
-
-
-
-    <div class="cards">
-
-
-      <!-- ТЕСТ -->
-
-      <button
-        class="card accent"
-        onclick="showScreen('test')"
-      >
-
-        <span class="icon">
-          🔥
-        </span>
-
-        <b>
-          ТЕСТ
-        </b>
-
-        <small>
-          Определи, на какой ступени
-          ты находишься сейчас.
-        </small>
-
-      </button>
-
-
-
-      <!-- МОЙ ПУТЬ -->
-
-      <button
-        class="card"
-        onclick="openCabinet()"
-      >
-
-        <span class="icon">
-          ◈
-        </span>
-
-        <b>
-          МОЙ ПУТЬ
-        </b>
-
-        <small>
-          Твой этап, прогресс
-          и материалы перехода.
-        </small>
-
-      </button>
-
-
-
-      <!-- КОНСУЛЬТАЦИЯ -->
-
-      <button
-        class="card"
-        onclick="openConsultation()"
-      >
-
-        <span class="icon">
-          ◇
-        </span>
-
-        <b>
-          КОНСУЛЬТАЦИЯ
-        </b>
-
-        <small>
-          Разбор твоей ситуации
-          за 60–90 минут.
-        </small>
-
-      </button>
-
-
-
-      <!-- ЛИЧНОЕ СОПРОВОЖДЕНИЕ -->
-
-      <button
-        class="card"
-        onclick="openAccompaniment()"
-      >
-
-        <span class="icon">
-          ✦
-        </span>
-
-        <b>
-          ЛИЧНОЕ СОПРОВОЖДЕНИЕ
-        </b>
-
-        <small>
-          Персональная работа со мной —
-          шаг за шагом.
-        </small>
-
-      </button>
-
-
-    </div>
-
-  </main>
-
-
-
-  <!-- =====================================================
-       ТЕСТ
-  ====================================================== -->
-
-  <main
-    id="screen-test"
-    class="screen"
-  >
-
-    <button
-      class="back"
-      onclick="showScreen('home')"
+    <main
+      id="screen-home"
+      class="screen active"
     >
-      ← Назад
-    </button>
 
-    <div id="test-wrap"></div>
+      <section class="intro">
 
-  </main>
+        <h2>
+          Новый этап начинается здесь.
+        </h2>
 
+        <p>
+          Узнай, где ты находишься сейчас,
+          и сделай следующий шаг.
+        </p>
 
-
-  <!-- =====================================================
-       ЛИЧНЫЙ КАБИНЕТ
-  ====================================================== -->
-
-  <main
-    id="screen-cabinet"
-    class="screen"
-  >
-
-    <button
-      class="back"
-      onclick="showScreen('home')"
-    >
-      ← Назад
-    </button>
+      </section>
 
 
-    <div class="result">
+      <div class="cards">
 
+        <!-- ТЕСТ -->
 
-      <div class="tag">
-        МОЙ ПУТЬ
-      </div>
+        <button
+          class="card accent"
+          onclick="showScreen('test')"
+        >
 
-
-      <h2>
-        ТВОЙ ПЕРЕХОД
-      </h2>
-
-
-      <!-- СТАТУС -->
-
-      <div class="progress-box">
-
-        <div class="progress-line">
-
-          <span>
-            ТЕКУЩИЙ ЭТАП
+          <span class="icon">
+            🔥
           </span>
 
-          <strong id="cabinet-stage">
+          <b>
+            ТЕСТ
+          </b>
+
+          <small>
+            Определи, на какой ступени
+            ты находишься сейчас.
+          </small>
+
+        </button>
+
+
+        <!-- ЛИЧНЫЙ КАБИНЕТ -->
+
+        <button
+          class="card"
+          onclick="openCabinet()"
+        >
+
+          <span class="icon">
+            ◉
+          </span>
+
+          <b>
+            МОЙ ПУТЬ
+          </b>
+
+          <small>
+            Твой этап, прогресс
+            и материалы перехода.
+          </small>
+
+        </button>
+
+
+        <!-- КОНСУЛЬТАЦИЯ -->
+
+        <button
+          class="card"
+          onclick="openConsultation()"
+        >
+
+          <span class="icon">
+            ◇
+          </span>
+
+          <b>
+            КОНСУЛЬТАЦИЯ
+          </b>
+
+          <small>
+            Разбор твоей ситуации
+            за 60–90 минут.
+          </small>
+
+        </button>
+
+
+        <!-- СОПРОВОЖДЕНИЕ -->
+
+        <button
+          class="card"
+          onclick="openAccompaniment()"
+        >
+
+          <span class="icon">
+            ✦
+          </span>
+
+          <b>
+            ЛИЧНОЕ СОПРОВОЖДЕНИЕ
+          </b>
+
+          <small>
+            Персональная работа со мной —
+            шаг за шагом.
+          </small>
+
+        </button>
+
+      </div>
+
+    </main>
+
+
+    <!-- =================================================
+         ТЕСТ
+    ================================================== -->
+
+    <main
+      id="screen-test"
+      class="screen"
+    >
+
+      <button
+        class="back"
+        onclick="showScreen('home')"
+      >
+        ← Назад
+      </button>
+
+      <div id="test-wrap"></div>
+
+    </main>
+
+
+    <!-- =================================================
+         ЛИЧНЫЙ КАБИНЕТ
+    ================================================== -->
+
+    <main
+      id="screen-cabinet"
+      class="screen"
+    >
+
+      <button
+        class="back"
+        onclick="showScreen('home')"
+      >
+        ← Назад
+      </button>
+
+
+      <div class="cabinet">
+
+        <div class="tag">
+          МОЙ ПУТЬ
+        </div>
+
+        <h2>
+          ТВОЙ ПРОГРЕСС
+        </h2>
+
+
+        <div class="cabinet-stage">
+
+          <small>
+            ТЕКУЩИЙ ЭТАП
+          </small>
+
+          <h3 id="cabinet-stage">
             Загрузка...
-          </strong>
+          </h3>
 
         </div>
 
 
-        <div class="progress-track">
+        <div class="progress-box">
+
+          <div class="progress-track">
+
+            <div
+              id="cabinet-progress"
+              class="progress-fill"
+              style="width:0%"
+            ></div>
+
+          </div>
 
           <div
-            id="cabinet-progress"
-            class="progress-fill"
-            style="width:0%"
-          ></div>
+            id="cabinet-progress-text"
+            class="progress-text"
+          >
+            Загрузка...
+          </div>
 
         </div>
 
 
         <div
-          id="cabinet-progress-text"
-          style="
-            margin-top:10px;
-            font-size:12px;
-            color:rgba(243,238,229,.55);
-          "
+          id="cabinet-message"
+          class="cabinet-message"
+        ></div>
+
+
+        <!-- УРОКИ -->
+
+        <div
+          id="lessons"
+          class="lessons"
         >
-          0% пройдено
+
+          <button
+            id="stage-1"
+            class="lesson"
+            disabled
+            onclick="openLesson(1)"
+          >
+            <span>01</span>
+            ТОЧКА ОСОЗНАНИЯ
+          </button>
+
+          <button
+            id="stage-2"
+            class="lesson"
+            disabled
+            onclick="openLesson(2)"
+          >
+            <span>02</span>
+            СТАРЫЕ СЦЕНАРИИ
+          </button>
+
+          <button
+            id="stage-3"
+            class="lesson"
+            disabled
+            onclick="openLesson(3)"
+          >
+            <span>03</span>
+            ЧТО БОЛЬШЕ НЕ МОЁ
+          </button>
+
+          <button
+            id="stage-4"
+            class="lesson"
+            disabled
+            onclick="openLesson(4)"
+          >
+            <span>04</span>
+            НОВЫЙ ВЫБОР
+          </button>
+
+          <button
+            id="stage-5"
+            class="lesson"
+            disabled
+            onclick="openLesson(5)"
+          >
+            <span>05</span>
+            ДЕЙСТВИЕ
+          </button>
+
+          <button
+            id="stage-6"
+            class="lesson"
+            disabled
+            onclick="openLesson(6)"
+          >
+            <span>06</span>
+            СОЗДАНИЕ
+          </button>
+
+          <button
+            id="stage-7"
+            class="lesson"
+            disabled
+            onclick="openLesson(7)"
+          >
+            <span>07</span>
+            НОВАЯ РЕАЛЬНОСТЬ
+          </button>
+
         </div>
 
       </div>
 
+    </main>
 
 
-      <!-- МАТЕРИАЛЫ -->
+    <!-- =================================================
+         УРОК
+    ================================================== -->
 
-      <div class="stages">
+    <main
+      id="screen-lesson"
+      class="screen"
+    >
 
-
-        <button
-          class="stage-card"
-          id="stage-1"
-          disabled
-        >
-
-          <span class="stage-number">
-            1
-          </span>
-
-          <span>
-            Знакомство с переходом
-          </span>
-
-        </button>
-
-
-
-        <button
-          class="stage-card"
-          id="stage-2"
-          disabled
-        >
-
-          <span class="stage-number">
-            2
-          </span>
-
-          <span>
-            Осознание старого сценария
-          </span>
-
-        </button>
-
-
-
-        <button
-          class="stage-card"
-          id="stage-3"
-          disabled
-        >
-
-          <span class="stage-number">
-            3
-          </span>
-
-          <span>
-            Что больше не работает
-          </span>
-
-        </button>
-
-
-
-        <button
-          class="stage-card"
-          id="stage-4"
-          disabled
-        >
-
-          <span class="stage-number">
-            4
-          </span>
-
-          <span>
-            Новый выбор
-          </span>
-
-        </button>
-
-
-
-        <button
-          class="stage-card"
-          id="stage-5"
-          disabled
-        >
-
-          <span class="stage-number">
-            5
-          </span>
-
-          <span>
-            Первый шаг
-          </span>
-
-        </button>
-
-
-
-        <button
-          class="stage-card"
-          id="stage-6"
-          disabled
-        >
-
-          <span class="stage-number">
-            6
-          </span>
-
-          <span>
-            Закрепление нового состояния
-          </span>
-
-        </button>
-
-
-
-        <button
-          class="stage-card"
-          id="stage-7"
-          disabled
-        >
-
-          <span class="stage-number">
-            7
-          </span>
-
-          <span>
-            Следующий уровень
-          </span>
-
-        </button>
-
-
-      </div>
-
-
-      <!-- СООБЩЕНИЕ -->
-
-      <div
-        id="cabinet-message"
-        class="practice-box"
-        style="margin-top:24px;"
+      <button
+        class="back"
+        onclick="openCabinet()"
       >
+        ← К моему пути
+      </button>
 
-        <h3>
-          ТВОЙ ПУТЬ
-        </h3>
+      <div id="lesson-wrap"></div>
 
-        <p>
-          Здесь будет сохраняться твой прогресс
-          и открываться материалы по мере прохождения.
-        </p>
+    </main>
 
-      </div>
+  </div>
 
 
-    </div>
-
-
-  </main>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     SUPABASE
-====================================================== -->
-
-<script>
-
-  const SUPABASE_URL =
-    'https://vxhoavgkiratylcfeqnz.supabase.co';
-
-
-  const SUPABASE_KEY =
-    'sb_publishable_s_PuUbLuT_aerFgVmywXDw_fVcZWjNv';
-
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-
-</script>
-
-
-
-<!-- =====================================================
-     APP
-====================================================== -->
-
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 
 </body>
-
 </html>
