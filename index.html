@@ -2,6 +2,7 @@
 <html lang="ru">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -11,226 +12,476 @@
 
   <title>Точка перехода</title>
 
-  <!-- Telegram Mini App -->
+
+  <!-- TELEGRAM -->
+
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- Supabase -->
+
+  <!-- SUPABASE -->
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Стили -->
+
+  <!-- СТИЛИ -->
+
   <link rel="stylesheet" href="style.css">
+
 </head>
 
 
 <body>
 
-  <div class="app">
 
-    <!-- =========================
-         ШАПКА
-    ========================== -->
+<div class="app">
 
-    <header class="hero">
 
-      <div class="portal"></div>
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
 
-      <div class="hero-copy">
+  <header class="hero">
 
-        <div class="eyebrow">
-          АВТОРСКОЕ ПРОСТРАНСТВО
+    <div class="portal"></div>
+
+    <div class="hero-copy">
+
+      <div class="eyebrow">
+        АВТОРСКОЕ ПРОСТРАНСТВО
+      </div>
+
+      <h1>
+        ТОЧКА<br>
+        <span>ПЕРЕХОДА</span>
+      </h1>
+
+      <p>
+        Осознанность · Свобода · Трансформация · Результат
+      </p>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- =====================================================
+       ГЛАВНАЯ
+  ====================================================== -->
+
+  <main
+    id="screen-home"
+    class="screen active"
+  >
+
+    <section class="intro">
+
+      <h2>
+        Новый этап начинается здесь.
+      </h2>
+
+      <p>
+        Узнай, где ты находишься сейчас,
+        и сделай следующий шаг.
+      </p>
+
+    </section>
+
+
+
+    <div class="cards">
+
+
+      <!-- ТЕСТ -->
+
+      <button
+        class="card accent"
+        onclick="showScreen('test')"
+      >
+
+        <span class="icon">
+          🔥
+        </span>
+
+        <b>
+          ТЕСТ
+        </b>
+
+        <small>
+          Определи, на какой ступени
+          ты находишься сейчас.
+        </small>
+
+      </button>
+
+
+
+      <!-- МОЙ ПУТЬ -->
+
+      <button
+        class="card"
+        onclick="openCabinet()"
+      >
+
+        <span class="icon">
+          ◈
+        </span>
+
+        <b>
+          МОЙ ПУТЬ
+        </b>
+
+        <small>
+          Твой этап, прогресс
+          и материалы перехода.
+        </small>
+
+      </button>
+
+
+
+      <!-- КОНСУЛЬТАЦИЯ -->
+
+      <button
+        class="card"
+        onclick="openConsultation()"
+      >
+
+        <span class="icon">
+          ◇
+        </span>
+
+        <b>
+          КОНСУЛЬТАЦИЯ
+        </b>
+
+        <small>
+          Разбор твоей ситуации
+          за 60–90 минут.
+        </small>
+
+      </button>
+
+
+
+      <!-- ЛИЧНОЕ СОПРОВОЖДЕНИЕ -->
+
+      <button
+        class="card"
+        onclick="openAccompaniment()"
+      >
+
+        <span class="icon">
+          ✦
+        </span>
+
+        <b>
+          ЛИЧНОЕ СОПРОВОЖДЕНИЕ
+        </b>
+
+        <small>
+          Персональная работа со мной —
+          шаг за шагом.
+        </small>
+
+      </button>
+
+
+    </div>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       ТЕСТ
+  ====================================================== -->
+
+  <main
+    id="screen-test"
+    class="screen"
+  >
+
+    <button
+      class="back"
+      onclick="showScreen('home')"
+    >
+      ← Назад
+    </button>
+
+    <div id="test-wrap"></div>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       ЛИЧНЫЙ КАБИНЕТ
+  ====================================================== -->
+
+  <main
+    id="screen-cabinet"
+    class="screen"
+  >
+
+    <button
+      class="back"
+      onclick="showScreen('home')"
+    >
+      ← Назад
+    </button>
+
+
+    <div class="result">
+
+
+      <div class="tag">
+        МОЙ ПУТЬ
+      </div>
+
+
+      <h2>
+        ТВОЙ ПЕРЕХОД
+      </h2>
+
+
+      <!-- СТАТУС -->
+
+      <div class="progress-box">
+
+        <div class="progress-line">
+
+          <span>
+            ТЕКУЩИЙ ЭТАП
+          </span>
+
+          <strong id="cabinet-stage">
+            Загрузка...
+          </strong>
+
         </div>
 
-        <h1>
-          ТОЧКА<br>
-          <span>ПЕРЕХОДА</span>
-        </h1>
+
+        <div class="progress-track">
+
+          <div
+            id="cabinet-progress"
+            class="progress-fill"
+            style="width:0%"
+          ></div>
+
+        </div>
+
+
+        <div
+          id="cabinet-progress-text"
+          style="
+            margin-top:10px;
+            font-size:12px;
+            color:rgba(243,238,229,.55);
+          "
+        >
+          0% пройдено
+        </div>
+
+      </div>
+
+
+
+      <!-- МАТЕРИАЛЫ -->
+
+      <div class="stages">
+
+
+        <button
+          class="stage-card"
+          id="stage-1"
+          disabled
+        >
+
+          <span class="stage-number">
+            1
+          </span>
+
+          <span>
+            Знакомство с переходом
+          </span>
+
+        </button>
+
+
+
+        <button
+          class="stage-card"
+          id="stage-2"
+          disabled
+        >
+
+          <span class="stage-number">
+            2
+          </span>
+
+          <span>
+            Осознание старого сценария
+          </span>
+
+        </button>
+
+
+
+        <button
+          class="stage-card"
+          id="stage-3"
+          disabled
+        >
+
+          <span class="stage-number">
+            3
+          </span>
+
+          <span>
+            Что больше не работает
+          </span>
+
+        </button>
+
+
+
+        <button
+          class="stage-card"
+          id="stage-4"
+          disabled
+        >
+
+          <span class="stage-number">
+            4
+          </span>
+
+          <span>
+            Новый выбор
+          </span>
+
+        </button>
+
+
+
+        <button
+          class="stage-card"
+          id="stage-5"
+          disabled
+        >
+
+          <span class="stage-number">
+            5
+          </span>
+
+          <span>
+            Первый шаг
+          </span>
+
+        </button>
+
+
+
+        <button
+          class="stage-card"
+          id="stage-6"
+          disabled
+        >
+
+          <span class="stage-number">
+            6
+          </span>
+
+          <span>
+            Закрепление нового состояния
+          </span>
+
+        </button>
+
+
+
+        <button
+          class="stage-card"
+          id="stage-7"
+          disabled
+        >
+
+          <span class="stage-number">
+            7
+          </span>
+
+          <span>
+            Следующий уровень
+          </span>
+
+        </button>
+
+
+      </div>
+
+
+      <!-- СООБЩЕНИЕ -->
+
+      <div
+        id="cabinet-message"
+        class="practice-box"
+        style="margin-top:24px;"
+      >
+
+        <h3>
+          ТВОЙ ПУТЬ
+        </h3>
 
         <p>
-          Осознанность · Свобода · Трансформация · Результат
+          Здесь будет сохраняться твой прогресс
+          и открываться материалы по мере прохождения.
         </p>
 
       </div>
 
-    </header>
+
+    </div>
 
 
-    <!-- =========================
-         ГЛАВНАЯ
-    ========================== -->
-
-    <main
-      id="screen-home"
-      class="screen active"
-    >
-
-      <section class="intro">
-
-        <h2>
-          Новый этап начинается здесь.
-        </h2>
-
-        <p>
-          Узнай, где ты находишься сейчас,
-          и сделай следующий шаг.
-        </p>
-
-      </section>
+  </main>
 
 
-      <div class="cards">
+</div>
 
 
-        <!-- ТЕСТ -->
 
-        <button
-          class="card accent"
-          onclick="showScreen('test')"
-        >
+<!-- =====================================================
+     SUPABASE
+====================================================== -->
 
-          <span class="icon">
-            🔥
-          </span>
+<script>
 
-          <b>
-            ТЕСТ
-          </b>
-
-          <small>
-            Бесплатно определяет,
-            на какой ступени осознанности
-            ты находишься сейчас.
-          </small>
-
-        </button>
+  const SUPABASE_URL =
+    'https://vxhoavgkiratylcfeqnz.supabase.co';
 
 
-        <!-- МОЙ ПУТЬ -->
-
-        <button
-          class="card"
-          onclick="showScreen('cabinet')"
-        >
-
-          <span class="icon">
-            ◈
-          </span>
-
-          <b>
-            МОЙ ПУТЬ
-          </b>
-
-          <small>
-            Здесь сохраняется твой прогресс
-            и открываются доступные этапы
-            твоего перехода.
-          </small>
-
-        </button>
+  const SUPABASE_KEY =
+    'sb_publishable_s_PuUbLuT_aerFgVmywXDw_fVcZWjNv';
 
 
-        <!-- КОНСУЛЬТАЦИЯ -->
-
-        <button
-          class="card"
-          onclick="openConsultation()"
-        >
-
-          <span class="icon">
-            ◇
-          </span>
-
-          <b>
-            КОНСУЛЬТАЦИЯ
-          </b>
-
-          <small>
-            Разбор твоей ситуации за 60–90 минут —
-            чтобы увидеть главное
-            и понять, что делать дальше.
-          </small>
-
-        </button>
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
 
-        <!-- СОПРОВОЖДЕНИЕ -->
-
-        <button
-          class="card"
-          onclick="openAccompaniment()"
-        >
-
-          <span class="icon">
-            ✦
-          </span>
-
-          <b>
-            ЛИЧНОЕ СОПРОВОЖДЕНИЕ
-          </b>
-
-          <small>
-            Персональная работа со мной —
-            шаг за шагом, с фокусом
-            на твою ситуацию и изменения.
-          </small>
-
-        </button>
+</script>
 
 
-      </div>
 
-    </main>
+<!-- =====================================================
+     APP
+====================================================== -->
 
+<script src="app.js"></script>
 
-    <!-- =========================
-         ТЕСТ
-    ========================== -->
-
-    <main
-      id="screen-test"
-      class="screen"
-    >
-
-      <button
-        class="back"
-        onclick="showScreen('home')"
-      >
-        ← Назад
-      </button>
-
-      <div id="test-wrap"></div>
-
-    </main>
-
-
-    <!-- =========================
-         ЛИЧНЫЙ КАБИНЕТ
-    ========================== -->
-
-    <main
-      id="screen-cabinet"
-      class="screen"
-    >
-
-      <button
-        class="back"
-        onclick="showScreen('home')"
-      >
-        ← Назад
-      </button>
-
-      <div id="cabinet-wrap"></div>
-
-    </main>
-
-
-  </div>
-
-
-  <!-- =========================
-       JAVASCRIPT
-  ========================== -->
-
-  <script src="app.js"></script>
 
 </body>
 
