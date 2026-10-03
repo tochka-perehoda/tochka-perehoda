@@ -5,7 +5,7 @@
    ТЕСТ:
    Автопилот / Толчок / Пробуждение / Творец
 
-   ПУТЬ:
+   ЛИЧНЫЙ ПУТЬ:
    7 этапов
 
    ДОСТУП:
@@ -13,11 +13,8 @@
    access_creator
 
    ВАЖНО:
-   Результат теста НЕ выдаёт доступ.
-   Доступ появляется только после покупки.
-
-   Повторный тест НЕ сбрасывает прогресс.
-   Повторный тест доступен только после 100%.
+   Результат теста НЕ сбрасывает покупку.
+   Покупка и прогресс хранятся отдельно.
 ===================================================== */
 
 
@@ -309,31 +306,31 @@ function localKey() {
 }
 
 
-function saveLocalProgress(
-  progress,
-  currentLesson,
-  stage
-) {
+function saveLocalUser(user) {
 
   try {
-
-    const existing =
-      loadLocalProgress() || {};
 
     localStorage.setItem(
       localKey(),
       JSON.stringify({
 
-        ...existing,
-
-        progress:
-          Number(progress || 0),
-
-        current_lesson:
-          Number(currentLesson || 0),
+        telegram_id:
+          user?.telegram_id || getTelegramId(),
 
         stage:
-          stage || existing.stage || 'Не определён'
+          user?.stage || 'Не определён',
+
+        progress:
+          Number(user?.progress || 0),
+
+        current_lesson:
+          Number(user?.current_lesson || 0),
+
+        access_awakening:
+          Boolean(user?.access_awakening),
+
+        access_creator:
+          Boolean(user?.access_creator)
 
       })
     );
@@ -350,7 +347,7 @@ function saveLocalProgress(
 }
 
 
-function loadLocalProgress() {
+function loadLocalUser() {
 
   try {
 
@@ -375,7 +372,7 @@ function loadLocalProgress() {
 
 
 /* =====================================================
-   ПОЛЬЗОВАТЕЛЬ
+   СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ
 ===================================================== */
 
 async function ensureUser() {
@@ -387,13 +384,21 @@ async function ensureUser() {
     return null;
   }
 
+
+  const local =
+    loadLocalUser();
+
+
   if (!db) {
-    return loadLocalProgress();
+
+    return local;
+
   }
 
+
   const {
-    data: existing,
-    error: findError
+    data,
+    error
   } = await db
     .from('users')
     .select('*')
@@ -403,31 +408,27 @@ async function ensureUser() {
     )
     .maybeSingle();
 
-  if (findError) {
+
+  if (error) {
 
     console.error(
-      'Supabase: ошибка поиска:',
-      findError
+      'Ошибка загрузки пользователя:',
+      error
     );
 
-    return loadLocalProgress();
+    return local;
 
   }
 
-  if (existing) {
 
-    saveLocalProgress(
-      existing.progress,
-      existing.current_lesson,
-      existing.stage
-    );
+  if (data) {
 
-    return existing;
+    saveLocalUser(data);
+
+    return data;
 
   }
 
-  const local =
-    loadLocalProgress();
 
   const newUser = {
 
@@ -449,12 +450,17 @@ async function ensureUser() {
       ),
 
     access_awakening:
-      false,
+      Boolean(
+        local?.access_awakening
+      ),
 
     access_creator:
-      false
+      Boolean(
+        local?.access_creator
+      )
 
   };
+
 
   const {
     data: created,
@@ -465,22 +471,22 @@ async function ensureUser() {
     .select()
     .single();
 
+
   if (createError) {
 
     console.error(
-      'Supabase: ошибка создания:',
+      'Ошибка создания пользователя:',
       createError
     );
 
-    saveLocalProgress(
-      newUser.progress,
-      newUser.current_lesson,
-      newUser.stage
-    );
+    saveLocalUser(newUser);
 
     return newUser;
 
   }
+
+
+  saveLocalUser(created);
 
   return created;
 
@@ -500,9 +506,13 @@ async function loadUser() {
     return null;
   }
 
+
   if (!db) {
-    return loadLocalProgress();
+
+    return loadLocalUser();
+
   }
+
 
   const {
     data,
@@ -516,30 +526,29 @@ async function loadUser() {
     )
     .maybeSingle();
 
+
   if (error) {
 
     console.error(
-      'Supabase: ошибка загрузки:',
+      'Ошибка загрузки пользователя:',
       error
     );
 
-    return loadLocalProgress();
+    return loadLocalUser();
 
   }
 
+
   if (data) {
 
-    saveLocalProgress(
-      data.progress,
-      data.current_lesson,
-      data.stage
-    );
+    saveLocalUser(data);
 
     return data;
 
   }
 
-  return loadLocalProgress();
+
+  return loadLocalUser();
 
 }
 
@@ -561,40 +570,68 @@ async function saveProgress(
     return false;
   }
 
-  const local =
-    loadLocalProgress();
+
+  const current =
+    await loadUser();
+
 
   const finalProgress =
     Number(
       progress ??
-      local?.progress ??
+      current?.progress ??
       0
     );
+
 
   const finalLesson =
     currentLesson !== null
       ? Number(currentLesson)
       : Number(
-          local?.current_lesson || 0
+          current?.current_lesson || 0
         );
+
 
   const finalStage =
     stage !== null
       ? stage
       : (
-          local?.stage ||
+          current?.stage ||
           'Не определён'
         );
 
-  saveLocalProgress(
-    finalProgress,
-    finalLesson,
-    finalStage
-  );
+
+  /*
+    ВАЖНО:
+    Сохраняем доступы из текущего пользователя.
+    Они никогда не сбрасываются сохранением прогресса.
+  */
+
+  const localUser = {
+
+    ...(current || {}),
+
+    telegram_id:
+      telegramId,
+
+    progress:
+      finalProgress,
+
+    current_lesson:
+      finalLesson,
+
+    stage:
+      finalStage
+
+  };
+
+
+  saveLocalUser(localUser);
+
 
   if (!db) {
     return true;
   }
+
 
   const update = {
 
@@ -612,6 +649,7 @@ async function saveProgress(
 
   };
 
+
   const {
     error
   } = await db
@@ -622,16 +660,16 @@ async function saveProgress(
       telegramId
     );
 
+
   if (error) {
 
     console.error(
-      'Supabase: ошибка сохранения:',
+      'Ошибка сохранения:',
       error
     );
 
-    return true;
-
   }
+
 
   return true;
 
@@ -640,8 +678,14 @@ async function saveProgress(
 
 /* =====================================================
    СОХРАНЕНИЕ РЕЗУЛЬТАТА ТЕСТА
+
    ВАЖНО:
-   ПРОГРЕСС НЕ СБРАСЫВАЕМ
+   Эта функция меняет ТОЛЬКО stage.
+   Она НЕ меняет:
+   access_awakening
+   access_creator
+   progress
+   current_lesson
 ===================================================== */
 
 async function saveTestResult(stage) {
@@ -653,33 +697,59 @@ async function saveTestResult(stage) {
     return false;
   }
 
-  const user =
+
+  const current =
     await loadUser();
 
-  const currentProgress =
-    Number(
-      user?.progress ??
-      loadLocalProgress()?.progress ??
-      0
-    );
 
-  const currentLesson =
-    Number(
-      user?.current_lesson ??
-      loadLocalProgress()?.current_lesson ??
-      0
-    );
+  if (!current) {
+    return false;
+  }
 
-  /*
-    Меняем только результат теста.
-    7 этапов НЕ сбрасываем.
-  */
 
-  return await saveProgress(
-    currentProgress,
-    currentLesson,
+  saveLocalUser({
+
+    ...current,
+
     stage
-  );
+
+  });
+
+
+  if (!db) {
+    return true;
+  }
+
+
+  const {
+    error
+  } = await db
+    .from('users')
+    .update({
+
+      stage,
+
+      updated_at:
+        new Date().toISOString()
+
+    })
+    .eq(
+      'telegram_id',
+      telegramId
+    );
+
+
+  if (error) {
+
+    console.error(
+      'Ошибка сохранения результата теста:',
+      error
+    );
+
+  }
+
+
+  return true;
 
 }
 
@@ -700,24 +770,32 @@ function showScreen(name) {
 
     });
 
+
   const screen =
     document.getElementById(
       'screen-' + name
     );
 
+
   if (screen) {
+
     screen.classList.add(
       'active'
     );
+
   }
+
 
   window.scrollTo(
     0,
     0
   );
 
+
   if (name === 'test') {
+
     renderTest();
+
   }
 
 }
@@ -766,11 +844,69 @@ function openAccompaniment() {
 }
 
 
-function openProduct(type) {
+/* =====================================================
+   ОПРЕДЕЛЕНИЕ ДОСТУПА
+===================================================== */
+
+async function getUserAccess() {
+
+  const user =
+    await loadUser();
+
+  if (!user) {
+
+    return {
+
+      awakening: false,
+      creator: false
+
+    };
+
+  }
+
+
+  return {
+
+    awakening:
+      Boolean(
+        user.access_awakening
+      ),
+
+    creator:
+      Boolean(
+        user.access_creator
+      )
+
+  };
+
+}
+
+
+/* =====================================================
+   ОТКРЫТИЕ ПРОДУКТА
+
+   Если продукт уже куплен —
+   НЕ отправляем снова на оплату.
+===================================================== */
+
+async function openProduct(type) {
+
+  const access =
+    await getUserAccess();
+
 
   if (
     type === 'awakening'
   ) {
+
+    if (access.awakening) {
+
+      openCabinet();
+
+      return;
+
+    }
+
 
     openTribute(
       LINKS.awakening
@@ -780,9 +916,36 @@ function openProduct(type) {
 
   }
 
+
   if (
     type === 'creator'
   ) {
+
+    if (access.creator) {
+
+      openCabinet();
+
+      return;
+
+    }
+
+
+    /*
+      Творец можно купить только
+      если у человека уже есть
+      Пробуждение.
+    */
+
+    if (!access.awakening) {
+
+      openTribute(
+        LINKS.awakening
+      );
+
+      return;
+
+    }
+
 
     openTribute(
       LINKS.creator
@@ -794,59 +957,7 @@ function openProduct(type) {
 
 
 /* =====================================================
-   ПРОВЕРКА ДОСТУПА
-===================================================== */
-
-function hasAwakeningAccess(user) {
-
-  return Boolean(
-    user?.access_awakening
-  );
-
-}
-
-
-function hasCreatorAccess(user) {
-
-  return Boolean(
-    user?.access_creator
-  );
-
-}
-
-
-/*
-   Какой купленный продукт сейчас открывать.
-
-   Если куплено оба — сначала показываем Creator,
-   если только Awakening — Awakening.
-*/
-
-function getPurchasedProduct(user) {
-
-  if (
-    hasCreatorAccess(user)
-  ) {
-
-    return 'creator';
-
-  }
-
-  if (
-    hasAwakeningAccess(user)
-  ) {
-
-    return 'awakening';
-
-  }
-
-  return null;
-
-}
-
-
-/* =====================================================
-   ОТРИСОВКА ТЕСТА
+   ТЕСТ
 ===================================================== */
 
 function renderTest() {
@@ -860,6 +971,7 @@ function renderTest() {
     return;
   }
 
+
   if (
     answers.length >=
     questions.length
@@ -871,21 +983,19 @@ function renderTest() {
 
   }
 
+
   const number =
     answers.length;
 
   const question =
     questions[number];
 
+
   wrap.innerHTML = `
 
     <div class="progress">
-
-      ВОПРОС
-      ${number + 1}
-      ИЗ
-      ${questions.length}
-
+      ВОПРОС ${number + 1}
+      ИЗ ${questions.length}
     </div>
 
     <div class="question">
@@ -898,23 +1008,14 @@ function renderTest() {
 
         ${question.answers
           .map(
-            (
-              answer,
-              index
-            ) => `
+            (answer, index) => `
 
               <button
                 class="answer"
-                onclick="
-                  chooseAnswer(${index})
-                "
+                onclick="chooseAnswer(${index})"
               >
-
-                ${String.fromCharCode(
-                  65 + index
-                )}.
+                ${String.fromCharCode(65 + index)}.
                 ${answer}
-
               </button>
 
             `
@@ -936,9 +1037,7 @@ function renderTest() {
 
 function chooseAnswer(index) {
 
-  answers.push(
-    index
-  );
+  answers.push(index);
 
   renderTest();
 
@@ -959,42 +1058,43 @@ function calculateStage() {
     0
   ];
 
-  answers.forEach(
-    answer => {
 
-      if (
-        answer >= 0 &&
-        answer <= 4
-      ) {
+  answers.forEach(answer => {
 
-        scores[answer]++;
+    if (
+      answer >= 0 &&
+      answer <= 4
+    ) {
 
-      }
+      scores[answer]++;
 
     }
-  );
+
+  });
+
 
   const max =
-    Math.max(
-      ...scores
-    );
+    Math.max(...scores);
+
 
   const index =
-    scores.indexOf(
-      max
-    );
+    scores.indexOf(max);
+
 
   if (index === 0) {
     return 'Автопилот';
   }
 
+
   if (index === 1) {
     return 'Толчок';
   }
 
+
   if (index === 2) {
     return 'Пробуждение';
   }
+
 
   return 'Творец';
 
@@ -1010,45 +1110,44 @@ async function renderResult() {
   const stage =
     calculateStage();
 
+
   const user =
     await loadUser();
 
-  if (!user) {
-    return;
-  }
 
   /*
-    КЛЮЧЕВОЕ ИЗМЕНЕНИЕ:
-
-    Результат теста сохраняем,
-    но прогресс 7 этапов НЕ трогаем.
+    Сохраняем только результат теста.
+    Покупки и прогресс НЕ ТРОГАЕМ.
   */
 
   await saveTestResult(
     stage
   );
 
-  const progress =
-    Number(
-      user.progress || 0
-    );
+
+  const access =
+    await getUserAccess();
+
 
   const wrap =
     document.getElementById(
       'test-wrap'
     );
 
+
   if (!wrap) {
     return;
   }
+
 
   let title = '';
   let text = '';
   let action = '';
 
-  /* ---------------------------------------------
+
+  /* ---------------------------------
      АВТОПИЛОТ
-  --------------------------------------------- */
+  --------------------------------- */
 
   if (
     stage === 'Автопилот'
@@ -1056,6 +1155,7 @@ async function renderResult() {
 
     title =
       'ТЫ ЖИВЁШЬ НА АВТОПИЛОТЕ';
+
 
     text = `
 
@@ -1077,46 +1177,32 @@ async function renderResult() {
 
     `;
 
-    if (
-      hasAwakeningAccess(user)
-    ) {
 
-      action = `
-
-        <button
-          class="primary"
-          onclick="
-            openCabinet()
-          "
-        >
-          ОТКРЫТЬ МОЙ ПУТЬ
-        </button>
-
-      `;
-
-    } else {
-
-      action = `
-
-        <button
-          class="primary"
-          onclick="
-            openProduct('awakening')
-          "
-        >
-          НАЧАТЬ ПЕРЕХОД
-        </button>
-
-      `;
-
-    }
+    action =
+      access.awakening
+        ? `
+          <button
+            class="primary"
+            onclick="openCabinet()"
+          >
+            ОТКРЫТЬ МОЙ ПУТЬ
+          </button>
+        `
+        : `
+          <button
+            class="primary"
+            onclick="openProduct('awakening')"
+          >
+            НАЧАТЬ ПЕРЕХОД
+          </button>
+        `;
 
   }
 
 
-  /* ---------------------------------------------
+  /* ---------------------------------
      ТОЛЧОК
-  --------------------------------------------- */
+  --------------------------------- */
 
   if (
     stage === 'Толчок'
@@ -1124,6 +1210,7 @@ async function renderResult() {
 
     title =
       'ТЫ В ТОЧКЕ ТОЛЧКА';
+
 
     text = `
 
@@ -1145,46 +1232,32 @@ async function renderResult() {
 
     `;
 
-    if (
-      hasAwakeningAccess(user)
-    ) {
 
-      action = `
-
-        <button
-          class="primary"
-          onclick="
-            openCabinet()
-          "
-        >
-          ПРОДОЛЖИТЬ МОЙ ПУТЬ
-        </button>
-
-      `;
-
-    } else {
-
-      action = `
-
-        <button
-          class="primary"
-          onclick="
-            openProduct('awakening')
-          "
-        >
-          ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
-        </button>
-
-      `;
-
-    }
+    action =
+      access.awakening
+        ? `
+          <button
+            class="primary"
+            onclick="openCabinet()"
+          >
+            ОТКРЫТЬ МОЙ ПУТЬ
+          </button>
+        `
+        : `
+          <button
+            class="primary"
+            onclick="openProduct('awakening')"
+          >
+            ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
+          </button>
+        `;
 
   }
 
 
-  /* ---------------------------------------------
+  /* ---------------------------------
      ПРОБУЖДЕНИЕ
-  --------------------------------------------- */
+  --------------------------------- */
 
   if (
     stage === 'Пробуждение'
@@ -1192,6 +1265,7 @@ async function renderResult() {
 
     title =
       'ТЫ В ПРОБУЖДЕНИИ';
+
 
     text = `
 
@@ -1214,27 +1288,14 @@ async function renderResult() {
 
     `;
 
-    /*
-      Если второй продукт уже куплен —
-      открываем путь.
 
-      Если НЕ куплен —
-      предлагаем его приобрести.
-
-      Никакого автоматического доступа.
-    */
-
-    if (
-      hasCreatorAccess(user)
-    ) {
+    if (access.creator) {
 
       action = `
 
         <button
           class="primary"
-          onclick="
-            openCabinet()
-          "
+          onclick="openCabinet()"
         >
           ОТКРЫТЬ МОЙ ПУТЬ
         </button>
@@ -1247,9 +1308,7 @@ async function renderResult() {
 
         <button
           class="primary"
-          onclick="
-            openProduct('creator')
-          "
+          onclick="openProduct('creator')"
         >
           ПЕРЕЙТИ В ТВОРЦА
         </button>
@@ -1261,9 +1320,9 @@ async function renderResult() {
   }
 
 
-  /* ---------------------------------------------
+  /* ---------------------------------
      ТВОРЕЦ
-  --------------------------------------------- */
+  --------------------------------- */
 
   if (
     stage === 'Творец'
@@ -1271,6 +1330,7 @@ async function renderResult() {
 
     title =
       'ТЫ — ТВОРЕЦ';
+
 
     text = `
 
@@ -1288,64 +1348,14 @@ async function renderResult() {
 
     `;
 
-    if (
-      hasCreatorAccess(user)
-    ) {
 
-      action = `
-
-        <button
-          class="primary"
-          onclick="
-            openCabinet()
-          "
-        >
-          ОТКРЫТЬ МОЙ ПУТЬ
-        </button>
-
-      `;
-
-    } else {
-
-      action = `
-
-        <button
-          class="primary"
-          onclick="
-            openProduct('creator')
-          "
-        >
-          ПЕРЕЙТИ В ТВОРЦА
-        </button>
-
-      `;
-
-    }
-
-  }
-
-
-  /*
-    Повторное тестирование появляется
-    ТОЛЬКО после прохождения 7 этапов.
-  */
-
-  let retestButton = '';
-
-  if (
-    progress >= 100
-  ) {
-
-    retestButton = `
+    action = `
 
       <button
-        class="back"
-        style="margin-top:20px"
-        onclick="
-          startFinalRetest()
-        "
+        class="primary"
+        onclick="openCabinet()"
       >
-        ПРОЙТИ ТЕСТ ПОВТОРНО
+        ОТКРЫТЬ МОЙ ПУТЬ
       </button>
 
     `;
@@ -1373,9 +1383,15 @@ async function renderResult() {
 
       ${action}
 
-      ${retestButton}
-
     </div>
+
+    <button
+      class="back"
+      style="margin-top:20px"
+      onclick="resetTest()"
+    >
+      Пройти тест заново
+    </button>
 
   `;
 
@@ -1383,43 +1399,7 @@ async function renderResult() {
 
 
 /* =====================================================
-   ЗАПУСК ПОВТОРНОГО ТЕСТА
-===================================================== */
-
-async function startFinalRetest() {
-
-  const user =
-    await loadUser();
-
-  const progress =
-    Number(
-      user?.progress || 0
-    );
-
-  /*
-    Повторный тест разрешён только
-    после 100% прохождения.
-  */
-
-  if (
-    progress < 100
-  ) {
-
-    return;
-
-  }
-
-  answers = [];
-
-  showScreen(
-    'test'
-  );
-
-}
-
-
-/* =====================================================
-   ЛИЧНЫЙ ПУТЬ
+   МОЙ ПУТЬ
 ===================================================== */
 
 async function openCabinet() {
@@ -1428,49 +1408,61 @@ async function openCabinet() {
     'cabinet'
   );
 
+
   const stageElement =
     document.getElementById(
       'cabinet-stage'
     );
+
 
   const progressElement =
     document.getElementById(
       'cabinet-progress'
     );
 
+
   const progressText =
     document.getElementById(
       'cabinet-progress-text'
     );
+
 
   const message =
     document.getElementById(
       'cabinet-message'
     );
 
+
   if (!stageElement) {
     return;
   }
 
+
   stageElement.textContent =
     'Загрузка...';
+
 
   progressElement.style.width =
     '0%';
 
+
   progressText.textContent =
     'Загрузка...';
 
+
   const user =
     await loadUser();
+
 
   if (!user) {
 
     stageElement.textContent =
       'Личный путь';
 
+
     progressText.textContent =
       'Открой приложение через Telegram';
+
 
     message.innerHTML = `
 
@@ -1479,87 +1471,44 @@ async function openCabinet() {
       </h3>
 
       <p>
-        Открой Mini App именно через Telegram.
+        Открой приложение именно через Telegram.
       </p>
 
     `;
 
+
     renderStageList(
-      0
+      0,
+      false,
+      false
     );
+
 
     return;
 
   }
 
-
-  /* ---------------------------------------------
-     ПРОВЕРКА ПОКУПКИ
-  --------------------------------------------- */
-
-  const purchasedProduct =
-    getPurchasedProduct(
-      user
-    );
-
-
-  /*
-    Без покупки этапы закрыты.
-  */
-
-  if (!purchasedProduct) {
-
-    stageElement.textContent =
-      'Личный путь';
-
-    progressElement.style.width =
-      '0%';
-
-    progressText.textContent =
-      'Доступ ещё не открыт';
-
-    message.innerHTML = `
-
-      <h3>
-        СНАЧАЛА ПРОЙДИ ТЕСТ
-      </h3>
-
-      <p>
-        Пройди тест, узнай своё текущее состояние
-        и выбери подходящий продукт.
-      </p>
-
-      <button
-        class="primary"
-        onclick="
-          showScreen('test')
-        "
-      >
-        ПРОЙТИ ТЕСТ
-      </button>
-
-    `;
-
-    renderStageList(
-      0
-    );
-
-    return;
-
-  }
-
-
-  /* ---------------------------------------------
-     ЕСТЬ ОПЛАЧЕННЫЙ ДОСТУП
-  --------------------------------------------- */
 
   const stage =
     user.stage ||
     'Не определён';
 
+
   const progress =
     Number(
       user.progress || 0
+    );
+
+
+  const accessAwakening =
+    Boolean(
+      user.access_awakening
+    );
+
+
+  const accessCreator =
+    Boolean(
+      user.access_creator
     );
 
 
@@ -1581,78 +1530,92 @@ async function openCabinet() {
     `${progress}% пройдено`;
 
 
+  /* ---------------------------------
+     НЕТ ДОСТУПА
+  --------------------------------- */
+
   if (
-    progress >= 100
+    !accessAwakening &&
+    !accessCreator
   ) {
 
     message.innerHTML = `
 
       <h3>
-        ТЫ ПРОШЛА ВЕСЬ ПУТЬ
+        СНАЧАЛА ПРОЙДИ ТЕСТ
       </h3>
 
       <p>
-        Все 7 этапов завершены.
-      </p>
-
-      <p>
-        Теперь пройди тест повторно,
-        чтобы увидеть, где ты находишься сейчас.
+        Пройди бесплатный тест,
+        чтобы узнать свой текущий этап.
       </p>
 
       <button
         class="primary"
-        onclick="
-          startFinalRetest()
-        "
+        onclick="showScreen('test')"
       >
-        ПРОЙТИ ТЕСТ ПОВТОРНО
+        ПРОЙТИ ТЕСТ
       </button>
 
     `;
 
-  } else {
 
-    message.innerHTML = `
+    renderStageList(
+      0,
+      false,
+      false
+    );
 
-      <h3>
-        ТВОЙ ПУТЬ СОХРАНЁН
-      </h3>
 
-      <p>
-        Результат теста:
-        <strong>
-          ${stage}
-        </strong>
-      </p>
-
-      <p>
-        Ниже находятся 7 этапов
-        твоего личного пути.
-      </p>
-
-      <p>
-        Прогресс сохраняется автоматически.
-      </p>
-
-    `;
+    return;
 
   }
 
 
+  /* ---------------------------------
+     ЕСТЬ ДОСТУП
+  --------------------------------- */
+
+  message.innerHTML = `
+
+    <h3>
+      ТВОЙ ПУТЬ ОТКРЫТ
+    </h3>
+
+    <p>
+      Твой текущий результат:
+      <strong>${stage}</strong>
+    </p>
+
+    <p>
+      Проходи этапы последовательно.
+      Прогресс сохраняется автоматически.
+    </p>
+
+  `;
+
+
   renderStageList(
-    progress
+    progress,
+    accessAwakening,
+    accessCreator
   );
 
 }
 
 
 /* =====================================================
-   СПИСОК 7 ЭТАПОВ
+   7 ЭТАПОВ
+
+   Все 7 видны сразу.
+
+   Но открываются последовательно.
 ===================================================== */
 
 function renderStageList(
-  progress
+  progress,
+  accessAwakening,
+  accessCreator
 ) {
 
   const element =
@@ -1660,99 +1623,150 @@ function renderStageList(
       'stage-list'
     );
 
+
   if (!element) {
     return;
   }
 
+
+  /*
+    Если доступа нет —
+    показываем 7 этапов,
+    но они заблокированы.
+  */
+
   element.innerHTML =
     stages
-      .map(
-        stage => {
+      .map(stage => {
 
-          const required =
-            Math.round(
-              (
-                (stage.number - 1)
-                /
-                stages.length
-              ) * 100
-            );
+        const required =
+          Math.round(
+            (
+              (stage.number - 1)
+              /
+              stages.length
+            ) * 100
+          );
 
-          const complete =
-            Math.round(
-              (
-                stage.number
-                /
-                stages.length
-              ) * 100
-            );
 
-          const isDone =
-            progress >=
-            complete;
+        const complete =
+          Math.round(
+            (
+              stage.number
+              /
+              stages.length
+            ) * 100
+          );
 
-          const isOpen =
-            progress >=
-            required;
 
-          let state =
-            'Закрыто';
+        const isDone =
+          accessAwakening &&
+          progress >= complete;
 
-          if (isDone) {
 
-            state =
-              'Пройдено';
+        const isOpen =
+          accessAwakening &&
+          progress >= required;
 
-          } else if (isOpen) {
 
-            state =
-              'Открыто';
+        let state =
+          'Заблокировано';
 
-          }
 
-          return `
+        if (isDone) {
 
-            <button
+          state =
+            'Пройдено';
 
-              class="
-                stage-button
-                ${isDone ? 'done' : ''}
-                ${isOpen ? 'current' : 'locked'}
-              "
+        } else if (isOpen) {
 
-              ${
-                isOpen
-                  ? `onclick="openLesson(${stage.number})"`
-                  : 'disabled'
-              }
-
-            >
-
-              <span
-                class="stage-number"
-              >
-                ${stage.number}
-              </span>
-
-              <span
-                class="stage-name"
-              >
-                ${stage.title}
-              </span>
-
-              <span
-                class="stage-state"
-              >
-                ${state}
-              </span>
-
-            </button>
-
-          `;
+          state =
+            'Открыто';
 
         }
-      )
+
+
+        return `
+
+          <button
+
+            class="
+              stage-button
+              ${isDone ? 'done' : ''}
+              ${isOpen ? 'current' : 'locked'}
+            "
+
+            ${
+              isOpen
+                ? `onclick="openLesson(${stage.number})"`
+                : 'disabled'
+            }
+
+          >
+
+            <span class="stage-number">
+              ${stage.number}
+            </span>
+
+            <span class="stage-name">
+              ${stage.title}
+            </span>
+
+            <span class="stage-state">
+              ${state}
+            </span>
+
+          </button>
+
+        `;
+
+      })
       .join('');
+
+
+  /*
+    После 7-го этапа
+    показываем повторный тест.
+  */
+
+  if (
+    accessAwakening &&
+    progress >= 100
+  ) {
+
+    element.innerHTML += `
+
+      <div
+        class="final-path"
+        style="margin-top:25px"
+      >
+
+        <div class="tag">
+          ЭТАПЫ ЗАВЕРШЕНЫ
+        </div>
+
+        <h3>
+          ТЫ ПРОШЛА ПЕРВЫЙ ПУТЬ
+        </h3>
+
+        <p>
+          Теперь можно пройти тест ещё раз
+          и посмотреть, что изменилось
+          в твоём состоянии.
+        </p>
+
+        <button
+          class="primary"
+          onclick="startFinalTest()"
+        >
+          ПРОЙТИ ТЕСТ ПОВТОРНО
+        </button>
+
+      </div>
+
+    `;
+
+  }
 
 }
 
@@ -1768,18 +1782,14 @@ async function openLesson(
   const user =
     await loadUser();
 
+
   if (!user) {
     return;
   }
 
 
-  /*
-    Этап можно открыть только при наличии
-    оплаченного доступа.
-  */
-
   if (
-    !getPurchasedProduct(user)
+    !user.access_awakening
   ) {
 
     return;
@@ -1792,6 +1802,7 @@ async function openLesson(
       user.progress || 0
     );
 
+
   const required =
     Math.round(
       (
@@ -1800,6 +1811,7 @@ async function openLesson(
         stages.length
       ) * 100
     );
+
 
   if (
     progress <
@@ -1810,36 +1822,40 @@ async function openLesson(
 
   }
 
+
   const stage =
     stages[
       lessonNumber - 1
     ];
 
+
   if (!stage) {
     return;
   }
 
+
   showScreen(
     'lesson'
   );
+
 
   const wrap =
     document.getElementById(
       'lesson-wrap'
     );
 
+
   if (!wrap) {
     return;
   }
+
 
   wrap.innerHTML = `
 
     <div class="lesson">
 
       <div class="tag">
-        ЭТАП
-        ${lessonNumber}
-        ИЗ 7
+        ЭТАП ${lessonNumber} ИЗ 7
       </div>
 
       <h2>
@@ -1850,9 +1866,7 @@ async function openLesson(
         ${stage.text}
       </p>
 
-      <div
-        class="lesson-practice"
-      >
+      <div class="lesson-practice">
 
         <strong>
           ПРАКТИКА
@@ -1864,9 +1878,7 @@ async function openLesson(
 
       </div>
 
-      <div
-        class="lesson-complete"
-      >
+      <div class="lesson-complete">
 
         <button
           class="primary"
@@ -1874,9 +1886,7 @@ async function openLesson(
             completeLesson(${lessonNumber})
           "
         >
-
           Я ПРОШЛА ЭТОТ ЭТАП
-
         </button>
 
       </div>
@@ -1905,17 +1915,20 @@ async function completeLesson(
 
   }
 
+
   const user =
     await loadUser();
 
+
   if (
     !user ||
-    !getPurchasedProduct(user)
+    !user.access_awakening
   ) {
 
     return;
 
   }
+
 
   const progress =
     Math.round(
@@ -1926,9 +1939,11 @@ async function completeLesson(
       ) * 100
     );
 
+
   const currentStage =
     user.stage ||
     'Не определён';
+
 
   await saveProgress(
     progress,
@@ -1936,13 +1951,42 @@ async function completeLesson(
     currentStage
   );
 
+
   await openCabinet();
 
 }
 
 
 /* =====================================================
-   СТАРТ
+   ПОВТОРНЫЙ ТЕСТ
+===================================================== */
+
+function startFinalTest() {
+
+  answers = [];
+
+  showScreen(
+    'test'
+  );
+
+}
+
+
+/* =====================================================
+   СБРОС ТЕСТА
+===================================================== */
+
+function resetTest() {
+
+  answers = [];
+
+  renderTest();
+
+}
+
+
+/* =====================================================
+   ЗАПУСК
 ===================================================== */
 
 document.addEventListener(
@@ -1953,12 +1997,21 @@ document.addEventListener(
       'ТОЧКА ПЕРЕХОДА запущена'
     );
 
+
     console.log(
       'Telegram ID:',
       getTelegramId()
     );
 
-    await ensureUser();
+
+    const user =
+      await ensureUser();
+
+
+    console.log(
+      'Пользователь:',
+      user
+    );
 
   }
 );
