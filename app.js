@@ -2,19 +2,22 @@
    ТОЧКА ПЕРЕХОДА
    APP.JS
 
-   4 результата теста:
+   ТЕСТ:
    Автопилот / Толчок / Пробуждение / Творец
 
-   7 этапов личного пути:
-   1. Кто я?
-   2. Чистка поля
-   3. Я выбираю себя
-   4. Моё «нет»
-   5. Наблюдатель
-   6. Моя жизнь
-   7. Мой новый фундамент
+   ПУТЬ:
+   7 этапов
 
-   Личный прогресс сохраняется по Telegram ID
+   ДОСТУП:
+   access_awakening
+   access_creator
+
+   ВАЖНО:
+   Результат теста НЕ выдаёт доступ.
+   Доступ появляется только после покупки.
+
+   Повторный тест НЕ сбрасывает прогресс.
+   Повторный тест доступен только после 100%.
 ===================================================== */
 
 
@@ -69,97 +72,70 @@ const LINKS = {
 
 
 /* =====================================================
-   7 ЭТАПОВ ПЕРЕХОДА
+   7 ЭТАПОВ
 ===================================================== */
 
 const stages = [
 
   {
     number: 1,
-
     title: 'Кто я?',
-
     text:
       'Посмотри на себя честно: кто ты сейчас, что в тебе настоящее, а что живёт по привычке?',
-
     practice:
       'Запиши три ответа на вопрос: «Кто я, если убрать мои роли, обязанности и ожидания других?»'
   },
 
-
   {
     number: 2,
-
     title: 'Чистка поля',
-
     text:
       'Увидь всё, что больше не должно занимать место в твоей жизни: старые правила, страхи и чужие сценарии.',
-
     practice:
       'Запиши всё, что ты больше не хочешь нести дальше.'
   },
 
-
   {
     number: 3,
-
     title: 'Я выбираю себя',
-
     text:
       'Переход начинается там, где ты начинаешь слышать собственный выбор.',
-
     practice:
       'Ответь: «Чего хочу именно я?» — без «надо» и «так принято».'
   },
 
-
   {
     number: 4,
-
     title: 'Моё «нет»',
-
     text:
       'Новому невозможно появиться, если всё пространство занято старым.',
-
     practice:
       'Назови три вещи, которым ты больше не готова говорить «да».'
   },
 
-
   {
     number: 5,
-
     title: 'Наблюдатель',
-
     text:
       'Учись замечать мысли, реакции и сценарии, не становясь ими автоматически.',
-
     practice:
       'Замечая реакцию, спроси себя: «Это мой выбор или привычный сценарий?»'
   },
 
-
   {
     number: 6,
-
     title: 'Моя жизнь',
-
     text:
       'Теперь важно собрать жизнь вокруг того, что действительно твоё.',
-
     practice:
       'Выбери одну сферу жизни и один конкретный шаг, который изменит её.'
   },
 
-
   {
     number: 7,
-
     title: 'Мой новый фундамент',
-
     text:
       'Новые опоры создаются решениями, действиями и ответственностью.',
-
     practice:
       'Запиши пять принципов, на которых ты хочешь строить следующий этап жизни.'
   }
@@ -176,199 +152,120 @@ const questions = [
   {
     text:
       'Я понимаю, что прежний образ жизни больше меня не устраивает.',
-
     answers: [
-
       'Это почти не про меня',
-
       'Иногда ловлю себя на этой мысли',
-
       'Это уже стало очевидно',
-
       'Я давно это чувствую',
-
       'Я полностью готова к новому этапу'
-
     ]
   },
-
 
   {
     text:
       'Когда жизнь резко меняется, я обычно…',
-
     answers: [
-
       'Продолжаю жить как раньше',
-
       'Чувствую внутреннее сопротивление',
-
       'Начинаю искать ответы',
-
       'Беру ответственность за выбор',
-
       'Создаю новый сценарий'
-
     ]
   },
-
 
   {
     text:
       'Что сейчас происходит с моими привычными целями?',
-
     answers: [
-
       'Меня всё устраивает',
-
       'Некоторые цели перестали радовать',
-
       'Я пересматриваю приоритеты',
-
       'Я выбираю свои цели осознанно',
-
       'Я создаю цели из нового состояния'
-
     ]
   },
-
 
   {
     text:
       'Насколько я слышу собственные желания?',
-
     answers: [
-
       'Почти не слышу',
-
       'Иногда слышу, но сомневаюсь',
-
       'Начинаю различать своё и чужое',
-
       'Доверяю себе больше',
-
       'Опираюсь на себя в решениях'
-
     ]
   },
-
 
   {
     text:
       'Если старый сценарий больше не работает, я…',
-
     answers: [
-
       'Держусь за него',
-
       'Не знаю, что делать',
-
       'Начинаю отпускать',
-
       'Создаю новые правила',
-
       'Осознанно создаю новую реальность'
-
     ]
   },
-
 
   {
     text:
       'Мои кризисы чаще всего…',
-
     answers: [
-
       'Кажутся случайными',
-
       'Вынуждают меня остановиться',
-
       'Показывают, что пора меняться',
-
       'Становятся точками роста',
-
       'Становятся материалом для нового выбора'
-
     ]
   },
-
 
   {
     text:
       'Я отношусь к неизвестности как к…',
-
     answers: [
-
       'Угрозе',
-
       'Сильному дискомфорту',
-
       'Пространству поиска',
-
       'Возможности',
-
       'Пространству создания'
-
     ]
   },
-
 
   {
     text:
       'Что важнее всего в моих решениях?',
-
     answers: [
-
       'Стабильность',
-
       'Не разочаровать других',
-
       'Понять, чего хочу я',
-
       'Взять ответственность за себя',
-
       'Создать жизнь, которая соответствует мне'
-
     ]
   },
-
 
   {
     text:
       'Я чувствую, что стою перед новым этапом жизни.',
-
     answers: [
-
       'Нет',
-
       'Скорее нет',
-
       'Да, но не понимаю каким он будет',
-
       'Да, я уже меняю многое',
-
       'Да, я сознательно создаю следующий этап'
-
     ]
   },
-
 
   {
     text:
       'Что мне сейчас нужнее всего?',
-
     answers: [
-
       'Остановиться и выжить',
-
       'Понять, что происходит',
-
       'Увидеть себя честно',
-
       'Перестать жить по старым правилам',
-
       'Сделать первый шаг в новую жизнь'
-
     ]
   }
 
@@ -392,12 +289,12 @@ function getTelegramId() {
   }
 
   return String(user.id);
+
 }
 
 
 /* =====================================================
    LOCAL STORAGE
-   Резервная копия прогресса
 ===================================================== */
 
 function localKey() {
@@ -420,9 +317,14 @@ function saveLocalProgress(
 
   try {
 
+    const existing =
+      loadLocalProgress() || {};
+
     localStorage.setItem(
       localKey(),
       JSON.stringify({
+
+        ...existing,
 
         progress:
           Number(progress || 0),
@@ -431,7 +333,7 @@ function saveLocalProgress(
           Number(currentLesson || 0),
 
         stage:
-          stage || 'Не определён'
+          stage || existing.stage || 'Не определён'
 
       })
     );
@@ -463,7 +365,7 @@ function loadLocalProgress() {
 
     return JSON.parse(raw);
 
-  } catch (error) {
+  } catch {
 
     return null;
 
@@ -482,23 +384,12 @@ async function ensureUser() {
     getTelegramId();
 
   if (!telegramId) {
-
     return null;
-
   }
-
-
-  /*
-    Если Supabase не загрузился,
-    используем локальное сохранение.
-  */
 
   if (!db) {
-
     return loadLocalProgress();
-
   }
-
 
   const {
     data: existing,
@@ -512,7 +403,6 @@ async function ensureUser() {
     )
     .maybeSingle();
 
-
   if (findError) {
 
     console.error(
@@ -523,7 +413,6 @@ async function ensureUser() {
     return loadLocalProgress();
 
   }
-
 
   if (existing) {
 
@@ -537,10 +426,8 @@ async function ensureUser() {
 
   }
 
-
   const local =
     loadLocalProgress();
-
 
   const newUser = {
 
@@ -559,22 +446,24 @@ async function ensureUser() {
     current_lesson:
       Number(
         local?.current_lesson || 0
-      )
+      ),
+
+    access_awakening:
+      false,
+
+    access_creator:
+      false
 
   };
-
 
   const {
     data: created,
     error: createError
   } = await db
     .from('users')
-    .insert(
-      newUser
-    )
+    .insert(newUser)
     .select()
     .single();
-
 
   if (createError) {
 
@@ -593,7 +482,6 @@ async function ensureUser() {
 
   }
 
-
   return created;
 
 }
@@ -609,18 +497,12 @@ async function loadUser() {
     getTelegramId();
 
   if (!telegramId) {
-
     return null;
-
   }
-
 
   if (!db) {
-
     return loadLocalProgress();
-
   }
-
 
   const {
     data,
@@ -634,7 +516,6 @@ async function loadUser() {
     )
     .maybeSingle();
 
-
   if (error) {
 
     console.error(
@@ -645,7 +526,6 @@ async function loadUser() {
     return loadLocalProgress();
 
   }
-
 
   if (data) {
 
@@ -658,7 +538,6 @@ async function loadUser() {
     return data;
 
   }
-
 
   return loadLocalProgress();
 
@@ -678,17 +557,12 @@ async function saveProgress(
   const telegramId =
     getTelegramId();
 
-
   if (!telegramId) {
-
     return false;
-
   }
-
 
   const local =
     loadLocalProgress();
-
 
   const finalProgress =
     Number(
@@ -697,14 +571,12 @@ async function saveProgress(
       0
     );
 
-
   const finalLesson =
     currentLesson !== null
       ? Number(currentLesson)
       : Number(
           local?.current_lesson || 0
         );
-
 
   const finalStage =
     stage !== null
@@ -714,26 +586,15 @@ async function saveProgress(
           'Не определён'
         );
 
-
-  /*
-    Сохраняем локально сразу.
-    Даже если Supabase временно недоступен,
-    прогресс пользователя не пропадёт.
-  */
-
   saveLocalProgress(
     finalProgress,
     finalLesson,
     finalStage
   );
 
-
   if (!db) {
-
     return true;
-
   }
-
 
   const update = {
 
@@ -751,7 +612,6 @@ async function saveProgress(
 
   };
 
-
   const {
     error
   } = await db
@@ -762,7 +622,6 @@ async function saveProgress(
       telegramId
     );
 
-
   if (error) {
 
     console.error(
@@ -770,15 +629,9 @@ async function saveProgress(
       error
     );
 
-    /*
-      Локальная копия уже сохранена,
-      поэтому возвращаем true.
-    */
-
     return true;
 
   }
-
 
   return true;
 
@@ -787,15 +640,44 @@ async function saveProgress(
 
 /* =====================================================
    СОХРАНЕНИЕ РЕЗУЛЬТАТА ТЕСТА
+   ВАЖНО:
+   ПРОГРЕСС НЕ СБРАСЫВАЕМ
 ===================================================== */
 
-async function saveStage(
-  stage
-) {
+async function saveTestResult(stage) {
+
+  const telegramId =
+    getTelegramId();
+
+  if (!telegramId) {
+    return false;
+  }
+
+  const user =
+    await loadUser();
+
+  const currentProgress =
+    Number(
+      user?.progress ??
+      loadLocalProgress()?.progress ??
+      0
+    );
+
+  const currentLesson =
+    Number(
+      user?.current_lesson ??
+      loadLocalProgress()?.current_lesson ??
+      0
+    );
+
+  /*
+    Меняем только результат теста.
+    7 этапов НЕ сбрасываем.
+  */
 
   return await saveProgress(
-    0,
-    0,
+    currentProgress,
+    currentLesson,
     stage
   );
 
@@ -806,52 +688,36 @@ async function saveStage(
    НАВИГАЦИЯ
 ===================================================== */
 
-function showScreen(
-  name
-) {
+function showScreen(name) {
 
   document
-    .querySelectorAll(
-      '.screen'
-    )
-    .forEach(
-      screen => {
+    .querySelectorAll('.screen')
+    .forEach(screen => {
 
-        screen.classList.remove(
-          'active'
-        );
+      screen.classList.remove(
+        'active'
+      );
 
-      }
-    );
-
+    });
 
   const screen =
     document.getElementById(
       'screen-' + name
     );
 
-
   if (screen) {
-
     screen.classList.add(
       'active'
     );
-
   }
-
 
   window.scrollTo(
     0,
     0
   );
 
-
-  if (
-    name === 'test'
-  ) {
-
+  if (name === 'test') {
     renderTest();
-
   }
 
 }
@@ -861,18 +727,14 @@ function showScreen(
    TRIBUTE
 ===================================================== */
 
-function openTribute(
-  url
-) {
+function openTribute(url) {
 
   if (
     tg &&
     typeof tg.openLink === 'function'
   ) {
 
-    tg.openLink(
-      url
-    );
+    tg.openLink(url);
 
   } else {
 
@@ -904,9 +766,7 @@ function openAccompaniment() {
 }
 
 
-function openProduct(
-  type
-) {
+function openProduct(type) {
 
   if (
     type === 'awakening'
@@ -919,7 +779,6 @@ function openProduct(
     return;
 
   }
-
 
   if (
     type === 'creator'
@@ -935,6 +794,58 @@ function openProduct(
 
 
 /* =====================================================
+   ПРОВЕРКА ДОСТУПА
+===================================================== */
+
+function hasAwakeningAccess(user) {
+
+  return Boolean(
+    user?.access_awakening
+  );
+
+}
+
+
+function hasCreatorAccess(user) {
+
+  return Boolean(
+    user?.access_creator
+  );
+
+}
+
+
+/*
+   Какой купленный продукт сейчас открывать.
+
+   Если куплено оба — сначала показываем Creator,
+   если только Awakening — Awakening.
+*/
+
+function getPurchasedProduct(user) {
+
+  if (
+    hasCreatorAccess(user)
+  ) {
+
+    return 'creator';
+
+  }
+
+  if (
+    hasAwakeningAccess(user)
+  ) {
+
+    return 'awakening';
+
+  }
+
+  return null;
+
+}
+
+
+/* =====================================================
    ОТРИСОВКА ТЕСТА
 ===================================================== */
 
@@ -945,11 +856,9 @@ function renderTest() {
       'test-wrap'
     );
 
-
   if (!wrap) {
     return;
   }
-
 
   if (
     answers.length >=
@@ -962,14 +871,11 @@ function renderTest() {
 
   }
 
-
   const number =
     answers.length;
 
-
   const question =
     questions[number];
-
 
   wrap.innerHTML = `
 
@@ -982,13 +888,11 @@ function renderTest() {
 
     </div>
 
-
     <div class="question">
 
       <h3>
         ${question.text}
       </h3>
-
 
       <div class="answers">
 
@@ -1027,12 +931,10 @@ function renderTest() {
 
 
 /* =====================================================
-   ОТВЕТ НА ВОПРОС
+   ОТВЕТ
 ===================================================== */
 
-function chooseAnswer(
-  index
-) {
+function chooseAnswer(index) {
 
   answers.push(
     index
@@ -1044,7 +946,7 @@ function chooseAnswer(
 
 
 /* =====================================================
-   ОПРЕДЕЛЕНИЕ РЕЗУЛЬТАТА
+   РЕЗУЛЬТАТ
 ===================================================== */
 
 function calculateStage() {
@@ -1056,7 +958,6 @@ function calculateStage() {
     0,
     0
   ];
-
 
   answers.forEach(
     answer => {
@@ -1073,45 +974,27 @@ function calculateStage() {
     }
   );
 
-
   const max =
     Math.max(
       ...scores
     );
-
 
   const index =
     scores.indexOf(
       max
     );
 
-
-  if (
-    index === 0
-  ) {
-
+  if (index === 0) {
     return 'Автопилот';
-
   }
 
-
-  if (
-    index === 1
-  ) {
-
+  if (index === 1) {
     return 'Толчок';
-
   }
 
-
-  if (
-    index === 2
-  ) {
-
+  if (index === 2) {
     return 'Пробуждение';
-
   }
-
 
   return 'Творец';
 
@@ -1127,35 +1010,45 @@ async function renderResult() {
   const stage =
     calculateStage();
 
+  const user =
+    await loadUser();
 
-  await ensureUser();
-
+  if (!user) {
+    return;
+  }
 
   /*
-    Результат теста — это 4 состояния.
-    Он НЕ заменяет 7 этапов.
+    КЛЮЧЕВОЕ ИЗМЕНЕНИЕ:
+
+    Результат теста сохраняем,
+    но прогресс 7 этапов НЕ трогаем.
   */
 
-  await saveStage(
+  await saveTestResult(
     stage
   );
 
+  const progress =
+    Number(
+      user.progress || 0
+    );
 
   const wrap =
     document.getElementById(
       'test-wrap'
     );
 
-
   if (!wrap) {
     return;
   }
-
 
   let title = '';
   let text = '';
   let action = '';
 
+  /* ---------------------------------------------
+     АВТОПИЛОТ
+  --------------------------------------------- */
 
   if (
     stage === 'Автопилот'
@@ -1163,7 +1056,6 @@ async function renderResult() {
 
     title =
       'ТЫ ЖИВЁШЬ НА АВТОПИЛОТЕ';
-
 
     text = `
 
@@ -1185,22 +1077,46 @@ async function renderResult() {
 
     `;
 
+    if (
+      hasAwakeningAccess(user)
+    ) {
 
-    action = `
+      action = `
 
-      <button
-        class="primary"
-        onclick="
-          openProduct('awakening')
-        "
-      >
-        НАЧАТЬ ПЕРЕХОД
-      </button>
+        <button
+          class="primary"
+          onclick="
+            openCabinet()
+          "
+        >
+          ОТКРЫТЬ МОЙ ПУТЬ
+        </button>
 
-    `;
+      `;
+
+    } else {
+
+      action = `
+
+        <button
+          class="primary"
+          onclick="
+            openProduct('awakening')
+          "
+        >
+          НАЧАТЬ ПЕРЕХОД
+        </button>
+
+      `;
+
+    }
 
   }
 
+
+  /* ---------------------------------------------
+     ТОЛЧОК
+  --------------------------------------------- */
 
   if (
     stage === 'Толчок'
@@ -1208,7 +1124,6 @@ async function renderResult() {
 
     title =
       'ТЫ В ТОЧКЕ ТОЛЧКА';
-
 
     text = `
 
@@ -1230,22 +1145,46 @@ async function renderResult() {
 
     `;
 
+    if (
+      hasAwakeningAccess(user)
+    ) {
 
-    action = `
+      action = `
 
-      <button
-        class="primary"
-        onclick="
-          openProduct('awakening')
-        "
-      >
-        ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
-      </button>
+        <button
+          class="primary"
+          onclick="
+            openCabinet()
+          "
+        >
+          ПРОДОЛЖИТЬ МОЙ ПУТЬ
+        </button>
 
-    `;
+      `;
+
+    } else {
+
+      action = `
+
+        <button
+          class="primary"
+          onclick="
+            openProduct('awakening')
+          "
+        >
+          ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
+        </button>
+
+      `;
+
+    }
 
   }
 
+
+  /* ---------------------------------------------
+     ПРОБУЖДЕНИЕ
+  --------------------------------------------- */
 
   if (
     stage === 'Пробуждение'
@@ -1253,7 +1192,6 @@ async function renderResult() {
 
     title =
       'ТЫ В ПРОБУЖДЕНИИ';
-
 
     text = `
 
@@ -1276,22 +1214,56 @@ async function renderResult() {
 
     `;
 
+    /*
+      Если второй продукт уже куплен —
+      открываем путь.
 
-    action = `
+      Если НЕ куплен —
+      предлагаем его приобрести.
 
-      <button
-        class="primary"
-        onclick="
-          openProduct('creator')
-        "
-      >
-        ПЕРЕЙТИ В ТВОРЦА
-      </button>
+      Никакого автоматического доступа.
+    */
 
-    `;
+    if (
+      hasCreatorAccess(user)
+    ) {
+
+      action = `
+
+        <button
+          class="primary"
+          onclick="
+            openCabinet()
+          "
+        >
+          ОТКРЫТЬ МОЙ ПУТЬ
+        </button>
+
+      `;
+
+    } else {
+
+      action = `
+
+        <button
+          class="primary"
+          onclick="
+            openProduct('creator')
+          "
+        >
+          ПЕРЕЙТИ В ТВОРЦА
+        </button>
+
+      `;
+
+    }
 
   }
 
+
+  /* ---------------------------------------------
+     ТВОРЕЦ
+  --------------------------------------------- */
 
   if (
     stage === 'Творец'
@@ -1299,7 +1271,6 @@ async function renderResult() {
 
     title =
       'ТЫ — ТВОРЕЦ';
-
 
     text = `
 
@@ -1317,16 +1288,64 @@ async function renderResult() {
 
     `;
 
+    if (
+      hasCreatorAccess(user)
+    ) {
 
-    action = `
+      action = `
+
+        <button
+          class="primary"
+          onclick="
+            openCabinet()
+          "
+        >
+          ОТКРЫТЬ МОЙ ПУТЬ
+        </button>
+
+      `;
+
+    } else {
+
+      action = `
+
+        <button
+          class="primary"
+          onclick="
+            openProduct('creator')
+          "
+        >
+          ПЕРЕЙТИ В ТВОРЦА
+        </button>
+
+      `;
+
+    }
+
+  }
+
+
+  /*
+    Повторное тестирование появляется
+    ТОЛЬКО после прохождения 7 этапов.
+  */
+
+  let retestButton = '';
+
+  if (
+    progress >= 100
+  ) {
+
+    retestButton = `
 
       <button
-        class="primary"
+        class="back"
+        style="margin-top:20px"
         onclick="
-          openCabinet()
+          startFinalRetest()
         "
       >
-        ОТКРЫТЬ МОЙ ПУТЬ
+        ПРОЙТИ ТЕСТ ПОВТОРНО
       </button>
 
     `;
@@ -1342,36 +1361,59 @@ async function renderResult() {
         ТВОЙ РЕЗУЛЬТАТ
       </div>
 
-
       <h2>
         ${stage}
       </h2>
-
 
       <h3>
         ${title}
       </h3>
 
-
       ${text}
-
 
       ${action}
 
+      ${retestButton}
+
     </div>
 
-
-    <button
-      class="back"
-      style="margin-top:20px"
-      onclick="resetTest()"
-    >
-
-      Пройти тест заново
-
-    </button>
-
   `;
+
+}
+
+
+/* =====================================================
+   ЗАПУСК ПОВТОРНОГО ТЕСТА
+===================================================== */
+
+async function startFinalRetest() {
+
+  const user =
+    await loadUser();
+
+  const progress =
+    Number(
+      user?.progress || 0
+    );
+
+  /*
+    Повторный тест разрешён только
+    после 100% прохождения.
+  */
+
+  if (
+    progress < 100
+  ) {
+
+    return;
+
+  }
+
+  answers = [];
+
+  showScreen(
+    'test'
+  );
 
 }
 
@@ -1386,61 +1428,49 @@ async function openCabinet() {
     'cabinet'
   );
 
-
   const stageElement =
     document.getElementById(
       'cabinet-stage'
     );
-
 
   const progressElement =
     document.getElementById(
       'cabinet-progress'
     );
 
-
   const progressText =
     document.getElementById(
       'cabinet-progress-text'
     );
-
 
   const message =
     document.getElementById(
       'cabinet-message'
     );
 
-
   if (!stageElement) {
     return;
   }
 
-
   stageElement.textContent =
     'Загрузка...';
-
 
   progressElement.style.width =
     '0%';
 
-
   progressText.textContent =
     'Загрузка...';
 
-
   const user =
-    await ensureUser();
-
+    await loadUser();
 
   if (!user) {
 
     stageElement.textContent =
       'Личный путь';
 
-
     progressText.textContent =
       'Открой приложение через Telegram';
-
 
     message.innerHTML = `
 
@@ -1450,27 +1480,82 @@ async function openCabinet() {
 
       <p>
         Открой Mini App именно через Telegram.
-        Тогда приложение сможет сохранить
-        твой личный прогресс.
       </p>
 
     `;
 
-
     renderStageList(
       0
     );
-
 
     return;
 
   }
 
 
+  /* ---------------------------------------------
+     ПРОВЕРКА ПОКУПКИ
+  --------------------------------------------- */
+
+  const purchasedProduct =
+    getPurchasedProduct(
+      user
+    );
+
+
+  /*
+    Без покупки этапы закрыты.
+  */
+
+  if (!purchasedProduct) {
+
+    stageElement.textContent =
+      'Личный путь';
+
+    progressElement.style.width =
+      '0%';
+
+    progressText.textContent =
+      'Доступ ещё не открыт';
+
+    message.innerHTML = `
+
+      <h3>
+        СНАЧАЛА ПРОЙДИ ТЕСТ
+      </h3>
+
+      <p>
+        Пройди тест, узнай своё текущее состояние
+        и выбери подходящий продукт.
+      </p>
+
+      <button
+        class="primary"
+        onclick="
+          showScreen('test')
+        "
+      >
+        ПРОЙТИ ТЕСТ
+      </button>
+
+    `;
+
+    renderStageList(
+      0
+    );
+
+    return;
+
+  }
+
+
+  /* ---------------------------------------------
+     ЕСТЬ ОПЛАЧЕННЫЙ ДОСТУП
+  --------------------------------------------- */
+
   const stage =
     user.stage ||
     'Не определён';
-
 
   const progress =
     Number(
@@ -1497,28 +1582,31 @@ async function openCabinet() {
 
 
   if (
-    stage === 'Не определён'
+    progress >= 100
   ) {
 
     message.innerHTML = `
 
       <h3>
-        НАЧНИ С ТЕСТА
+        ТЫ ПРОШЛА ВЕСЬ ПУТЬ
       </h3>
 
       <p>
-        Пройди тест — и приложение
-        автоматически сохранит твой результат
-        за твоим Telegram ID.
+        Все 7 этапов завершены.
+      </p>
+
+      <p>
+        Теперь пройди тест повторно,
+        чтобы увидеть, где ты находишься сейчас.
       </p>
 
       <button
         class="primary"
         onclick="
-          showScreen('test')
+          startFinalRetest()
         "
       >
-        ПРОЙТИ ТЕСТ
+        ПРОЙТИ ТЕСТ ПОВТОРНО
       </button>
 
     `;
@@ -1544,19 +1632,13 @@ async function openCabinet() {
       </p>
 
       <p>
-        Пройденные этапы и прогресс
-        сохраняются автоматически.
+        Прогресс сохраняется автоматически.
       </p>
 
     `;
 
   }
 
-
-  /*
-    ВАЖНО:
-    Здесь всегда отображаются ВСЕ 7 этапов.
-  */
 
   renderStageList(
     progress
@@ -1578,11 +1660,9 @@ function renderStageList(
       'stage-list'
     );
 
-
   if (!element) {
     return;
   }
-
 
   element.innerHTML =
     stages
@@ -1598,7 +1678,6 @@ function renderStageList(
               ) * 100
             );
 
-
           const complete =
             Math.round(
               (
@@ -1608,20 +1687,16 @@ function renderStageList(
               ) * 100
             );
 
-
           const isDone =
             progress >=
             complete;
-
 
           const isOpen =
             progress >=
             required;
 
-
           let state =
             'Закрыто';
-
 
           if (isDone) {
 
@@ -1634,7 +1709,6 @@ function renderStageList(
               'Открыто';
 
           }
-
 
           return `
 
@@ -1660,13 +1734,11 @@ function renderStageList(
                 ${stage.number}
               </span>
 
-
               <span
                 class="stage-name"
               >
                 ${stage.title}
               </span>
-
 
               <span
                 class="stage-state"
@@ -1696,9 +1768,22 @@ async function openLesson(
   const user =
     await loadUser();
 
-
   if (!user) {
     return;
+  }
+
+
+  /*
+    Этап можно открыть только при наличии
+    оплаченного доступа.
+  */
+
+  if (
+    !getPurchasedProduct(user)
+  ) {
+
+    return;
+
   }
 
 
@@ -1706,7 +1791,6 @@ async function openLesson(
     Number(
       user.progress || 0
     );
-
 
   const required =
     Math.round(
@@ -1717,7 +1801,6 @@ async function openLesson(
       ) * 100
     );
 
-
   if (
     progress <
     required
@@ -1727,33 +1810,27 @@ async function openLesson(
 
   }
 
-
   const stage =
     stages[
       lessonNumber - 1
     ];
 
-
   if (!stage) {
     return;
   }
 
-
   showScreen(
     'lesson'
   );
-
 
   const wrap =
     document.getElementById(
       'lesson-wrap'
     );
 
-
   if (!wrap) {
     return;
   }
-
 
   wrap.innerHTML = `
 
@@ -1765,16 +1842,13 @@ async function openLesson(
         ИЗ 7
       </div>
 
-
       <h2>
         ${stage.title}
       </h2>
 
-
       <p>
         ${stage.text}
       </p>
-
 
       <div
         class="lesson-practice"
@@ -1789,7 +1863,6 @@ async function openLesson(
         ${stage.practice}
 
       </div>
-
 
       <div
         class="lesson-complete"
@@ -1832,6 +1905,17 @@ async function completeLesson(
 
   }
 
+  const user =
+    await loadUser();
+
+  if (
+    !user ||
+    !getPurchasedProduct(user)
+  ) {
+
+    return;
+
+  }
 
   const progress =
     Math.round(
@@ -1842,22 +1926,9 @@ async function completeLesson(
       ) * 100
     );
 
-
-  /*
-    Сохраняем:
-    - процент
-    - номер текущего этапа
-    - результат теста не меняем
-  */
-
-  const user =
-    await loadUser();
-
-
   const currentStage =
-    user?.stage ||
+    user.stage ||
     'Не определён';
-
 
   await saveProgress(
     progress,
@@ -1865,27 +1936,13 @@ async function completeLesson(
     currentStage
   );
 
-
   await openCabinet();
 
 }
 
 
 /* =====================================================
-   СБРОС ТЕСТА
-===================================================== */
-
-function resetTest() {
-
-  answers = [];
-
-  renderTest();
-
-}
-
-
-/* =====================================================
-   ЗАПУСК
+   СТАРТ
 ===================================================== */
 
 document.addEventListener(
@@ -1896,12 +1953,10 @@ document.addEventListener(
       'ТОЧКА ПЕРЕХОДА запущена'
     );
 
-
     console.log(
       'Telegram ID:',
       getTelegramId()
     );
-
 
     await ensureUser();
 
