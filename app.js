@@ -5,7 +5,7 @@
    ТЕСТ:
    Автопилот / Толчок / Пробуждение / Творец
 
-   ЛИЧНЫЙ ПУТЬ:
+   ПРОДУКТ:
    7 этапов
 
    ДОСТУП:
@@ -13,8 +13,10 @@
    access_creator
 
    ВАЖНО:
-   Результат теста НЕ сбрасывает покупку.
-   Покупка и прогресс хранятся отдельно.
+   - результат теста НЕ является покупкой
+   - повторный тест НЕ сбрасывает прогресс
+   - покупка НЕ зависит от результата теста
+   - 7 этапов открываются только при наличии доступа
 ===================================================== */
 
 
@@ -22,7 +24,7 @@
    TELEGRAM
 ===================================================== */
 
-const tg = window.Telegram?.WebApp;
+const tg = window.Telegram?.WebApp || null;
 
 if (tg) {
   tg.ready();
@@ -69,6 +71,25 @@ const LINKS = {
 
 
 /* =====================================================
+   PRODUCT IDS TRIBUTE
+===================================================== */
+
+const PRODUCT_IDS = {
+
+  awakening: '156084',
+
+  /*
+    ID второго продукта пока неизвестен.
+    Когда получим его из Tribute,
+    просто вставим сюда.
+  */
+
+  creator: null
+
+};
+
+
+/* =====================================================
    7 ЭТАПОВ
 ===================================================== */
 
@@ -76,72 +97,486 @@ const stages = [
 
   {
     number: 1,
+
     title: 'Кто я?',
-    text:
-      'Посмотри на себя честно: кто ты сейчас, что в тебе настоящее, а что живёт по привычке?',
-    practice:
-      'Запиши три ответа на вопрос: «Кто я, если убрать мои роли, обязанности и ожидания других?»'
+
+    text: `
+      <p>
+        Любой настоящий переход начинается
+        с вопроса: <strong>кто я сейчас?</strong>
+      </p>
+
+      <p>
+        Не та, кем меня привыкли видеть.
+        Не та, которой нужно быть для семьи,
+        работы, отношений или окружающих.
+      </p>
+
+      <p>
+        Не должность. Не статус.
+        Не набор ролей и достижений.
+      </p>
+
+      <p>
+        Иногда человек прекрасно умеет
+        соответствовать чужим ожиданиям,
+        но почти перестаёт слышать себя.
+      </p>
+
+      <p>
+        Здесь тебе не нужно сразу находить
+        правильный ответ.
+        Сначала нужно увидеть,
+        где заканчивается привычная роль
+        и начинаешься ты.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>ПРАКТИКА «КТО Я БЕЗ РОЛЕЙ»</strong>
+      </p>
+
+      <p>
+        Ответь письменно:
+      </p>
+
+      <p>
+        <strong>
+          «Кто я, если убрать мои роли,
+          обязанности и ожидания других?»
+        </strong>
+      </p>
+
+      <p>
+        Напиши минимум 10 ответов.
+        Не анализируй их.
+        Пиши первое, что приходит.
+      </p>
+    `
+
   },
+
 
   {
     number: 2,
+
     title: 'Чистка поля',
-    text:
-      'Увидь всё, что больше не должно занимать место в твоей жизни: старые правила, страхи и чужие сценарии.',
-    practice:
-      'Запиши всё, что ты больше не хочешь нести дальше.'
+
+    text: `
+      <p>
+        Когда ты начинаешь видеть себя,
+        становится заметно,
+        сколько всего лишнего ты несёшь.
+      </p>
+
+      <p>
+        Старые правила.
+        Страхи.
+        Чужие ожидания.
+        Незавершённые истории.
+        Сценарии, которые давно перестали
+        быть твоими.
+      </p>
+
+      <p>
+        Невозможно войти в новое,
+        продолжая всеми силами держаться
+        за старое.
+      </p>
+
+      <p>
+        Поэтому сейчас мы не создаём новое.
+        Сначала освобождаем пространство.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «ЧТО Я БОЛЬШЕ НЕ НЕСУ»
+        </strong>
+      </p>
+
+      <p>
+        Создай три списка:
+      </p>
+
+      <p>
+        <strong>
+          Я больше не хочу...
+        </strong>
+      </p>
+
+      <p>
+        <strong>
+          Это вообще не моё...
+        </strong>
+      </p>
+
+      <p>
+        <strong>
+          Я готова отпустить...
+        </strong>
+      </p>
+
+      <p>
+        Выбери минимум три пункта,
+        которые больше не должны переходить
+        вместе с тобой дальше.
+      </p>
+    `
+
   },
+
 
   {
     number: 3,
+
     title: 'Я выбираю себя',
-    text:
-      'Переход начинается там, где ты начинаешь слышать собственный выбор.',
-    practice:
-      'Ответь: «Чего хочу именно я?» — без «надо» и «так принято».'
+
+    text: `
+      <p>
+        После того как ты увидела старое,
+        возникает следующий вопрос:
+      </p>
+
+      <p>
+        <strong>
+          «А чего хочу именно я?»
+        </strong>
+      </p>
+
+      <p>
+        Не что правильно.
+        Не что удобно.
+        Не что ждут другие.
+      </p>
+
+      <p>
+        А чего хочешь ты.
+      </p>
+
+      <p>
+        Выбор себя начинается
+        с честности с собой.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «ЧЕГО ХОЧУ Я?»
+        </strong>
+      </p>
+
+      <p>
+        Закончи фразы:
+      </p>
+
+      <p>
+        <strong>Я хочу...</strong>
+      </p>
+
+      <p>
+        <strong>Я больше не хочу...</strong>
+      </p>
+
+      <p>
+        <strong>Мне действительно важно...</strong>
+      </p>
+
+      <p>
+        <strong>
+          Если бы мне не нужно было
+          никому ничего доказывать, я бы...
+        </strong>
+      </p>
+
+      <p>
+        <strong>
+          Если бы я не боялась осуждения, я бы...
+        </strong>
+      </p>
+    `
+
   },
+
 
   {
     number: 4,
+
     title: 'Моё «нет»',
-    text:
-      'Новому невозможно появиться, если всё пространство занято старым.',
-    practice:
-      'Назови три вещи, которым ты больше не готова говорить «да».'
+
+    text: `
+      <p>
+        Невозможно создать новое,
+        продолжая соглашаться со всем старым.
+      </p>
+
+      <p>
+        Иногда человек говорит «да»,
+        хотя внутри всё говорит «нет».
+      </p>
+
+      <p>
+        Потому что страшно обидеть.
+        Страшно потерять.
+        Страшно показаться плохой.
+      </p>
+
+      <p>
+        Но твоё «нет» — это не агрессия.
+        Это граница.
+        Это право сказать:
+        <strong>«Я тоже имею значение».</strong>
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «МОЁ НЕТ»
+        </strong>
+      </p>
+
+      <p>
+        Запиши:
+      </p>
+
+      <p>
+        <strong>Я больше не согласна...</strong>
+      </p>
+
+      <p>
+        <strong>Я больше не позволяю...</strong>
+      </p>
+
+      <p>
+        <strong>Я больше не обязана...</strong>
+      </p>
+
+      <p>
+        Затем выбери одну реальную ситуацию,
+        где ты обычно говоришь «да»,
+        хотя хочешь сказать «нет».
+      </p>
+    `
+
   },
+
 
   {
     number: 5,
+
     title: 'Наблюдатель',
-    text:
-      'Учись замечать мысли, реакции и сценарии, не становясь ими автоматически.',
-    practice:
-      'Замечая реакцию, спроси себя: «Это мой выбор или привычный сценарий?»'
+
+    text: `
+      <p>
+        Здесь появляется один
+        из самых важных навыков.
+      </p>
+
+      <p>
+        <strong>
+          Ты — не твои мысли.
+        </strong>
+      </p>
+
+      <p>
+        Мысль может появиться автоматически.
+        Страх может возникнуть мгновенно.
+        Реакция может включиться раньше,
+        чем ты успеешь её осознать.
+      </p>
+
+      <p>
+        Но между событием и твоим действием
+        есть пространство.
+      </p>
+
+      <p>
+        Именно там находится выбор.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «ПАУЗА»
+        </strong>
+      </p>
+
+      <p>
+        Поймай в течение дня
+        три ситуации с сильной реакцией.
+      </p>
+
+      <p>
+        Запиши:
+      </p>
+
+      <p>
+        Что произошло?<br>
+        Что я подумала?<br>
+        Что почувствовала?<br>
+        Что захотела сделать автоматически?<br>
+        Что я выбрала сделать?
+      </p>
+
+      <p>
+        Не исправляй себя.
+        Просто наблюдай.
+      </p>
+    `
+
   },
+
 
   {
     number: 6,
+
     title: 'Моя жизнь',
-    text:
-      'Теперь важно собрать жизнь вокруг того, что действительно твоё.',
-    practice:
-      'Выбери одну сферу жизни и один конкретный шаг, который изменит её.'
+
+    text: `
+      <p>
+        Осознание ничего не меняет,
+        если оно не становится частью жизни.
+      </p>
+
+      <p>
+        Теперь посмотрим на внешний мир:
+        отношения, деньги, работа,
+        тело, окружение, дом,
+        образ жизни.
+      </p>
+
+      <p>
+        Не спрашивай:
+        «Как сделать идеальную жизнь?»
+      </p>
+
+      <p>
+        Спроси:
+        <strong>
+          «Как выглядит жизнь,
+          которая действительно моя?»
+        </strong>
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «ОДИН РЕАЛЬНЫЙ ШАГ»
+        </strong>
+      </p>
+
+      <p>
+        Выбери одну сферу жизни.
+      </p>
+
+      <p>
+        Ответь:
+      </p>
+
+      <p>
+        Что меня здесь больше не устраивает?<br>
+        Чего я хочу вместо этого?<br>
+        Что зависит от меня?<br>
+        Что я могу сделать в ближайшие 24 часа?
+      </p>
+
+      <p>
+        И обязательно сделай этот шаг.
+      </p>
+    `
+
   },
+
 
   {
     number: 7,
+
     title: 'Мой новый фундамент',
-    text:
-      'Новые опоры создаются решениями, действиями и ответственностью.',
-    practice:
-      'Запиши пять принципов, на которых ты хочешь строить следующий этап жизни.'
+
+    text: `
+      <p>
+        Ты дошла до последнего этапа.
+      </p>
+
+      <p>
+        Но это не конец пути.
+      </p>
+
+      <p>
+        Теперь нужно собрать то,
+        что ты увидела о себе,
+        в новый способ жить.
+      </p>
+
+      <p>
+        Новый фундамент строится
+        не из обещаний.
+        Он строится из решений,
+        действий, границ
+        и ответственности за свой выбор.
+      </p>
+
+      <p>
+        Посмотри назад:
+        что изменилось?
+        Что ты теперь видишь иначе?
+        К чему больше не готова возвращаться?
+      </p>
+
+      <p>
+        И главное:
+        <strong>
+          на что ты теперь хочешь опираться?
+        </strong>
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ФИНАЛЬНАЯ ПРАКТИКА
+          «МОЙ НОВЫЙ ФУНДАМЕНТ»
+        </strong>
+      </p>
+
+      <p>
+        Закончи:
+      </p>
+
+      <p>
+        <strong>Я больше не...</strong><br><br>
+        <strong>Я выбираю...</strong><br><br>
+        <strong>Я разрешаю себе...</strong><br><br>
+        <strong>Я больше не позволяю...</strong><br><br>
+        <strong>Для меня важно...</strong><br><br>
+        <strong>Когда мне страшно, я...</strong><br><br>
+        <strong>
+          Когда я не знаю, что делать, я...
+        </strong><br><br>
+        <strong>Мой следующий шаг...</strong>
+      </p>
+
+      <p>
+        Сохрани эти ответы.
+        Это твоя точка опоры
+        после прохождения пути.
+      </p>
+    `
+
   }
 
 ];
 
 
 /* =====================================================
-   ВОПРОСЫ ТЕСТА
+   ТЕСТ
 ===================================================== */
 
 const questions = [
@@ -149,6 +584,7 @@ const questions = [
   {
     text:
       'Я понимаю, что прежний образ жизни больше меня не устраивает.',
+
     answers: [
       'Это почти не про меня',
       'Иногда ловлю себя на этой мысли',
@@ -161,6 +597,7 @@ const questions = [
   {
     text:
       'Когда жизнь резко меняется, я обычно…',
+
     answers: [
       'Продолжаю жить как раньше',
       'Чувствую внутреннее сопротивление',
@@ -173,6 +610,7 @@ const questions = [
   {
     text:
       'Что сейчас происходит с моими привычными целями?',
+
     answers: [
       'Меня всё устраивает',
       'Некоторые цели перестали радовать',
@@ -185,6 +623,7 @@ const questions = [
   {
     text:
       'Насколько я слышу собственные желания?',
+
     answers: [
       'Почти не слышу',
       'Иногда слышу, но сомневаюсь',
@@ -197,6 +636,7 @@ const questions = [
   {
     text:
       'Если старый сценарий больше не работает, я…',
+
     answers: [
       'Держусь за него',
       'Не знаю, что делать',
@@ -209,6 +649,7 @@ const questions = [
   {
     text:
       'Мои кризисы чаще всего…',
+
     answers: [
       'Кажутся случайными',
       'Вынуждают меня остановиться',
@@ -221,6 +662,7 @@ const questions = [
   {
     text:
       'Я отношусь к неизвестности как к…',
+
     answers: [
       'Угрозе',
       'Сильному дискомфорту',
@@ -233,6 +675,7 @@ const questions = [
   {
     text:
       'Что важнее всего в моих решениях?',
+
     answers: [
       'Стабильность',
       'Не разочаровать других',
@@ -245,6 +688,7 @@ const questions = [
   {
     text:
       'Я чувствую, что стою перед новым этапом жизни.',
+
     answers: [
       'Нет',
       'Скорее нет',
@@ -257,6 +701,7 @@ const questions = [
   {
     text:
       'Что мне сейчас нужнее всего?',
+
     answers: [
       'Остановиться и выжить',
       'Понять, что происходит',
@@ -273,7 +718,7 @@ let answers = [];
 
 
 /* =====================================================
-   TELEGRAM ID
+   LOCAL STORAGE
 ===================================================== */
 
 function getTelegramId() {
@@ -281,64 +726,66 @@ function getTelegramId() {
   const user =
     tg?.initDataUnsafe?.user;
 
-  if (!user?.id) {
-    return null;
-  }
-
-  return String(user.id);
+  return user?.id
+    ? String(user.id)
+    : null;
 
 }
 
 
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
-
-function localKey() {
+function getLocalKey() {
 
   const id =
     getTelegramId();
 
   return id
-    ? 'tochka_perehoda_' + id
-    : 'tochka_perehoda_guest';
+    ? 'tp_user_' + id
+    : 'tp_guest';
 
 }
 
 
-function saveLocalUser(user) {
+function readLocal() {
 
   try {
 
+    const raw =
+      localStorage.getItem(
+        getLocalKey()
+      );
+
+    return raw
+      ? JSON.parse(raw)
+      : {};
+
+  } catch {
+
+    return {};
+
+  }
+
+}
+
+
+function writeLocal(data) {
+
+  try {
+
+    const current =
+      readLocal();
+
     localStorage.setItem(
-      localKey(),
+      getLocalKey(),
       JSON.stringify({
-
-        telegram_id:
-          user?.telegram_id || getTelegramId(),
-
-        stage:
-          user?.stage || 'Не определён',
-
-        progress:
-          Number(user?.progress || 0),
-
-        current_lesson:
-          Number(user?.current_lesson || 0),
-
-        access_awakening:
-          Boolean(user?.access_awakening),
-
-        access_creator:
-          Boolean(user?.access_creator)
-
+        ...current,
+        ...data
       })
     );
 
   } catch (error) {
 
     console.error(
-      'Ошибка localStorage:',
+      'Local storage error:',
       error
     );
 
@@ -347,26 +794,162 @@ function saveLocalUser(user) {
 }
 
 
-function loadLocalUser() {
+/* =====================================================
+   ПОЛЬЗОВАТЕЛЬ
+===================================================== */
 
-  try {
+async function loadUser() {
 
-    const raw =
-      localStorage.getItem(
-        localKey()
-      );
+  const telegramId =
+    getTelegramId();
 
-    if (!raw) {
-      return null;
-    }
 
-    return JSON.parse(raw);
-
-  } catch {
+  if (!telegramId) {
 
     return null;
 
   }
+
+
+  const local =
+    readLocal();
+
+
+  if (!db) {
+
+    return {
+
+      telegram_id:
+        telegramId,
+
+      progress:
+        Number(
+          local.progress || 0
+        ),
+
+      current_lesson:
+        Number(
+          local.current_lesson || 0
+        ),
+
+      access_awakening:
+        Boolean(
+          local.access_awakening
+        ),
+
+      access_creator:
+        Boolean(
+          local.access_creator
+        )
+
+    };
+
+  }
+
+
+  /*
+    ВАЖНО:
+    НЕ выбираем stage,
+    потому что такой колонки
+    в твоей таблице нет.
+  */
+
+  const {
+    data,
+    error
+  } = await db
+    .from('users')
+    .select(`
+      telegram_id,
+      progress,
+      current_lesson,
+      access_awakening,
+      access_creator
+    `)
+    .eq(
+      'telegram_id',
+      telegramId
+    )
+    .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      'Ошибка загрузки пользователя:',
+      error
+    );
+
+
+    return {
+
+      telegram_id:
+        telegramId,
+
+      progress:
+        Number(
+          local.progress || 0
+        ),
+
+      current_lesson:
+        Number(
+          local.current_lesson || 0
+        ),
+
+      access_awakening:
+        Boolean(
+          local.access_awakening
+        ),
+
+      access_creator:
+        Boolean(
+          local.access_creator
+        )
+
+    };
+
+  }
+
+
+  if (!data) {
+
+    return null;
+
+  }
+
+
+  /*
+    Обновляем локальную копию,
+    но не теряем результаты
+    тестов.
+  */
+
+  writeLocal({
+
+    progress:
+      Number(
+        data.progress || 0
+      ),
+
+    current_lesson:
+      Number(
+        data.current_lesson || 0
+      ),
+
+    access_awakening:
+      Boolean(
+        data.access_awakening
+      ),
+
+    access_creator:
+      Boolean(
+        data.access_creator
+      )
+
+  });
+
+
+  return data;
 
 }
 
@@ -380,54 +963,27 @@ async function ensureUser() {
   const telegramId =
     getTelegramId();
 
+
   if (!telegramId) {
+
     return null;
+
+  }
+
+
+  const existing =
+    await loadUser();
+
+
+  if (existing) {
+
+    return existing;
+
   }
 
 
   const local =
-    loadLocalUser();
-
-
-  if (!db) {
-
-    return local;
-
-  }
-
-
-  const {
-    data,
-    error
-  } = await db
-    .from('users')
-    .select('*')
-    .eq(
-      'telegram_id',
-      telegramId
-    )
-    .maybeSingle();
-
-
-  if (error) {
-
-    console.error(
-      'Ошибка загрузки пользователя:',
-      error
-    );
-
-    return local;
-
-  }
-
-
-  if (data) {
-
-    saveLocalUser(data);
-
-    return data;
-
-  }
+    readLocal();
 
 
   const newUser = {
@@ -435,81 +991,36 @@ async function ensureUser() {
     telegram_id:
       telegramId,
 
-    stage:
-      local?.stage ||
-      'Не определён',
-
     progress:
       Number(
-        local?.progress || 0
+        local.progress || 0
       ),
 
     current_lesson:
       Number(
-        local?.current_lesson || 0
+        local.current_lesson || 0
       ),
 
     access_awakening:
       Boolean(
-        local?.access_awakening
+        local.access_awakening
       ),
 
     access_creator:
       Boolean(
-        local?.access_creator
+        local.access_creator
       )
 
   };
 
 
-  const {
-    data: created,
-    error: createError
-  } = await db
-    .from('users')
-    .insert(newUser)
-    .select()
-    .single();
-
-
-  if (createError) {
-
-    console.error(
-      'Ошибка создания пользователя:',
-      createError
-    );
-
-    saveLocalUser(newUser);
-
-    return newUser;
-
-  }
-
-
-  saveLocalUser(created);
-
-  return created;
-
-}
-
-
-/* =====================================================
-   ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ
-===================================================== */
-
-async function loadUser() {
-
-  const telegramId =
-    getTelegramId();
-
-  if (!telegramId) {
-    return null;
-  }
-
-
   if (!db) {
 
-    return loadLocalUser();
+    writeLocal(
+      newUser
+    );
+
+    return newUser;
 
   }
 
@@ -519,36 +1030,42 @@ async function loadUser() {
     error
   } = await db
     .from('users')
-    .select('*')
-    .eq(
-      'telegram_id',
-      telegramId
+    .insert(
+      newUser
     )
-    .maybeSingle();
+    .select(`
+      telegram_id,
+      progress,
+      current_lesson,
+      access_awakening,
+      access_creator
+    `)
+    .single();
 
 
   if (error) {
 
     console.error(
-      'Ошибка загрузки пользователя:',
+      'Ошибка создания пользователя:',
       error
     );
 
-    return loadLocalUser();
+
+    writeLocal(
+      newUser
+    );
+
+    return newUser;
 
   }
 
 
-  if (data) {
-
-    saveLocalUser(data);
-
-    return data;
-
-  }
+  writeLocal(
+    data
+  );
 
 
-  return loadLocalUser();
+  return data;
 
 }
 
@@ -559,12 +1076,12 @@ async function loadUser() {
 
 async function saveProgress(
   progress,
-  currentLesson = null,
-  stage = null
+  currentLesson
 ) {
 
   const telegramId =
     getTelegramId();
+
 
   if (!telegramId) {
     return false;
@@ -584,140 +1101,38 @@ async function saveProgress(
 
 
   const finalLesson =
+    currentLesson !== undefined &&
     currentLesson !== null
-      ? Number(currentLesson)
+
+      ? Number(
+          currentLesson
+        )
+
       : Number(
-          current?.current_lesson || 0
-        );
-
-
-  const finalStage =
-    stage !== null
-      ? stage
-      : (
-          current?.stage ||
-          'Не определён'
+          current?.current_lesson ||
+          0
         );
 
 
   /*
-    ВАЖНО:
-    Сохраняем доступы из текущего пользователя.
-    Они никогда не сбрасываются сохранением прогресса.
+    Сначала сохраняем локально.
   */
 
-  const localUser = {
-
-    ...(current || {}),
-
-    telegram_id:
-      telegramId,
+  writeLocal({
 
     progress:
       finalProgress,
 
     current_lesson:
-      finalLesson,
-
-    stage:
-      finalStage
-
-  };
-
-
-  saveLocalUser(localUser);
-
-
-  if (!db) {
-    return true;
-  }
-
-
-  const update = {
-
-    progress:
-      finalProgress,
-
-    current_lesson:
-      finalLesson,
-
-    stage:
-      finalStage,
-
-    updated_at:
-      new Date().toISOString()
-
-  };
-
-
-  const {
-    error
-  } = await db
-    .from('users')
-    .update(update)
-    .eq(
-      'telegram_id',
-      telegramId
-    );
-
-
-  if (error) {
-
-    console.error(
-      'Ошибка сохранения:',
-      error
-    );
-
-  }
-
-
-  return true;
-
-}
-
-
-/* =====================================================
-   СОХРАНЕНИЕ РЕЗУЛЬТАТА ТЕСТА
-
-   ВАЖНО:
-   Эта функция меняет ТОЛЬКО stage.
-   Она НЕ меняет:
-   access_awakening
-   access_creator
-   progress
-   current_lesson
-===================================================== */
-
-async function saveTestResult(stage) {
-
-  const telegramId =
-    getTelegramId();
-
-  if (!telegramId) {
-    return false;
-  }
-
-
-  const current =
-    await loadUser();
-
-
-  if (!current) {
-    return false;
-  }
-
-
-  saveLocalUser({
-
-    ...current,
-
-    stage
+      finalLesson
 
   });
 
 
   if (!db) {
+
     return true;
+
   }
 
 
@@ -727,7 +1142,11 @@ async function saveTestResult(stage) {
     .from('users')
     .update({
 
-      stage,
+      progress:
+        finalProgress,
+
+      current_lesson:
+        finalLesson,
 
       updated_at:
         new Date().toISOString()
@@ -742,7 +1161,7 @@ async function saveTestResult(stage) {
   if (error) {
 
     console.error(
-      'Ошибка сохранения результата теста:',
+      'Ошибка сохранения прогресса:',
       error
     );
 
@@ -755,20 +1174,133 @@ async function saveTestResult(stage) {
 
 
 /* =====================================================
+   СОХРАНЕНИЕ РЕЗУЛЬТАТА ТЕСТА
+===================================================== */
+
+function getTestHistory() {
+
+  const local =
+    readLocal();
+
+
+  return {
+
+    initialStage:
+      local.initial_stage ||
+      null,
+
+    finalStage:
+      local.final_stage ||
+      null,
+
+    testCount:
+      Number(
+        local.test_count || 0
+      )
+
+  };
+
+}
+
+
+async function saveInitialTestResult(
+  stage
+) {
+
+  const history =
+    getTestHistory();
+
+
+  /*
+    Первый тест сохраняется
+    только один раз.
+
+    Повторные тесты не заменяют
+    исходную точку.
+  */
+
+  if (
+    !history.initialStage
+  ) {
+
+    writeLocal({
+
+      initial_stage:
+        stage,
+
+      test_count:
+        1
+
+    });
+
+  } else {
+
+    writeLocal({
+
+      test_count:
+        history.testCount + 1
+
+    });
+
+  }
+
+
+  /*
+    Последний результат тоже сохраняем.
+  */
+
+  writeLocal({
+
+    current_test_stage:
+      stage
+
+  });
+
+}
+
+
+async function saveFinalTestResult(
+  stage
+) {
+
+  writeLocal({
+
+    final_stage:
+      stage,
+
+    current_test_stage:
+      stage
+
+  });
+
+
+  /*
+    Здесь намеренно НЕ меняем
+    progress / current_lesson.
+  */
+
+}
+
+
+/* =====================================================
    НАВИГАЦИЯ
 ===================================================== */
 
-function showScreen(name) {
+function showScreen(
+  name
+) {
 
   document
     .querySelectorAll('.screen')
-    .forEach(screen => {
+    .forEach(
+      screen => {
 
-      screen.classList.remove(
-        'active'
-      );
+        screen.classList.remove(
+          'active'
+        );
 
-    });
+      }
+    );
 
 
   const screen =
@@ -792,7 +1324,9 @@ function showScreen(name) {
   );
 
 
-  if (name === 'test') {
+  if (
+    name === 'test'
+  ) {
 
     renderTest();
 
@@ -805,14 +1339,23 @@ function showScreen(name) {
    TRIBUTE
 ===================================================== */
 
-function openTribute(url) {
+function openTribute(
+  url
+) {
+
+  if (!url) {
+    return;
+  }
+
 
   if (
     tg &&
     typeof tg.openLink === 'function'
   ) {
 
-    tg.openLink(url);
+    tg.openLink(
+      url
+    );
 
   } else {
 
@@ -845,36 +1388,25 @@ function openAccompaniment() {
 
 
 /* =====================================================
-   ОПРЕДЕЛЕНИЕ ДОСТУПА
+   ДОСТУП
 ===================================================== */
 
-async function getUserAccess() {
+async function getAccess() {
 
   const user =
     await loadUser();
-
-  if (!user) {
-
-    return {
-
-      awakening: false,
-      creator: false
-
-    };
-
-  }
 
 
   return {
 
     awakening:
       Boolean(
-        user.access_awakening
+        user?.access_awakening
       ),
 
     creator:
       Boolean(
-        user.access_creator
+        user?.access_creator
       )
 
   };
@@ -884,24 +1416,25 @@ async function getUserAccess() {
 
 /* =====================================================
    ОТКРЫТИЕ ПРОДУКТА
-
-   Если продукт уже куплен —
-   НЕ отправляем снова на оплату.
 ===================================================== */
 
-async function openProduct(type) {
+async function openProduct(
+  type
+) {
 
   const access =
-    await getUserAccess();
+    await getAccess();
 
 
   if (
     type === 'awakening'
   ) {
 
-    if (access.awakening) {
+    if (
+      access.awakening
+    ) {
 
-      openCabinet();
+      await openCabinet();
 
       return;
 
@@ -921,9 +1454,11 @@ async function openProduct(type) {
     type === 'creator'
   ) {
 
-    if (access.creator) {
+    if (
+      access.creator
+    ) {
 
-      openCabinet();
+      await openCabinet();
 
       return;
 
@@ -931,21 +1466,9 @@ async function openProduct(type) {
 
 
     /*
-      Творец можно купить только
-      если у человека уже есть
-      Пробуждение.
+      Второй продукт покупается
+      отдельно.
     */
-
-    if (!access.awakening) {
-
-      openTribute(
-        LINKS.awakening
-      );
-
-      return;
-
-    }
-
 
     openTribute(
       LINKS.creator
@@ -967,6 +1490,7 @@ function renderTest() {
       'test-wrap'
     );
 
+
   if (!wrap) {
     return;
   }
@@ -987,15 +1511,20 @@ function renderTest() {
   const number =
     answers.length;
 
+
   const question =
-    questions[number];
+    questions[
+      number
+    ];
 
 
   wrap.innerHTML = `
 
     <div class="progress">
-      ВОПРОС ${number + 1}
-      ИЗ ${questions.length}
+      ВОПРОС
+      ${number + 1}
+      ИЗ
+      ${questions.length}
     </div>
 
     <div class="question">
@@ -1008,14 +1537,23 @@ function renderTest() {
 
         ${question.answers
           .map(
-            (answer, index) => `
+            (
+              answer,
+              index
+            ) => `
 
               <button
                 class="answer"
-                onclick="chooseAnswer(${index})"
+                onclick="
+                  chooseAnswer(${index})
+                "
               >
-                ${String.fromCharCode(65 + index)}.
+
+                ${String.fromCharCode(
+                  65 + index
+                )}.
                 ${answer}
+
               </button>
 
             `
@@ -1035,9 +1573,13 @@ function renderTest() {
    ОТВЕТ
 ===================================================== */
 
-function chooseAnswer(index) {
+function chooseAnswer(
+  index
+) {
 
-  answers.push(index);
+  answers.push(
+    index
+  );
 
   renderTest();
 
@@ -1059,44 +1601,82 @@ function calculateStage() {
   ];
 
 
-  answers.forEach(answer => {
+  answers.forEach(
+    answer => {
 
-    if (
-      answer >= 0 &&
-      answer <= 4
-    ) {
+      if (
+        answer >= 0 &&
+        answer <= 4
+      ) {
 
-      scores[answer]++;
+        scores[
+          answer
+        ]++;
+
+      }
 
     }
-
-  });
+  );
 
 
   const max =
-    Math.max(...scores);
+    Math.max(
+      ...scores
+    );
 
 
   const index =
-    scores.indexOf(max);
+    scores.indexOf(
+      max
+    );
 
 
-  if (index === 0) {
+  if (
+    index === 0
+  ) {
+
     return 'Автопилот';
+
   }
 
 
-  if (index === 1) {
+  if (
+    index === 1
+  ) {
+
     return 'Толчок';
+
   }
 
 
-  if (index === 2) {
+  if (
+    index === 2
+  ) {
+
     return 'Пробуждение';
+
   }
 
 
   return 'Творец';
+
+}
+
+
+/* =====================================================
+   ОПРЕДЕЛЕНИЕ:
+   ПЕРВЫЙ ЭТО ТЕСТ ИЛИ ПОВТОРНЫЙ
+===================================================== */
+
+function isFinalRetest() {
+
+  const local =
+    readLocal();
+
+
+  return Boolean(
+    local.final_retest_mode
+  );
 
 }
 
@@ -1115,18 +1695,29 @@ async function renderResult() {
     await loadUser();
 
 
-  /*
-    Сохраняем только результат теста.
-    Покупки и прогресс НЕ ТРОГАЕМ.
-  */
-
-  await saveTestResult(
-    stage
-  );
-
-
   const access =
-    await getUserAccess();
+    await getAccess();
+
+
+  const finalRetest =
+    isFinalRetest();
+
+
+  if (
+    finalRetest
+  ) {
+
+    await saveFinalTestResult(
+      stage
+    );
+
+  } else {
+
+    await saveInitialTestResult(
+      stage
+    );
+
+  }
 
 
   const wrap =
@@ -1140,14 +1731,82 @@ async function renderResult() {
   }
 
 
+  /*
+    ПОВТОРНЫЙ ТЕСТ
+  */
+
+  if (
+    finalRetest
+  ) {
+
+    const history =
+      getTestHistory();
+
+
+    wrap.innerHTML = `
+
+      <div class="result">
+
+        <div class="tag">
+          РЕЗУЛЬТАТ ПОВТОРНОГО ТЕСТА
+        </div>
+
+        <h2>
+          ${stage}
+        </h2>
+
+        ${
+          history.initialStage
+            ? `
+              <p>
+                <strong>
+                  В начале пути:
+                </strong>
+                ${history.initialStage}
+              </p>
+            `
+            : ''
+        }
+
+        <p>
+          <strong>
+            Сейчас:
+          </strong>
+          ${stage}
+        </p>
+
+        <h3>
+          Сравни свою точку старта
+          с тем, где ты находишься сейчас.
+        </h3>
+
+        <button
+          class="primary"
+          onclick="openCabinet()"
+        >
+          ВЕРНУТЬСЯ В МОЙ ПУТЬ
+        </button>
+
+      </div>
+
+    `;
+
+
+    return;
+
+  }
+
+
+  /*
+    ПЕРВЫЙ ТЕСТ
+  */
+
   let title = '';
+
   let text = '';
+
   let action = '';
 
-
-  /* ---------------------------------
-     АВТОПИЛОТ
-  --------------------------------- */
 
   if (
     stage === 'Автопилот'
@@ -1180,6 +1839,7 @@ async function renderResult() {
 
     action =
       access.awakening
+
         ? `
           <button
             class="primary"
@@ -1188,10 +1848,13 @@ async function renderResult() {
             ОТКРЫТЬ МОЙ ПУТЬ
           </button>
         `
+
         : `
           <button
             class="primary"
-            onclick="openProduct('awakening')"
+            onclick="
+              openProduct('awakening')
+            "
           >
             НАЧАТЬ ПЕРЕХОД
           </button>
@@ -1199,10 +1862,6 @@ async function renderResult() {
 
   }
 
-
-  /* ---------------------------------
-     ТОЛЧОК
-  --------------------------------- */
 
   if (
     stage === 'Толчок'
@@ -1235,18 +1894,22 @@ async function renderResult() {
 
     action =
       access.awakening
+
         ? `
           <button
             class="primary"
             onclick="openCabinet()"
           >
-            ОТКРЫТЬ МОЙ ПУТЬ
+            ПРОДОЛЖИТЬ МОЙ ПУТЬ
           </button>
         `
+
         : `
           <button
             class="primary"
-            onclick="openProduct('awakening')"
+            onclick="
+              openProduct('awakening')
+            "
           >
             ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
           </button>
@@ -1254,10 +1917,6 @@ async function renderResult() {
 
   }
 
-
-  /* ---------------------------------
-     ПРОБУЖДЕНИЕ
-  --------------------------------- */
 
   if (
     stage === 'Пробуждение'
@@ -1289,40 +1948,31 @@ async function renderResult() {
     `;
 
 
-    if (access.creator) {
+    action =
+      access.creator
 
-      action = `
+        ? `
+          <button
+            class="primary"
+            onclick="openCabinet()"
+          >
+            ОТКРЫТЬ МОЙ ПУТЬ
+          </button>
+        `
 
-        <button
-          class="primary"
-          onclick="openCabinet()"
-        >
-          ОТКРЫТЬ МОЙ ПУТЬ
-        </button>
-
-      `;
-
-    } else {
-
-      action = `
-
-        <button
-          class="primary"
-          onclick="openProduct('creator')"
-        >
-          ПЕРЕЙТИ В ТВОРЦА
-        </button>
-
-      `;
-
-    }
+        : `
+          <button
+            class="primary"
+            onclick="
+              openProduct('creator')
+            "
+          >
+            ПЕРЕЙТИ В ТВОРЦА
+          </button>
+        `;
 
   }
 
-
-  /* ---------------------------------
-     ТВОРЕЦ
-  --------------------------------- */
 
   if (
     stage === 'Творец'
@@ -1349,16 +1999,28 @@ async function renderResult() {
     `;
 
 
-    action = `
+    action =
+      access.creator
 
-      <button
-        class="primary"
-        onclick="openCabinet()"
-      >
-        ОТКРЫТЬ МОЙ ПУТЬ
-      </button>
+        ? `
+          <button
+            class="primary"
+            onclick="openCabinet()"
+          >
+            ОТКРЫТЬ МОЙ ПУТЬ
+          </button>
+        `
 
-    `;
+        : `
+          <button
+            class="primary"
+            onclick="
+              openProduct('creator')
+            "
+          >
+            ПЕРЕЙТИ В ТВОРЦА
+          </button>
+        `;
 
   }
 
@@ -1384,14 +2046,6 @@ async function renderResult() {
       ${action}
 
     </div>
-
-    <button
-      class="back"
-      style="margin-top:20px"
-      onclick="resetTest()"
-    >
-      Пройти тест заново
-    </button>
 
   `;
 
@@ -1471,7 +2125,7 @@ async function openCabinet() {
       </h3>
 
       <p>
-        Открой приложение именно через Telegram.
+        Открой Mini App через Telegram.
       </p>
 
     `;
@@ -1479,7 +2133,6 @@ async function openCabinet() {
 
     renderStageList(
       0,
-      false,
       false
     );
 
@@ -1489,8 +2142,12 @@ async function openCabinet() {
   }
 
 
-  const stage =
-    user.stage ||
+  const local =
+    readLocal();
+
+
+  const currentStage =
+    local.current_test_stage ||
     'Не определён';
 
 
@@ -1513,7 +2170,7 @@ async function openCabinet() {
 
 
   stageElement.textContent =
-    stage;
+    currentStage;
 
 
   progressElement.style.width =
@@ -1530,9 +2187,9 @@ async function openCabinet() {
     `${progress}% пройдено`;
 
 
-  /* ---------------------------------
-     НЕТ ДОСТУПА
-  --------------------------------- */
+  /*
+    НЕТ ПОКУПКИ
+  */
 
   if (
     !accessAwakening &&
@@ -1542,19 +2199,22 @@ async function openCabinet() {
     message.innerHTML = `
 
       <h3>
-        СНАЧАЛА ПРОЙДИ ТЕСТ
+        ДОСТУП ЕЩЁ НЕ ОТКРЫТ
       </h3>
 
       <p>
-        Пройди бесплатный тест,
-        чтобы узнать свой текущий этап.
+        Тест бесплатный.
+        После него ты можешь приобрести
+        подходящую программу.
       </p>
 
       <button
         class="primary"
-        onclick="showScreen('test')"
+        onclick="
+          showScreen('test')
+        "
       >
-        ПРОЙТИ ТЕСТ
+        ОТКРЫТЬ РЕЗУЛЬТАТ ТЕСТА
       </button>
 
     `;
@@ -1562,7 +2222,6 @@ async function openCabinet() {
 
     renderStageList(
       0,
-      false,
       false
     );
 
@@ -1572,9 +2231,9 @@ async function openCabinet() {
   }
 
 
-  /* ---------------------------------
-     ЕСТЬ ДОСТУП
-  --------------------------------- */
+  /*
+    ЕСТЬ ОПЛАЧЕННЫЙ ДОСТУП
+  */
 
   message.innerHTML = `
 
@@ -1583,12 +2242,13 @@ async function openCabinet() {
     </h3>
 
     <p>
-      Твой текущий результат:
-      <strong>${stage}</strong>
+      Твой результат теста:
+      <strong>
+        ${currentStage}
+      </strong>
     </p>
 
     <p>
-      Проходи этапы последовательно.
       Прогресс сохраняется автоматически.
     </p>
 
@@ -1597,8 +2257,7 @@ async function openCabinet() {
 
   renderStageList(
     progress,
-    accessAwakening,
-    accessCreator
+    true
   );
 
 }
@@ -1606,16 +2265,11 @@ async function openCabinet() {
 
 /* =====================================================
    7 ЭТАПОВ
-
-   Все 7 видны сразу.
-
-   Но открываются последовательно.
 ===================================================== */
 
 function renderStageList(
   progress,
-  accessAwakening,
-  accessCreator
+  hasAccess
 ) {
 
   const element =
@@ -1629,108 +2283,112 @@ function renderStageList(
   }
 
 
-  /*
-    Если доступа нет —
-    показываем 7 этапов,
-    но они заблокированы.
-  */
-
   element.innerHTML =
     stages
-      .map(stage => {
+      .map(
+        stage => {
 
-        const required =
-          Math.round(
-            (
-              (stage.number - 1)
-              /
-              stages.length
-            ) * 100
-          );
-
-
-        const complete =
-          Math.round(
-            (
-              stage.number
-              /
-              stages.length
-            ) * 100
-          );
+          const required =
+            Math.round(
+              (
+                (stage.number - 1)
+                /
+                stages.length
+              ) * 100
+            );
 
 
-        const isDone =
-          accessAwakening &&
-          progress >= complete;
+          const complete =
+            Math.round(
+              (
+                stage.number
+                /
+                stages.length
+              ) * 100
+            );
 
 
-        const isOpen =
-          accessAwakening &&
-          progress >= required;
+          const isDone =
+            hasAccess &&
+            progress >= complete;
 
 
-        let state =
-          'Заблокировано';
+          const isOpen =
+            hasAccess &&
+            progress >= required;
 
 
-        if (isDone) {
+          let state =
+            'Заблокировано';
 
-          state =
-            'Пройдено';
 
-        } else if (isOpen) {
+          if (isDone) {
 
-          state =
-            'Открыто';
+            state =
+              'Пройдено';
+
+          } else if (isOpen) {
+
+            state =
+              'Открыто';
+
+          }
+
+
+          return `
+
+            <button
+
+              class="
+                stage-button
+                ${isDone ? 'done' : ''}
+                ${isOpen ? 'current' : 'locked'}
+              "
+
+              ${
+                isOpen
+                  ? `onclick="openLesson(${stage.number})"`
+                  : 'disabled'
+              }
+
+            >
+
+              <span
+                class="stage-number"
+              >
+                ${stage.number}
+              </span>
+
+
+              <span
+                class="stage-name"
+              >
+                ${stage.title}
+              </span>
+
+
+              <span
+                class="stage-state"
+              >
+                ${state}
+              </span>
+
+            </button>
+
+          `;
 
         }
-
-
-        return `
-
-          <button
-
-            class="
-              stage-button
-              ${isDone ? 'done' : ''}
-              ${isOpen ? 'current' : 'locked'}
-            "
-
-            ${
-              isOpen
-                ? `onclick="openLesson(${stage.number})"`
-                : 'disabled'
-            }
-
-          >
-
-            <span class="stage-number">
-              ${stage.number}
-            </span>
-
-            <span class="stage-name">
-              ${stage.title}
-            </span>
-
-            <span class="stage-state">
-              ${state}
-            </span>
-
-          </button>
-
-        `;
-
-      })
+      )
       .join('');
 
 
   /*
-    После 7-го этапа
-    показываем повторный тест.
+    Финальная кнопка технически появляется
+    только после 100%.
   */
 
   if (
-    accessAwakening &&
+    hasAccess &&
     progress >= 100
   ) {
 
@@ -1742,22 +2400,24 @@ function renderStageList(
       >
 
         <div class="tag">
-          ЭТАПЫ ЗАВЕРШЕНЫ
+          ПУТЬ ПРОЙДЕН
         </div>
 
         <h3>
-          ТЫ ПРОШЛА ПЕРВЫЙ ПУТЬ
+          100% ЗАВЕРШЕНО
         </h3>
 
         <p>
-          Теперь можно пройти тест ещё раз
-          и посмотреть, что изменилось
-          в твоём состоянии.
+          Теперь ты можешь пройти тест повторно
+          и сравнить свою точку старта
+          с текущим состоянием.
         </p>
 
         <button
           class="primary"
-          onclick="startFinalTest()"
+          onclick="
+            startFinalRetest()
+          "
         >
           ПРОЙТИ ТЕСТ ПОВТОРНО
         </button>
@@ -1789,7 +2449,8 @@ async function openLesson(
 
 
   if (
-    !user.access_awakening
+    !user.access_awakening &&
+    !user.access_creator
   ) {
 
     return;
@@ -1855,24 +2516,18 @@ async function openLesson(
     <div class="lesson">
 
       <div class="tag">
-        ЭТАП ${lessonNumber} ИЗ 7
+        ЭТАП
+        ${lessonNumber}
+        ИЗ 7
       </div>
 
       <h2>
         ${stage.title}
       </h2>
 
-      <p>
-        ${stage.text}
-      </p>
+      ${stage.text}
 
       <div class="lesson-practice">
-
-        <strong>
-          ПРАКТИКА
-        </strong>
-
-        <br><br>
 
         ${stage.practice}
 
@@ -1906,6 +2561,29 @@ async function completeLesson(
   lessonNumber
 ) {
 
+  const user =
+    await loadUser();
+
+
+  if (
+    !user
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !user.access_awakening &&
+    !user.access_creator
+  ) {
+
+    return;
+
+  }
+
+
   if (
     lessonNumber < 1 ||
     lessonNumber > 7
@@ -1916,21 +2594,7 @@ async function completeLesson(
   }
 
 
-  const user =
-    await loadUser();
-
-
-  if (
-    !user ||
-    !user.access_awakening
-  ) {
-
-    return;
-
-  }
-
-
-  const progress =
+  const newProgress =
     Math.round(
       (
         lessonNumber
@@ -1940,15 +2604,9 @@ async function completeLesson(
     );
 
 
-  const currentStage =
-    user.stage ||
-    'Не определён';
-
-
   await saveProgress(
-    progress,
-    lessonNumber,
-    currentStage
+    newProgress,
+    lessonNumber
   );
 
 
@@ -1961,9 +2619,46 @@ async function completeLesson(
    ПОВТОРНЫЙ ТЕСТ
 ===================================================== */
 
-function startFinalTest() {
+async function startFinalRetest() {
+
+  const user =
+    await loadUser();
+
+
+  if (!user) {
+    return;
+  }
+
+
+  const progress =
+    Number(
+      user.progress || 0
+    );
+
+
+  if (
+    progress < 100
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+    Включаем режим повторного теста.
+  */
+
+  writeLocal({
+
+    final_retest_mode:
+      true
+
+  });
+
 
   answers = [];
+
 
   showScreen(
     'test'
@@ -1973,7 +2668,7 @@ function startFinalTest() {
 
 
 /* =====================================================
-   СБРОС ТЕСТА
+   СБРОС СОСТОЯНИЯ ТЕСТА
 ===================================================== */
 
 function resetTest() {
@@ -2004,14 +2699,7 @@ document.addEventListener(
     );
 
 
-    const user =
-      await ensureUser();
-
-
-    console.log(
-      'Пользователь:',
-      user
-    );
+    await ensureUser();
 
   }
 );
