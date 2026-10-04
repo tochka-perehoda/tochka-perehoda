@@ -2,21 +2,15 @@
    ТОЧКА ПЕРЕХОДА
    APP.JS
 
-   ТЕСТ:
+   4 РЕЗУЛЬТАТА ТЕСТА:
    Автопилот / Толчок / Пробуждение / Творец
 
-   ПРОДУКТ:
-   7 этапов
+   2 ВЕТКИ:
+   Автопилот + Толчок -> ПРОБУЖДЕНИЕ
+   Пробуждение + Творец -> ТВОРЕЦ
 
-   ДОСТУП:
-   access_awakening
-   access_creator
-
-   ВАЖНО:
-   - результат теста НЕ является покупкой
-   - повторный тест НЕ сбрасывает прогресс
-   - покупка НЕ зависит от результата теста
-   - 7 этапов открываются только при наличии доступа
+   ВСЕГО:
+   14 этапов = 2 ветки × 7 этапов
 ===================================================== */
 
 
@@ -71,18 +65,12 @@ const LINKS = {
 
 
 /* =====================================================
-   PRODUCT IDS TRIBUTE
+   PRODUCT IDS
 ===================================================== */
 
 const PRODUCT_IDS = {
 
   awakening: '156084',
-
-  /*
-    ID второго продукта пока неизвестен.
-    Когда получим его из Tribute,
-    просто вставим сюда.
-  */
 
   creator: null
 
@@ -90,10 +78,13 @@ const PRODUCT_IDS = {
 
 
 /* =====================================================
+   ВЕТКА 1
+   АВТОПИЛОТ / ТОЛЧОК -> ПРОБУЖДЕНИЕ
+
    7 ЭТАПОВ
 ===================================================== */
 
-const stages = [
+const awakeningStages = [
 
   {
     number: 1,
@@ -153,8 +144,11 @@ const stages = [
         Не анализируй их.
         Пиши первое, что приходит.
       </p>
-    `
+    `,
 
+    voiceUrl: '',
+
+    meditationUrl: ''
   },
 
 
@@ -203,30 +197,27 @@ const stages = [
       </p>
 
       <p>
-        <strong>
-          Я больше не хочу...
-        </strong>
+        <strong>Я больше не хочу...</strong>
       </p>
 
       <p>
-        <strong>
-          Это вообще не моё...
-        </strong>
+        <strong>Это вообще не моё...</strong>
       </p>
 
       <p>
-        <strong>
-          Я готова отпустить...
-        </strong>
+        <strong>Я готова отпустить...</strong>
       </p>
 
       <p>
         Выбери минимум три пункта,
-        которые больше не должны переходить
-        вместе с тобой дальше.
+        которые больше не должны
+        переходить вместе с тобой дальше.
       </p>
-    `
+    `,
 
+    voiceUrl: '',
+
+    meditationUrl: ''
   },
 
 
@@ -242,18 +233,13 @@ const stages = [
       </p>
 
       <p>
-        <strong>
-          «А чего хочу именно я?»
-        </strong>
+        <strong>«А чего хочу именно я?»</strong>
       </p>
 
       <p>
         Не что правильно.
         Не что удобно.
         Не что ждут другие.
-      </p>
-
-      <p>
         А чего хочешь ты.
       </p>
 
@@ -289,17 +275,22 @@ const stages = [
       <p>
         <strong>
           Если бы мне не нужно было
-          никому ничего доказывать, я бы...
+          никому ничего доказывать,
+          я бы...
         </strong>
       </p>
 
       <p>
         <strong>
-          Если бы я не боялась осуждения, я бы...
+          Если бы я не боялась осуждения,
+          я бы...
         </strong>
       </p>
-    `
+    `,
 
+    voiceUrl: '',
+
+    meditationUrl: ''
   },
 
 
@@ -311,7 +302,8 @@ const stages = [
     text: `
       <p>
         Невозможно создать новое,
-        продолжая соглашаться со всем старым.
+        продолжая соглашаться
+        со всем старым.
       </p>
 
       <p>
@@ -335,9 +327,7 @@ const stages = [
 
     practice: `
       <p>
-        <strong>
-          ПРАКТИКА «МОЁ НЕТ»
-        </strong>
+        <strong>ПРАКТИКА «МОЁ НЕТ»</strong>
       </p>
 
       <p>
@@ -361,8 +351,11 @@ const stages = [
         где ты обычно говоришь «да»,
         хотя хочешь сказать «нет».
       </p>
-    `
+    `,
 
+    voiceUrl: '',
+
+    meditationUrl: ''
   },
 
 
@@ -378,9 +371,7 @@ const stages = [
       </p>
 
       <p>
-        <strong>
-          Ты — не твои мысли.
-        </strong>
+        <strong>Ты — не твои мысли.</strong>
       </p>
 
       <p>
@@ -393,34 +384,26 @@ const stages = [
       <p>
         Но между событием и твоим действием
         есть пространство.
-      </p>
-
-      <p>
         Именно там находится выбор.
       </p>
     `,
 
     practice: `
       <p>
-        <strong>
-          ПРАКТИКА «ПАУЗА»
-        </strong>
+        <strong>ПРАКТИКА «ПАУЗА»</strong>
       </p>
 
       <p>
-        Поймай в течение дня
-        три ситуации с сильной реакцией.
+        Поймай в течение дня три ситуации
+        с сильной реакцией.
       </p>
 
       <p>
         Запиши:
-      </p>
-
-      <p>
-        Что произошло?<br>
-        Что я подумала?<br>
-        Что почувствовала?<br>
-        Что захотела сделать автоматически?<br>
+        что произошло?
+        Что я подумала?
+        Что почувствовала?
+        Что захотела сделать автоматически?
         Что я выбрала сделать?
       </p>
 
@@ -428,8 +411,11 @@ const stages = [
         Не исправляй себя.
         Просто наблюдай.
       </p>
-    `
+    `,
 
+    voiceUrl: '',
+
+    meditationUrl: ''
   },
 
 
@@ -441,7 +427,8 @@ const stages = [
     text: `
       <p>
         Осознание ничего не меняет,
-        если оно не становится частью жизни.
+        если оно не становится
+        частью жизни.
       </p>
 
       <p>
@@ -477,21 +464,24 @@ const stages = [
       </p>
 
       <p>
-        Ответь:
-      </p>
-
-      <p>
-        Что меня здесь больше не устраивает?<br>
-        Чего я хочу вместо этого?<br>
-        Что зависит от меня?<br>
-        Что я могу сделать в ближайшие 24 часа?
+        Что меня здесь больше не устраивает?
+        <br>
+        Чего я хочу вместо этого?
+        <br>
+        Что зависит от меня?
+        <br>
+        Что я могу сделать
+        в ближайшие 24 часа?
       </p>
 
       <p>
         И обязательно сделай этот шаг.
       </p>
-    `
+    `,
 
+    voiceUrl: '',
+
+    meditationUrl: ''
   },
 
 
@@ -524,13 +514,6 @@ const stages = [
       </p>
 
       <p>
-        Посмотри назад:
-        что изменилось?
-        Что ты теперь видишь иначе?
-        К чему больше не готова возвращаться?
-      </p>
-
-      <p>
         И главное:
         <strong>
           на что ты теперь хочешь опираться?
@@ -546,37 +529,570 @@ const stages = [
         </strong>
       </p>
 
-      <p>
-        Закончи:
-      </p>
-
-      <p>
-        <strong>Я больше не...</strong><br><br>
-        <strong>Я выбираю...</strong><br><br>
-        <strong>Я разрешаю себе...</strong><br><br>
-        <strong>Я больше не позволяю...</strong><br><br>
-        <strong>Для меня важно...</strong><br><br>
-        <strong>Когда мне страшно, я...</strong><br><br>
-        <strong>
-          Когда я не знаю, что делать, я...
-        </strong><br><br>
-        <strong>Мой следующий шаг...</strong>
-      </p>
+      <p><strong>Я больше не...</strong></p>
+      <p><strong>Я выбираю...</strong></p>
+      <p><strong>Я разрешаю себе...</strong></p>
+      <p><strong>Я больше не позволяю...</strong></p>
+      <p><strong>Для меня важно...</strong></p>
+      <p><strong>Когда мне страшно, я...</strong></p>
+      <p><strong>Когда я не знаю, что делать, я...</strong></p>
+      <p><strong>Мой следующий шаг...</strong></p>
 
       <p>
         Сохрани эти ответы.
         Это твоя точка опоры
         после прохождения пути.
       </p>
-    `
+    `,
 
+    voiceUrl: '',
+
+    meditationUrl: ''
   }
 
 ];
 
 
 /* =====================================================
-   ТЕСТ
+   ВЕТКА 2
+   ПРОБУЖДЕНИЕ / ТВОРЕЦ -> ТВОРЕЦ
+
+   7 ЭТАПОВ
+
+   ВАЖНО:
+   здесь есть И ПРАКТИКА,
+   И ГОЛОСОВАЯ МЕДИТАЦИЯ.
+===================================================== */
+
+const creatorStages = [
+
+  {
+    number: 1,
+
+    title: 'Я выбираю свою реальность',
+
+    text: `
+      <p>
+        Ты уже увидела, что прежняя жизнь
+        не обязана оставаться твоей навсегда.
+      </p>
+
+      <p>
+        Теперь начинается следующий уровень:
+        не только понимать,
+        а <strong>создавать</strong>.
+      </p>
+
+      <p>
+        Первый вопрос Творца:
+        какую реальность я действительно выбираю?
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «МОЯ РЕАЛЬНОСТЬ»
+        </strong>
+      </p>
+
+      <p>
+        Опиши свою жизнь через год так,
+        как будто тебе не нужно
+        соответствовать чужим ожиданиям.
+      </p>
+
+      <p>
+        Что есть в твоей жизни?
+        <br>
+        Как ты живёшь?
+        <br>
+        С кем?
+        <br>
+        Чем занимаешься?
+        <br>
+        Что чувствуешь?
+      </p>
+
+      <p>
+        Не пиши «идеальную жизнь».
+        Пиши <strong>свою</strong>.
+      </p>
+    `,
+
+    voiceUrl: '',
+
+    meditationUrl: ''
+  },
+
+
+  {
+    number: 2,
+
+    title: 'Моё желание',
+
+    text: `
+      <p>
+        Не каждое желание действительно твоё.
+      </p>
+
+      <p>
+        Иногда мы хотим то,
+        что красиво выглядит,
+        что принято хотеть
+        или что должно доказать
+        нашу ценность.
+      </p>
+
+      <p>
+        Творец начинает
+        с честного контакта
+        со своим желанием.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «Я ХОЧУ»
+        </strong>
+      </p>
+
+      <p>
+        Выбери одно желание и ответь:
+      </p>
+
+      <p>
+        Чего я хочу?
+        <br>
+        Зачем мне это?
+        <br>
+        Что я хочу почувствовать,
+        когда это получу?
+        <br>
+        Это действительно моё
+        или я пытаюсь кому-то
+        что-то доказать?
+      </p>
+    `,
+
+    voiceUrl: '',
+
+    meditationUrl: ''
+  },
+
+
+  {
+    number: 3,
+
+    title: 'Мой выбор',
+
+    text: `
+      <p>
+        Пробуждение без действий
+        остаётся только осознанием.
+      </p>
+
+      <p>
+        На этом этапе ты переходишь
+        от «я понимаю»
+        к <strong>«я выбираю»</strong>.
+      </p>
+
+      <p>
+        Выбор — это ответственность
+        за направление своей жизни.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «ОДНО РЕШЕНИЕ»
+        </strong>
+      </p>
+
+      <p>
+        Выбери одно решение,
+        которое ты давно откладываешь.
+      </p>
+
+      <p>
+        Не составляй идеальный план.
+        Сделай
+        <strong>
+          первый конкретный шаг сегодня
+        </strong>.
+      </p>
+
+      <p>
+        Запиши:
+        что я решила?
+        Что я сделаю?
+        Когда именно?
+      </p>
+    `,
+
+    voiceUrl: '',
+
+    meditationUrl: ''
+  },
+
+
+  {
+    number: 4,
+
+    title: 'Моя энергия',
+
+    text: `
+      <p>
+        Творец не может создавать,
+        если вся его энергия уходит
+        на прошлое, страх, контроль
+        и попытки удержать
+        то, что уже закончилось.
+      </p>
+
+      <p>
+        Сейчас мы смотрим,
+        куда ты отдаёшь свою силу.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «КУДА УХОДИТ МОЯ СИЛА»
+        </strong>
+      </p>
+
+      <p>
+        Запиши три главных
+        источника утечки энергии.
+      </p>
+
+      <p>
+        Рядом напиши:
+        что я могу перестать делать,
+        изменить или ограничить?
+      </p>
+
+      <p>
+        Выбери одну утечку
+        и начни возвращать себе энергию
+        уже сегодня.
+      </p>
+    `,
+
+    voiceUrl: '',
+
+    meditationUrl: ''
+  },
+
+
+  {
+    number: 5,
+
+    title: 'Я действую',
+
+    text: `
+      <p>
+        <strong>
+          Творец — это не тот,
+          кто много осознал.
+          Творец — тот, кто создаёт.
+        </strong>
+      </p>
+
+      <p>
+        Теперь действие становится
+        частью твоего нового состояния.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «СОЗДАЙ ДВИЖЕНИЕ»
+        </strong>
+      </p>
+
+      <p>
+        Выбери одну сферу жизни,
+        которую хочешь изменить.
+      </p>
+
+      <p>
+        Сделай сегодня одно действие,
+        после которого реальность
+        действительно станет другой.
+      </p>
+
+      <p>
+        Не планируй действие.
+        <strong>Сделай его.</strong>
+      </p>
+    `,
+
+    voiceUrl: '',
+
+    meditationUrl: ''
+  },
+
+
+  {
+    number: 6,
+
+    title: 'Моя новая реальность',
+
+    text: `
+      <p>
+        Посмотри, что уже изменилось.
+      </p>
+
+      <p>
+        Не обесценивай маленькие изменения.
+        Именно из них складывается
+        новая реальность.
+      </p>
+
+      <p>
+        Теперь важно не вернуться
+        автоматически в старую версию себя.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ПРАКТИКА «БЫЛО → ЕСТЬ → БУДЕТ»
+        </strong>
+      </p>
+
+      <p>
+        Сравни три точки:
+      </p>
+
+      <p>
+        <strong>Как было.</strong>
+        <br>
+        <strong>Как есть сейчас.</strong>
+        <br>
+        <strong>
+          Что я выбираю создавать дальше.
+        </strong>
+      </p>
+
+      <p>
+        Запиши минимум по три пункта.
+      </p>
+    `,
+
+    voiceUrl: '',
+
+    meditationUrl: ''
+  },
+
+
+  {
+    number: 7,
+
+    title: 'Я — Творец',
+
+    text: `
+      <p>
+        Финал этой ветки —
+        не обещание, что жизнь
+        станет идеальной.
+      </p>
+
+      <p>
+        Это понимание:
+        <strong>
+          я могу влиять на свою жизнь
+          через свои выборы и действия.
+        </strong>
+      </p>
+
+      <p>
+        Теперь твоя задача —
+        продолжать создавать,
+        а не ждать разрешения
+        на свою жизнь.
+      </p>
+    `,
+
+    practice: `
+      <p>
+        <strong>
+          ФИНАЛЬНАЯ ПРАКТИКА
+          «Я СОЗДАЮ СВОЮ ЖИЗНЬ»
+        </strong>
+      </p>
+
+      <p>
+        Создай свой личный манифест:
+      </p>
+
+      <p>
+        <strong>Кто я?</strong>
+        <br>
+        <strong>Чего я хочу?</strong>
+        <br>
+        <strong>Что я выбираю?</strong>
+        <br>
+        <strong>Что я больше не принимаю?</strong>
+        <br>
+        <strong>Во что я верю?</strong>
+        <br>
+        <strong>Какие действия я совершаю?</strong>
+        <br>
+        <strong>Какую жизнь я создаю?</strong>
+      </p>
+
+      <p>
+        Сохрани этот текст как
+        свою новую точку опоры.
+      </p>
+    `,
+
+    voiceUrl: '',
+
+    meditationUrl: ''
+  }
+
+];
+
+
+/* =====================================================
+   ГЛАВНАЯ ЛОГИКА ВЕТОК
+
+   ЭТО ВАЖНО:
+===================================================== */
+
+function getPathKey(stage) {
+
+  // Автопилот -> Пробуждение
+  if (stage === 'Автопилот') {
+    return 'awakening';
+  }
+
+  // Толчок -> Пробуждение
+  if (stage === 'Толчок') {
+    return 'awakening';
+  }
+
+  // Пробуждение -> Творец
+  if (stage === 'Пробуждение') {
+    return 'creator';
+  }
+
+  // Творец -> Творец
+  if (stage === 'Творец') {
+    return 'creator';
+  }
+
+  return null;
+}
+
+
+/* =====================================================
+   ПОЛУЧИТЬ ЭТАПЫ НУЖНОЙ ВЕТКИ
+===================================================== */
+
+function getStagesForPath(path) {
+
+  if (path === 'awakening') {
+    return awakeningStages;
+  }
+
+  if (path === 'creator') {
+    return creatorStages;
+  }
+
+  return [];
+}
+
+
+/* =====================================================
+   АКТИВНАЯ ВЕТКА
+===================================================== */
+
+function getActivePath() {
+
+  const local = readLocal();
+
+  const stage =
+    local.current_test_stage ||
+    local.final_stage ||
+    local.initial_stage;
+
+  return getPathKey(stage);
+}
+
+
+/* =====================================================
+   СОСТОЯНИЕ ВЕТКИ
+===================================================== */
+
+function getPathState(path) {
+
+  const local = readLocal();
+
+  const all =
+    local.path_progress || {};
+
+  const state =
+    all[path] || {};
+
+  return {
+
+    progress:
+      Number(state.progress || 0),
+
+    currentLesson:
+      Number(state.currentLesson || 0)
+
+  };
+}
+
+
+/* =====================================================
+   СОХРАНЕНИЕ СОСТОЯНИЯ ВЕТКИ
+===================================================== */
+
+function savePathState(
+  path,
+  progress,
+  currentLesson
+) {
+
+  const local = readLocal();
+
+  const all =
+    local.path_progress || {};
+
+  all[path] = {
+
+    progress:
+      Number(progress || 0),
+
+    currentLesson:
+      Number(currentLesson || 0)
+
+  };
+
+  writeLocal({
+
+    path_progress: all
+
+  });
+
+}
+
+
+/* =====================================================
+   ВОПРОСЫ ТЕСТА
 ===================================================== */
 
 const questions = [
@@ -729,7 +1245,6 @@ function getTelegramId() {
   return user?.id
     ? String(user.id)
     : null;
-
 }
 
 
@@ -741,7 +1256,6 @@ function getLocalKey() {
   return id
     ? 'tp_user_' + id
     : 'tp_guest';
-
 }
 
 
@@ -775,11 +1289,16 @@ function writeLocal(data) {
       readLocal();
 
     localStorage.setItem(
+
       getLocalKey(),
+
       JSON.stringify({
+
         ...current,
         ...data
+
       })
+
     );
 
   } catch (error) {
@@ -803,19 +1322,22 @@ async function loadUser() {
   const telegramId =
     getTelegramId();
 
-
   if (!telegramId) {
-
     return null;
-
   }
-
 
   const local =
     readLocal();
 
+  const activePath =
+    getActivePath();
 
-  if (!db) {
+  const pathState =
+    activePath
+      ? getPathState(activePath)
+      : {};
+
+  const localFallback = () => {
 
     return {
 
@@ -824,12 +1346,16 @@ async function loadUser() {
 
       progress:
         Number(
-          local.progress || 0
+          pathState.progress ??
+          local.progress ??
+          0
         ),
 
       current_lesson:
         Number(
-          local.current_lesson || 0
+          pathState.currentLesson ??
+          local.current_lesson ??
+          0
         ),
 
       access_awakening:
@@ -844,21 +1370,23 @@ async function loadUser() {
 
     };
 
+  };
+
+
+  if (!db) {
+
+    return localFallback();
+
   }
 
-
-  /*
-    ВАЖНО:
-    НЕ выбираем stage,
-    потому что такой колонки
-    в твоей таблице нет.
-  */
 
   const {
     data,
     error
   } = await db
+
     .from('users')
+
     .select(`
       telegram_id,
       progress,
@@ -866,10 +1394,12 @@ async function loadUser() {
       access_awakening,
       access_creator
     `)
+
     .eq(
       'telegram_id',
       telegramId
     )
+
     .maybeSingle();
 
 
@@ -880,33 +1410,7 @@ async function loadUser() {
       error
     );
 
-
-    return {
-
-      telegram_id:
-        telegramId,
-
-      progress:
-        Number(
-          local.progress || 0
-        ),
-
-      current_lesson:
-        Number(
-          local.current_lesson || 0
-        ),
-
-      access_awakening:
-        Boolean(
-          local.access_awakening
-        ),
-
-      access_creator:
-        Boolean(
-          local.access_creator
-        )
-
-    };
+    return localFallback();
 
   }
 
@@ -918,23 +1422,7 @@ async function loadUser() {
   }
 
 
-  /*
-    Обновляем локальную копию,
-    но не теряем результаты
-    тестов.
-  */
-
   writeLocal({
-
-    progress:
-      Number(
-        data.progress || 0
-      ),
-
-    current_lesson:
-      Number(
-        data.current_lesson || 0
-      ),
 
     access_awakening:
       Boolean(
@@ -949,7 +1437,33 @@ async function loadUser() {
   });
 
 
-  return data;
+  return {
+
+    ...data,
+
+    progress:
+      activePath
+        ? Number(
+            pathState.progress ??
+            data.progress ??
+            0
+          )
+        : Number(
+            data.progress || 0
+          ),
+
+    current_lesson:
+      activePath
+        ? Number(
+            pathState.currentLesson ??
+            data.current_lesson ??
+            0
+          )
+        : Number(
+            data.current_lesson || 0
+          )
+
+  };
 
 }
 
@@ -963,22 +1477,16 @@ async function ensureUser() {
   const telegramId =
     getTelegramId();
 
-
   if (!telegramId) {
-
     return null;
-
   }
 
 
   const existing =
     await loadUser();
 
-
   if (existing) {
-
     return existing;
-
   }
 
 
@@ -1029,10 +1537,13 @@ async function ensureUser() {
     data,
     error
   } = await db
+
     .from('users')
+
     .insert(
       newUser
     )
+
     .select(`
       telegram_id,
       progress,
@@ -1040,6 +1551,7 @@ async function ensureUser() {
       access_awakening,
       access_creator
     `)
+
     .single();
 
 
@@ -1049,7 +1561,6 @@ async function ensureUser() {
       'Ошибка создания пользователя:',
       error
     );
-
 
     writeLocal(
       newUser
@@ -1082,41 +1593,28 @@ async function saveProgress(
   const telegramId =
     getTelegramId();
 
-
   if (!telegramId) {
     return false;
   }
 
 
-  const current =
-    await loadUser();
+  const local =
+    readLocal();
+
+  const activePath =
+    getActivePath();
 
 
   const finalProgress =
     Number(
-      progress ??
-      current?.progress ??
-      0
+      progress || 0
     );
 
-
   const finalLesson =
-    currentLesson !== undefined &&
-    currentLesson !== null
+    Number(
+      currentLesson || 0
+    );
 
-      ? Number(
-          currentLesson
-        )
-
-      : Number(
-          current?.current_lesson ||
-          0
-        );
-
-
-  /*
-    Сначала сохраняем локально.
-  */
 
   writeLocal({
 
@@ -1129,17 +1627,32 @@ async function saveProgress(
   });
 
 
+  if (activePath) {
+
+    savePathState(
+
+      activePath,
+
+      finalProgress,
+
+      finalLesson
+
+    );
+
+  }
+
+
   if (!db) {
-
     return true;
-
   }
 
 
   const {
     error
   } = await db
+
     .from('users')
+
     .update({
 
       progress:
@@ -1152,6 +1665,7 @@ async function saveProgress(
         new Date().toISOString()
 
     })
+
     .eq(
       'telegram_id',
       telegramId
@@ -1182,7 +1696,6 @@ function getTestHistory() {
   const local =
     readLocal();
 
-
   return {
 
     initialStage:
@@ -1211,17 +1724,7 @@ async function saveInitialTestResult(
     getTestHistory();
 
 
-  /*
-    Первый тест сохраняется
-    только один раз.
-
-    Повторные тесты не заменяют
-    исходную точку.
-  */
-
-  if (
-    !history.initialStage
-  ) {
+  if (!history.initialStage) {
 
     writeLocal({
 
@@ -1244,10 +1747,6 @@ async function saveInitialTestResult(
 
   }
 
-
-  /*
-    Последний результат тоже сохраняем.
-  */
 
   writeLocal({
 
@@ -1272,12 +1771,6 @@ async function saveFinalTestResult(
       stage
 
   });
-
-
-  /*
-    Здесь намеренно НЕ меняем
-    progress / current_lesson.
-  */
 
 }
 
@@ -1324,9 +1817,7 @@ function showScreen(
   );
 
 
-  if (
-    name === 'test'
-  ) {
+  if (name === 'test') {
 
     renderTest();
 
@@ -1396,7 +1887,6 @@ async function getAccess() {
   const user =
     await loadUser();
 
-
   return {
 
     awakening:
@@ -1415,7 +1905,7 @@ async function getAccess() {
 
 
 /* =====================================================
-   ОТКРЫТИЕ ПРОДУКТА
+   ОТКРЫТЬ ПРОДУКТ
 ===================================================== */
 
 async function openProduct(
@@ -1426,13 +1916,9 @@ async function openProduct(
     await getAccess();
 
 
-  if (
-    type === 'awakening'
-  ) {
+  if (type === 'awakening') {
 
-    if (
-      access.awakening
-    ) {
+    if (access.awakening) {
 
       await openCabinet();
 
@@ -1450,13 +1936,9 @@ async function openProduct(
   }
 
 
-  if (
-    type === 'creator'
-  ) {
+  if (type === 'creator') {
 
-    if (
-      access.creator
-    ) {
+    if (access.creator) {
 
       await openCabinet();
 
@@ -1464,11 +1946,6 @@ async function openProduct(
 
     }
 
-
-    /*
-      Второй продукт покупается
-      отдельно.
-    */
 
     openTribute(
       LINKS.creator
@@ -1480,7 +1957,7 @@ async function openProduct(
 
 
 /* =====================================================
-   ТЕСТ
+   РЕНДЕР ТЕСТА
 ===================================================== */
 
 function renderTest() {
@@ -1489,7 +1966,6 @@ function renderTest() {
     document.getElementById(
       'test-wrap'
     );
-
 
   if (!wrap) {
     return;
@@ -1511,11 +1987,8 @@ function renderTest() {
   const number =
     answers.length;
 
-
   const question =
-    questions[
-      number
-    ];
+    questions[number];
 
 
   wrap.innerHTML = `
@@ -1631,32 +2104,17 @@ function calculateStage() {
     );
 
 
-  if (
-    index === 0
-  ) {
-
+  if (index === 0) {
     return 'Автопилот';
-
   }
 
-
-  if (
-    index === 1
-  ) {
-
+  if (index === 1) {
     return 'Толчок';
-
   }
 
-
-  if (
-    index === 2
-  ) {
-
+  if (index === 2) {
     return 'Пробуждение';
-
   }
-
 
   return 'Творец';
 
@@ -1664,15 +2122,13 @@ function calculateStage() {
 
 
 /* =====================================================
-   ОПРЕДЕЛЕНИЕ:
-   ПЕРВЫЙ ЭТО ТЕСТ ИЛИ ПОВТОРНЫЙ
+   ПОВТОРНЫЙ ТЕСТ
 ===================================================== */
 
 function isFinalRetest() {
 
   const local =
     readLocal();
-
 
   return Boolean(
     local.final_retest_mode
@@ -1691,10 +2147,6 @@ async function renderResult() {
     calculateStage();
 
 
-  const user =
-    await loadUser();
-
-
   const access =
     await getAccess();
 
@@ -1703,9 +2155,7 @@ async function renderResult() {
     isFinalRetest();
 
 
-  if (
-    finalRetest
-  ) {
+  if (finalRetest) {
 
     await saveFinalTestResult(
       stage
@@ -1725,88 +2175,19 @@ async function renderResult() {
       'test-wrap'
     );
 
-
   if (!wrap) {
     return;
   }
 
 
-  /*
-    ПОВТОРНЫЙ ТЕСТ
-  */
-
-  if (
-    finalRetest
-  ) {
-
-    const history =
-      getTestHistory();
-
-
-    wrap.innerHTML = `
-
-      <div class="result">
-
-        <div class="tag">
-          РЕЗУЛЬТАТ ПОВТОРНОГО ТЕСТА
-        </div>
-
-        <h2>
-          ${stage}
-        </h2>
-
-        ${
-          history.initialStage
-            ? `
-              <p>
-                <strong>
-                  В начале пути:
-                </strong>
-                ${history.initialStage}
-              </p>
-            `
-            : ''
-        }
-
-        <p>
-          <strong>
-            Сейчас:
-          </strong>
-          ${stage}
-        </p>
-
-        <h3>
-          Сравни свою точку старта
-          с тем, где ты находишься сейчас.
-        </h3>
-
-        <button
-          class="primary"
-          onclick="openCabinet()"
-        >
-          ВЕРНУТЬСЯ В МОЙ ПУТЬ
-        </button>
-
-      </div>
-
-    `;
-
-
-    return;
-
-  }
-
-
-  /*
-    ПЕРВЫЙ ТЕСТ
-  */
-
   let title = '';
-
   let text = '';
-
   let action = '';
 
+
+  /* =================================================
+     АВТОПИЛОТ
+  ================================================= */
 
   if (
     stage === 'Автопилот'
@@ -1841,15 +2222,18 @@ async function renderResult() {
       access.awakening
 
         ? `
+
           <button
             class="primary"
             onclick="openCabinet()"
           >
             ОТКРЫТЬ МОЙ ПУТЬ
           </button>
+
         `
 
         : `
+
           <button
             class="primary"
             onclick="
@@ -1858,10 +2242,15 @@ async function renderResult() {
           >
             НАЧАТЬ ПЕРЕХОД
           </button>
+
         `;
 
   }
 
+
+  /* =================================================
+     ТОЛЧОК
+  ================================================= */
 
   if (
     stage === 'Толчок'
@@ -1896,15 +2285,18 @@ async function renderResult() {
       access.awakening
 
         ? `
+
           <button
             class="primary"
             onclick="openCabinet()"
           >
             ПРОДОЛЖИТЬ МОЙ ПУТЬ
           </button>
+
         `
 
         : `
+
           <button
             class="primary"
             onclick="
@@ -1913,10 +2305,15 @@ async function renderResult() {
           >
             ПЕРЕЙТИ В ПРОБУЖДЕНИЕ
           </button>
+
         `;
 
   }
 
+
+  /* =================================================
+     ПРОБУЖДЕНИЕ
+  ================================================= */
 
   if (
     stage === 'Пробуждение'
@@ -1952,15 +2349,18 @@ async function renderResult() {
       access.creator
 
         ? `
+
           <button
             class="primary"
             onclick="openCabinet()"
           >
             ОТКРЫТЬ МОЙ ПУТЬ
           </button>
+
         `
 
         : `
+
           <button
             class="primary"
             onclick="
@@ -1969,10 +2369,15 @@ async function renderResult() {
           >
             ПЕРЕЙТИ В ТВОРЦА
           </button>
+
         `;
 
   }
 
+
+  /* =================================================
+     ТВОРЕЦ
+  ================================================= */
 
   if (
     stage === 'Творец'
@@ -1991,9 +2396,10 @@ async function renderResult() {
       </p>
 
       <p>
-        Твоя задача —
-        продолжать реализовывать
-        то, что ты уже увидела в себе.
+        Теперь твоя задача —
+        не останавливаться,
+        а продолжать реализовывать
+        то, что ты выбираешь.
       </p>
 
     `;
@@ -2003,15 +2409,18 @@ async function renderResult() {
       access.creator
 
         ? `
+
           <button
             class="primary"
             onclick="openCabinet()"
           >
             ОТКРЫТЬ МОЙ ПУТЬ
           </button>
+
         `
 
         : `
+
           <button
             class="primary"
             onclick="
@@ -2020,6 +2429,7 @@ async function renderResult() {
           >
             ПЕРЕЙТИ В ТВОРЦА
           </button>
+
         `;
 
   }
@@ -2068,18 +2478,15 @@ async function openCabinet() {
       'cabinet-stage'
     );
 
-
   const progressElement =
     document.getElementById(
       'cabinet-progress'
     );
 
-
   const progressText =
     document.getElementById(
       'cabinet-progress-text'
     );
-
 
   const message =
     document.getElementById(
@@ -2095,10 +2502,8 @@ async function openCabinet() {
   stageElement.textContent =
     'Загрузка...';
 
-
   progressElement.style.width =
     '0%';
-
 
   progressText.textContent =
     'Загрузка...';
@@ -2113,29 +2518,14 @@ async function openCabinet() {
     stageElement.textContent =
       'Личный путь';
 
-
     progressText.textContent =
       'Открой приложение через Telegram';
 
-
-    message.innerHTML = `
-
-      <h3>
-        TELEGRAM ID НЕ НАЙДЕН
-      </h3>
-
-      <p>
-        Открой Mini App через Telegram.
-      </p>
-
-    `;
-
-
     renderStageList(
       0,
-      false
+      false,
+      null
     );
-
 
     return;
 
@@ -2148,12 +2538,34 @@ async function openCabinet() {
 
   const currentStage =
     local.current_test_stage ||
+    local.final_stage ||
+    local.initial_stage ||
     'Не определён';
+
+
+  /*
+     ВАЖНО:
+     здесь теперь Творец тоже
+     определяет ветку creator.
+  */
+
+  const activePath =
+    getPathKey(
+      currentStage
+    );
+
+
+  const pathState =
+    activePath
+      ? getPathState(
+          activePath
+        )
+      : {};
 
 
   const progress =
     Number(
-      user.progress || 0
+      pathState.progress || 0
     );
 
 
@@ -2167,6 +2579,18 @@ async function openCabinet() {
     Boolean(
       user.access_creator
     );
+
+
+  const hasAccess =
+    activePath === 'awakening'
+
+      ? accessAwakening
+
+      : activePath === 'creator'
+
+        ? accessCreator
+
+        : false;
 
 
   stageElement.textContent =
@@ -2188,33 +2612,78 @@ async function openCabinet() {
 
 
   /*
-    НЕТ ПОКУПКИ
+     Если результат Творец,
+     теперь activePath = creator.
   */
 
-  if (
-    !accessAwakening &&
-    !accessCreator
-  ) {
+  if (!activePath) {
 
     message.innerHTML = `
 
       <h3>
-        ДОСТУП ЕЩЁ НЕ ОТКРЫТ
+        ПРОЙДИ ТЕСТ
       </h3>
 
       <p>
+        Сначала определи,
+        в какой точке перехода
+        ты находишься.
+      </p>
+
+    `;
+
+    renderStageList(
+      0,
+      false,
+      null
+    );
+
+    return;
+
+  }
+
+
+  if (!hasAccess) {
+
+    const productName =
+      activePath === 'awakening'
+
+        ? 'Переход в Пробуждение'
+
+        : 'Переход в Творца';
+
+
+    message.innerHTML = `
+
+      <h3>
+        ТВОЙ ПУТЬ ОПРЕДЕЛЁН
+      </h3>
+
+      <p>
+        По результату теста
+        тебе подходит программа
+        <strong>
+          ${productName}
+        </strong>.
+      </p>
+
+      <p>
         Тест бесплатный.
-        После него ты можешь приобрести
-        подходящую программу.
+        Доступ к этапам открывается
+        после покупки программы.
       </p>
 
       <button
         class="primary"
         onclick="
-          showScreen('test')
+          openProduct('${activePath}')
         "
       >
-        ОТКРЫТЬ РЕЗУЛЬТАТ ТЕСТА
+        ${
+          activePath === 'awakening'
+            ? 'НАЧАТЬ ПЕРЕХОД'
+            : 'ПЕРЕЙТИ В ТВОРЦА'
+        }
       </button>
 
     `;
@@ -2222,18 +2691,14 @@ async function openCabinet() {
 
     renderStageList(
       0,
-      false
+      false,
+      activePath
     );
-
 
     return;
 
   }
 
-
-  /*
-    ЕСТЬ ОПЛАЧЕННЫЙ ДОСТУП
-  */
 
   message.innerHTML = `
 
@@ -2249,6 +2714,17 @@ async function openCabinet() {
     </p>
 
     <p>
+      Это ветка:
+      <strong>
+        ${
+          activePath === 'awakening'
+            ? 'ПРОБУЖДЕНИЕ'
+            : 'ТВОРЕЦ'
+        }
+      </strong>
+    </p>
+
+    <p>
       Прогресс сохраняется автоматически.
     </p>
 
@@ -2257,19 +2733,21 @@ async function openCabinet() {
 
   renderStageList(
     progress,
-    true
+    true,
+    activePath
   );
 
 }
 
 
 /* =====================================================
-   7 ЭТАПОВ
+   СПИСОК ЭТАПОВ
 ===================================================== */
 
 function renderStageList(
   progress,
-  hasAccess
+  hasAccess,
+  path = null
 ) {
 
   const element =
@@ -2283,8 +2761,25 @@ function renderStageList(
   }
 
 
+  if (!path) {
+
+    element.innerHTML =
+      '';
+
+    return;
+
+  }
+
+
+  const stages =
+    getStagesForPath(
+      path
+    );
+
+
   element.innerHTML =
     stages
+
       .map(
         stage => {
 
@@ -2341,13 +2836,30 @@ function renderStageList(
 
               class="
                 stage-button
-                ${isDone ? 'done' : ''}
-                ${isOpen ? 'current' : 'locked'}
+                ${
+                  isDone
+                    ? 'done'
+                    : ''
+                }
+                ${
+                  isOpen
+                    ? 'current'
+                    : 'locked'
+                }
               "
 
               ${
                 isOpen
-                  ? `onclick="openLesson(${stage.number})"`
+
+                  ? `
+                    onclick="
+                      openLesson(
+                        ${stage.number},
+                        '${path}'
+                      )
+                    "
+                  `
+
                   : 'disabled'
               }
 
@@ -2359,13 +2871,11 @@ function renderStageList(
                 ${stage.number}
               </span>
 
-
               <span
                 class="stage-name"
               >
                 ${stage.title}
               </span>
-
 
               <span
                 class="stage-state"
@@ -2379,13 +2889,9 @@ function renderStageList(
 
         }
       )
+
       .join('');
 
-
-  /*
-    Финальная кнопка технически появляется
-    только после 100%.
-  */
 
   if (
     hasAccess &&
@@ -2408,9 +2914,27 @@ function renderStageList(
         </h3>
 
         <p>
-          Теперь ты можешь пройти тест повторно
-          и сравнить свою точку старта
-          с текущим состоянием.
+
+          ${
+            path === 'awakening'
+
+              ? `
+                Ты прошла путь
+                к Пробуждению.
+
+                Теперь следующий уровень —
+                ветка Творца.
+              `
+
+              : `
+                Ты прошла путь
+                к Творцу.
+
+                Теперь важно продолжать
+                создавать свою реальность.
+              `
+          }
+
         </p>
 
         <button
@@ -2436,7 +2960,8 @@ function renderStageList(
 ===================================================== */
 
 async function openLesson(
-  lessonNumber
+  lessonNumber,
+  path = null
 ) {
 
   const user =
@@ -2448,19 +2973,58 @@ async function openLesson(
   }
 
 
-  if (
-    !user.access_awakening &&
-    !user.access_creator
-  ) {
+  const local =
+    readLocal();
 
+
+  const activePath =
+    path ||
+    getPathKey(
+
+      local.current_test_stage ||
+      local.final_stage ||
+      local.initial_stage
+
+    );
+
+
+  if (!activePath) {
     return;
-
   }
+
+
+  const hasAccess =
+    activePath === 'awakening'
+
+      ? Boolean(
+          user.access_awakening
+        )
+
+      : Boolean(
+          user.access_creator
+        );
+
+
+  if (!hasAccess) {
+    return;
+  }
+
+
+  const stages =
+    getStagesForPath(
+      activePath
+    );
+
+
+  const state =
+    getPathState(
+      activePath
+    );
 
 
   const progress =
     Number(
-      user.progress || 0
+      state.progress || 0
     );
 
 
@@ -2475,8 +3039,7 @@ async function openLesson(
 
 
   if (
-    progress <
-    required
+    progress < required
   ) {
 
     return;
@@ -2511,37 +3074,130 @@ async function openLesson(
   }
 
 
+  /*
+     Голосовое
+  */
+
+  const voice =
+    stage.voiceUrl
+
+      ? `
+
+        <div
+          class="lesson-audio"
+        >
+
+          <p>
+            <strong>
+              🎙 Голосовое Елены
+            </strong>
+          </p>
+
+          <audio
+            controls
+            preload="none"
+            src="${stage.voiceUrl}"
+          ></audio>
+
+        </div>
+
+      `
+
+      : '';
+
+
+  /*
+     Медитация
+  */
+
+  const meditation =
+    stage.meditationUrl
+
+      ? `
+
+        <div
+          class="lesson-audio"
+        >
+
+          <p>
+            <strong>
+              🧘 Голосовая медитация
+            </strong>
+          </p>
+
+          <audio
+            controls
+            preload="none"
+            src="${stage.meditationUrl}"
+          ></audio>
+
+        </div>
+
+      `
+
+      : '';
+
+
   wrap.innerHTML = `
 
     <div class="lesson">
 
       <div class="tag">
+
+        ${
+          activePath === 'awakening'
+            ? 'ПРОБУЖДЕНИЕ'
+            : 'ТВОРЕЦ'
+        }
+
+        ·
+
         ЭТАП
         ${lessonNumber}
         ИЗ 7
+
       </div>
+
 
       <h2>
         ${stage.title}
       </h2>
 
+
       ${stage.text}
 
-      <div class="lesson-practice">
+
+      ${voice}
+
+
+      <div
+        class="lesson-practice"
+      >
 
         ${stage.practice}
 
       </div>
 
-      <div class="lesson-complete">
+
+      ${meditation}
+
+
+      <div
+        class="lesson-complete"
+      >
 
         <button
           class="primary"
           onclick="
-            completeLesson(${lessonNumber})
+            completeLesson(
+              ${lessonNumber},
+              '${activePath}'
+            )
           "
         >
+
           Я ПРОШЛА ЭТОТ ЭТАП
+
         </button>
 
       </div>
@@ -2558,35 +3214,65 @@ async function openLesson(
 ===================================================== */
 
 async function completeLesson(
-  lessonNumber
+  lessonNumber,
+  path = null
 ) {
 
   const user =
     await loadUser();
 
 
-  if (
-    !user
-  ) {
-
+  if (!user) {
     return;
-
   }
 
 
-  if (
-    !user.access_awakening &&
-    !user.access_creator
-  ) {
+  const local =
+    readLocal();
 
+
+  const activePath =
+    path ||
+    getPathKey(
+
+      local.current_test_stage ||
+      local.final_stage ||
+      local.initial_stage
+
+    );
+
+
+  if (!activePath) {
     return;
-
   }
+
+
+  const hasAccess =
+    activePath === 'awakening'
+
+      ? Boolean(
+          user.access_awakening
+        )
+
+      : Boolean(
+          user.access_creator
+        );
+
+
+  if (!hasAccess) {
+    return;
+  }
+
+
+  const stages =
+    getStagesForPath(
+      activePath
+    );
 
 
   if (
     lessonNumber < 1 ||
-    lessonNumber > 7
+    lessonNumber > stages.length
   ) {
 
     return;
@@ -2594,19 +3280,40 @@ async function completeLesson(
   }
 
 
+  const currentState =
+    getPathState(
+      activePath
+    );
+
+
+  const currentProgress =
+    Number(
+      currentState.progress || 0
+    );
+
+
   const newProgress =
-    Math.round(
-      (
-        lessonNumber
-        /
-        stages.length
-      ) * 100
+    Math.max(
+
+      currentProgress,
+
+      Math.round(
+        (
+          lessonNumber
+          /
+          stages.length
+        ) * 100
+      )
+
     );
 
 
   await saveProgress(
+
     newProgress,
+
     lessonNumber
+
   );
 
 
@@ -2630,24 +3337,31 @@ async function startFinalRetest() {
   }
 
 
-  const progress =
-    Number(
-      user.progress || 0
+  const activePath =
+    getActivePath();
+
+
+  if (!activePath) {
+    return;
+  }
+
+
+  const state =
+    getPathState(
+      activePath
     );
 
 
   if (
-    progress < 100
+    Number(state.progress || 0)
+    <
+    100
   ) {
 
     return;
 
   }
 
-
-  /*
-    Включаем режим повторного теста.
-  */
 
   writeLocal({
 
@@ -2668,7 +3382,7 @@ async function startFinalRetest() {
 
 
 /* =====================================================
-   СБРОС СОСТОЯНИЯ ТЕСТА
+   СБРОС ТЕСТА
 ===================================================== */
 
 function resetTest() {
@@ -2685,21 +3399,22 @@ function resetTest() {
 ===================================================== */
 
 document.addEventListener(
+
   'DOMContentLoaded',
+
   async () => {
 
     console.log(
       'ТОЧКА ПЕРЕХОДА запущена'
     );
 
-
     console.log(
       'Telegram ID:',
       getTelegramId()
     );
 
-
     await ensureUser();
 
   }
+
 );
