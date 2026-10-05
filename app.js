@@ -42,11 +42,94 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   'sb_publishable_s_PuUbLuT_aerFgVmywXDw_fVcZWjNv';
 
-const db =
-  window.supabase?.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+/*
+   SUPABASE JS
+
+   В index.html библиотека Supabase не подключена.
+   Поэтому приложение раньше не могло прочитать access_awakening
+   из базы и всегда работало через localStorage.
+
+   Здесь библиотека подключается автоматически.
+*/
+let db = null;
+let supabaseReadyPromise = null;
+
+function ensureSupabaseClient() {
+
+  if (db) return Promise.resolve(db);
+
+  if (window.supabase?.createClient) {
+    db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+    return Promise.resolve(db);
+  }
+
+  if (!supabaseReadyPromise) {
+    supabaseReadyPromise = new Promise((resolve, reject) => {
+
+      const existing = document.querySelector(
+        'script[data-supabase-client="true"]'
+      );
+
+      if (existing) {
+        existing.addEventListener('load', () => {
+          try {
+            if (!window.supabase?.createClient) {
+              reject(new Error('Supabase JS не загрузился'));
+              return;
+            }
+
+            db = window.supabase.createClient(
+              SUPABASE_URL,
+              SUPABASE_KEY
+            );
+
+            resolve(db);
+          } catch (error) {
+            reject(error);
+          }
+        }, { once: true });
+
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src =
+        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      script.async = true;
+      script.dataset.supabaseClient = 'true';
+
+      script.onload = () => {
+        try {
+          if (!window.supabase?.createClient) {
+            reject(new Error('Supabase JS не загрузился'));
+            return;
+          }
+
+          db = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+          );
+
+          resolve(db);
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      script.onerror = () => {
+        reject(new Error('Не удалось загрузить Supabase JS'));
+      };
+
+      document.head.appendChild(script);
+    });
+  }
+
+  return supabaseReadyPromise;
+}
 
 
 /* =====================================================
@@ -639,6 +722,13 @@ async function loadUser() {
       access_creator: Boolean(local.access_creator)
     };
   };
+
+  try {
+    await ensureSupabaseClient();
+  } catch (error) {
+    console.error('Supabase JS error:', error);
+    return localFallback();
+  }
 
   if (!db) return localFallback();
 
