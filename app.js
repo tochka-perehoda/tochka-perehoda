@@ -161,13 +161,7 @@ const PRODUCT_IDS = {
 
   awakening: '156084',
 
-  /*
-    ID второго продукта пока неизвестен.
-    Когда получим его из Tribute,
-    просто вставим сюда.
-  */
-
-  creator: null
+  creator: '160500'
 
 };
 
@@ -700,7 +694,6 @@ function writeLocal(data) {
 ===================================================== */
 
 async function loadUser() {
-
   const telegramId = getTelegramId();
   if (!telegramId) return null;
 
@@ -724,74 +717,6 @@ async function loadUser() {
     };
   };
 
-  /*
-     КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ:
-     доступ читаем напрямую из Supabase REST.
-     Это не зависит от загрузки supabase-js через CDN.
-  */
-  try {
-    const url =
-      SUPABASE_URL +
-      '/rest/v1/users?select=telegram_id,product,current_stage,progress,current_lesson,access_awakening,access_creator' +
-      '&telegram_id=eq.' + encodeURIComponent(telegramId) +
-      '&limit=1';
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Accept': 'application/json'
-      },
-      cache: 'no-store'
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => '');
-      throw new Error('Supabase REST ' + response.status + ': ' + errorText);
-    }
-
-    const rows = await response.json();
-    const data = Array.isArray(rows) ? rows[0] : null;
-
-    if (!data) {
-      return null;
-    }
-
-    const activePath = getPathKey(
-      local.current_test_stage || local.final_stage || local.initial_stage,
-      data.product || local.product
-    );
-    const pathState = activePath ? getPathState(activePath) : {};
-
-    const result = {
-      ...data,
-      progress: activePath
-        ? Number(pathState.progress ?? data.progress ?? 0)
-        : Number(data.progress || 0),
-      current_lesson: activePath
-        ? Number(pathState.currentLesson ?? data.current_lesson ?? 0)
-        : Number(data.current_lesson || 0),
-      access_awakening: Boolean(data.access_awakening),
-      access_creator: Boolean(data.access_creator)
-    };
-
-    writeLocal({
-      product: data.product || null,
-      current_stage: data.current_stage ?? null,
-      progress: Number(data.progress || 0),
-      current_lesson: Number(data.current_lesson || 0),
-      access_awakening: Boolean(data.access_awakening),
-      access_creator: Boolean(data.access_creator)
-    });
-
-    return result;
-
-  } catch (restError) {
-    console.error('Ошибка чтения Supabase REST:', restError);
-  }
-
-  /* Запасной вариант — старый Supabase JS */
   try {
     await ensureSupabaseClient();
   } catch (error) {
@@ -835,9 +760,7 @@ async function loadUser() {
       : Number(data.progress || 0),
     current_lesson: activePath
       ? Number(pathState.currentLesson ?? data.current_lesson ?? 0)
-      : Number(data.current_lesson || 0),
-    access_awakening: Boolean(data.access_awakening),
-    access_creator: Boolean(data.access_creator)
+      : Number(data.current_lesson || 0)
   };
 
   writeLocal({
@@ -851,6 +774,7 @@ async function loadUser() {
 
   return result;
 }
+
 
 /* =====================================================
    СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ
@@ -1206,7 +1130,7 @@ function openTribute(url, pendingPath = null) {
 async function waitForPaymentAccess(path) {
   if (!path) return;
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 60; i++) {
     const user = await loadUser();
     const hasAccess = path === 'awakening'
       ? Boolean(user?.access_awakening)
@@ -1957,12 +1881,8 @@ async function openCabinet() {
   const currentStage = local.current_test_stage || local.final_stage || user.current_stage || 'Не определён';
   const activePath = getPathKey(currentStage, user.product || local.product);
   const progress = activePath ? getPathState(activePath).progress : 100;
-  const accessAwakening = Boolean(
-    user.access_awakening || local.access_awakening
-  );
-  const accessCreator = Boolean(
-    user.access_creator || local.access_creator
-  );
+  const accessAwakening = Boolean(user.access_awakening);
+  const accessCreator = Boolean(user.access_creator);
   const hasAccess = activePath === 'awakening'
     ? accessAwakening
     : activePath === 'creator'
