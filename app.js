@@ -1902,12 +1902,26 @@ async function openCabinet() {
   progressText.textContent = activePath ? `${progress}% пройдено` : 'Переход завершён';
 
   if (!activePath) {
+    stageElement.textContent = 'Не определён';
+    progressElement.style.width = '0%';
+    progressText.textContent = 'Тест ещё не пройден';
+
     message.innerHTML = `
-      <h3>ТЫ — ТВОРЕЦ</h3>
-      <p>По результату теста ты уже находишься на уровне Творца.</p>
-      <p>Твой следующий шаг — продолжать создавать и реализовывать свою новую реальность.</p>
+      <h3>ТВОЙ ПУТЬ ЕЩЁ НЕ ОПРЕДЕЛЁН</h3>
+      <p>
+        Сначала пройди бесплатный тест,
+        чтобы определить твою текущую точку перехода.
+      </p>
+
+      <button
+        class="primary"
+        onclick="showScreen('test')"
+      >
+        ПРОЙТИ ТЕСТ
+      </button>
     `;
-    renderStageList(100, false, null);
+
+    renderStageList(0, false, null);
     return;
   }
 
