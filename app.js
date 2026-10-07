@@ -139,10 +139,10 @@ function ensureSupabaseClient() {
 const LINKS = {
 
   awakening:
-    'https://web.tribute.tg/p/EBu',
+    'https://t.me/tribute/app?startapp=pEBu',
 
   creator:
-    'https://web.tribute.tg/p/FKI',
+    'https://t.me/tribute/app?startapp=pFKI',
 
   consultation:
     'https://web.tribute.tg/p/tiX',
@@ -931,8 +931,7 @@ async function saveProgress(progress, currentLesson) {
     .from('users')
     .update({
       progress: finalProgress,
-      current_lesson: finalLesson,
-      updated_at: new Date().toISOString()
+      current_lesson: finalLesson
     })
     .eq('telegram_id', telegramId);
 
@@ -1118,6 +1117,15 @@ function openTribute(url, pendingPath = null) {
       pending_payment_path: pendingPath,
       pending_payment_started_at: Date.now()
     });
+  }
+
+  if (
+    tg &&
+    url.startsWith('https://t.me/') &&
+    typeof tg.openTelegramLink === 'function'
+  ) {
+    tg.openTelegramLink(url);
+    return;
   }
 
   if (tg && typeof tg.openLink === 'function') {
