@@ -52,84 +52,36 @@ const SUPABASE_KEY =
    Здесь библиотека подключается автоматически.
 */
 let db = null;
-let supabaseReadyPromise = null;
 
-function ensureSupabaseClient() {
-
-  if (db) return Promise.resolve(db);
-
-  if (window.supabase?.createClient) {
-    db = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-    return Promise.resolve(db);
-  }
-
-  if (!supabaseReadyPromise) {
-    supabaseReadyPromise = new Promise((resolve, reject) => {
-
-      const existing = document.querySelector(
-        'script[data-supabase-client="true"]'
-      );
-
-      if (existing) {
-        existing.addEventListener('load', () => {
-          try {
-            if (!window.supabase?.createClient) {
-              reject(new Error('Supabase JS не загрузился'));
-              return;
-            }
-
-            db = window.supabase.createClient(
-              SUPABASE_URL,
-              SUPABASE_KEY
-            );
-
-            resolve(db);
-          } catch (error) {
-            reject(error);
-          }
-        }, { once: true });
-
-        existing.addEventListener('error', reject, { once: true });
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src =
-        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-      script.async = true;
-      script.dataset.supabaseClient = 'true';
-
-      script.onload = () => {
-        try {
-          if (!window.supabase?.createClient) {
-            reject(new Error('Supabase JS не загрузился'));
-            return;
-          }
-
-          db = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-          );
-
-          resolve(db);
-        } catch (error) {
-          reject(error);
-        }
-      };
-
-      script.onerror = () => {
-        reject(new Error('Не удалось загрузить Supabase JS'));
-      };
-
-      document.head.appendChild(script);
-    });
-  }
-
-  return supabaseReadyPromise;
+/* Надёжный доступ к Supabase без зависимости от внешней библиотеки. */
+async function ensureSupabaseClient() {
+  return true;
 }
+
+async function supabaseRest(path, options = {}) {
+  const response = await fetch(
+    `${SUPABASE_URL}/rest/v1/${path}`,
+    {
+      ...options,
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      }
+    }
+  );
+
+  const text = await response.text();
+
+  if (!response.ok) {
+    throw new Error(`Supabase REST ${response.status}: ${text}`);
+  }
+
+  return text ? JSON.parse(text) : null;
+}
+
 
 
 /* =====================================================
@@ -139,10 +91,10 @@ function ensureSupabaseClient() {
 const LINKS = {
 
   awakening:
-    'https://t.me/tribute/app?startapp=pEBu',
+    'https://web.tribute.tg/p/EBu',
 
   creator:
-    'https://t.me/tribute/app?startapp=pFKI',
+    'https://web.tribute.tg/p/FKI',
 
   consultation:
     'https://web.tribute.tg/p/tiX',
@@ -161,7 +113,13 @@ const PRODUCT_IDS = {
 
   awakening: '156084',
 
-  creator: '160500'
+  /*
+    ID второго продукта пока неизвестен.
+    Когда получим его из Tribute,
+    просто вставим сюда.
+  */
+
+  creator: null
 
 };
 
@@ -187,7 +145,7 @@ const awakeningStages = [
       <p><strong>«Кто я, если убрать мои роли, обязанности и ожидания других?»</strong></p>
       <p>Напиши минимум 10 ответов. Не анализируй их. Пиши первое, что приходит.</p>
     `,
-    voiceUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/kto-ya.m4a'
   },
   {
     number: 2,
@@ -718,62 +676,46 @@ async function loadUser() {
   };
 
   try {
-    await ensureSupabaseClient();
+    const rows = await supabaseRest(
+      `users?telegram_id=eq.${encodeURIComponent(telegramId)}&select=telegram_id,product,current_stage,progress,current_lesson,access_awakening,access_creator&limit=1`,
+      { method: 'GET' }
+    );
+
+    const data = Array.isArray(rows) ? rows[0] : null;
+    if (!data) return null;
+
+    const activePath = getPathKey(
+      local.current_test_stage || local.final_stage || local.initial_stage,
+      data.product || local.product
+    );
+    const pathState = activePath ? getPathState(activePath) : {};
+
+    const result = {
+      ...data,
+      progress: activePath
+        ? Number(pathState.progress ?? data.progress ?? 0)
+        : Number(data.progress || 0),
+      current_lesson: activePath
+        ? Number(pathState.currentLesson ?? data.current_lesson ?? 0)
+        : Number(data.current_lesson || 0)
+    };
+
+    writeLocal({
+      product: data.product || local.product || null,
+      current_stage: data.current_stage ?? local.current_stage ?? null,
+      progress: Number(data.progress || 0),
+      current_lesson: Number(data.current_lesson || 0),
+      access_awakening: Boolean(data.access_awakening),
+      access_creator: Boolean(data.access_creator)
+    });
+
+    return result;
   } catch (error) {
-    console.error('Supabase JS error:', error);
+    console.error('Ошибка загрузки пользователя из Supabase REST:', error);
     return localFallback();
   }
-
-  if (!db) return localFallback();
-
-  const { data, error } = await db
-    .from('users')
-    .select(`
-      telegram_id,
-      product,
-      current_stage,
-      progress,
-      current_lesson,
-      access_awakening,
-      access_creator
-    `)
-    .eq('telegram_id', telegramId)
-    .maybeSingle();
-
-  if (error) {
-    console.error('Ошибка загрузки пользователя:', error);
-    return localFallback();
-  }
-
-  if (!data) return null;
-
-  const activePath = getPathKey(
-    local.current_test_stage || local.final_stage || local.initial_stage,
-    data.product || local.product
-  );
-  const pathState = activePath ? getPathState(activePath) : {};
-
-  const result = {
-    ...data,
-    progress: activePath
-      ? Number(pathState.progress ?? data.progress ?? 0)
-      : Number(data.progress || 0),
-    current_lesson: activePath
-      ? Number(pathState.currentLesson ?? data.current_lesson ?? 0)
-      : Number(data.current_lesson || 0)
-  };
-
-  writeLocal({
-    product: data.product || null,
-    current_stage: data.current_stage ?? null,
-    progress: Number(data.progress || 0),
-    current_lesson: Number(data.current_lesson || 0),
-    access_awakening: Boolean(data.access_awakening),
-    access_creator: Boolean(data.access_creator)
-  });
-
-  return result;
 }
+
 
 
 /* =====================================================
@@ -931,7 +873,8 @@ async function saveProgress(progress, currentLesson) {
     .from('users')
     .update({
       progress: finalProgress,
-      current_lesson: finalLesson
+      current_lesson: finalLesson,
+      updated_at: new Date().toISOString()
     })
     .eq('telegram_id', telegramId);
 
@@ -1119,15 +1062,6 @@ function openTribute(url, pendingPath = null) {
     });
   }
 
-  if (
-    tg &&
-    url.startsWith('https://t.me/') &&
-    typeof tg.openTelegramLink === 'function'
-  ) {
-    tg.openTelegramLink(url);
-    return;
-  }
-
   if (tg && typeof tg.openLink === 'function') {
     tg.openLink(url);
   } else {
@@ -1138,7 +1072,7 @@ function openTribute(url, pendingPath = null) {
 async function waitForPaymentAccess(path) {
   if (!path) return;
 
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 20; i++) {
     const user = await loadUser();
     const hasAccess = path === 'awakening'
       ? Boolean(user?.access_awakening)
@@ -1886,11 +1820,19 @@ async function openCabinet() {
   }
 
   const local = readLocal();
-  const currentStage = local.current_test_stage || local.final_stage || user.current_stage || 'Не определён';
-  const activePath = getPathKey(currentStage, user.product || local.product);
-  const progress = activePath ? getPathState(activePath).progress : 100;
+  const currentStage = local.current_test_stage || local.final_stage || user.current_stage || '';
+  let activePath = getPathKey(currentStage, user.product || local.product);
   const accessAwakening = Boolean(user.access_awakening);
   const accessCreator = Boolean(user.access_creator);
+
+  /* Если продукт/этап ещё не записан, определяем ветку по выданному доступу. */
+  if (!activePath) {
+    if (accessAwakening && !accessCreator) activePath = 'awakening';
+    else if (accessCreator && !accessAwakening) activePath = 'creator';
+    else if (accessAwakening) activePath = 'awakening';
+  }
+
+  const progress = activePath ? getPathState(activePath).progress : 0;
   const hasAccess = activePath === 'awakening'
     ? accessAwakening
     : activePath === 'creator'
@@ -1902,26 +1844,12 @@ async function openCabinet() {
   progressText.textContent = activePath ? `${progress}% пройдено` : 'Переход завершён';
 
   if (!activePath) {
-    stageElement.textContent = 'Не определён';
-    progressElement.style.width = '0%';
-    progressText.textContent = 'Тест ещё не пройден';
-
     message.innerHTML = `
-      <h3>ТВОЙ ПУТЬ ЕЩЁ НЕ ОПРЕДЕЛЁН</h3>
-      <p>
-        Сначала пройди бесплатный тест,
-        чтобы определить твою текущую точку перехода.
-      </p>
-
-      <button
-        class="primary"
-        onclick="showScreen('test')"
-      >
-        ПРОЙТИ ТЕСТ
-      </button>
+      <h3>ТЫ — ТВОРЕЦ</h3>
+      <p>По результату теста ты уже находишься на уровне Творца.</p>
+      <p>Твой следующий шаг — продолжать создавать и реализовывать свою новую реальность.</p>
     `;
-
-    renderStageList(0, false, null);
+    renderStageList(100, false, null);
     return;
   }
 
@@ -2006,6 +1934,69 @@ function renderStageList(progress, hasAccess, path = null) {
 
 
 /* =====================================================
+   ОТВЕТЫ ПРАКТИКИ: СОХРАНЕНИЕ И ПОВТОРНЫЙ ПРОСМОТР
+===================================================== */
+
+function escapeLessonHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getSavedPracticeAnswers() {
+  const local = readLocal();
+  return local.practice_answers || {};
+}
+
+function savePracticeAnswer(path, stageNumber, value) {
+  const local = readLocal();
+  const allAnswers = local.practice_answers || {};
+  const pathAnswers = allAnswers[path] || {};
+  pathAnswers[String(stageNumber)] = value;
+  allAnswers[path] = pathAnswers;
+  writeLocal({ practice_answers: allAnswers });
+
+  const status = document.getElementById('practice-save-status');
+  if (status) status.textContent = 'Ответ сохранён автоматически';
+}
+
+function renderStageOneAnswer(path) {
+  const saved = getSavedPracticeAnswers();
+  const value = saved[path]?.['1'] || '';
+  return `
+    <section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
+      <label for="stage-one-answer" style="display:block;font-weight:600;margin-bottom:10px">Моя точка</label>
+      <p>Кто я, если убрать мои роли, обязанности и ожидания других?</p>
+      <p style="font-size:14px;opacity:.75">Напиши минимум 10 ответов — каждый с новой строки. Не нужно искать правильные формулировки. Пиши то, что действительно приходит тебе в голову.</p>
+      <textarea id="stage-one-answer" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('${path}', 1, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
+      <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответы сохраняются автоматически по мере ввода'}</p>
+    </section>
+  `;
+}
+
+function renderEarlierAnswers(path) {
+  const saved = getSavedPracticeAnswers();
+  const firstAnswer = saved[path]?.['1'];
+  if (!firstAnswer || !String(firstAnswer).trim()) return '';
+  return `
+    <section class="saved-reflection" style="margin:18px 0;padding:16px;border:1px solid rgba(180,160,130,.45);border-radius:14px">
+      <div class="tag">ТВОЯ ТОЧКА ОТСЧЁТА</div>
+      <h3>Что ты ответила на первом этапе</h3>
+      <p>В начале пути ты написала:</p>
+      <div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(firstAnswer)}</div>
+      <p style="font-size:14px;opacity:.75">Сравни эти ответы с тем, что ты понимаешь о себе сейчас. Что изменилось? Что ты впервые заметила?</p>
+      <label for="stage-one-review" style="display:block;font-weight:600;margin:12px 0 8px">Что изменилось во мне?</label>
+      <textarea id="stage-one-review" rows="5" placeholder="Сейчас я замечаю, что..." oninput="savePracticeAnswer('${path}', '1_review', this.value)" style="box-sizing:border-box;width:100%;min-height:110px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(saved[path]?.['1_review'] || '')}</textarea>
+      <p style="font-size:13px;opacity:.75">Этот ответ тоже сохранится автоматически.</p>
+    </section>
+  `;
+}
+
+
+/* =====================================================
    ОТКРЫТИЕ ЭТАПА
 ===================================================== */
 
@@ -2050,6 +2041,13 @@ async function openLesson(lessonNumber, path = null) {
     ? `<div class="lesson-audio"><p><strong>🧘 Медитация</strong></p><audio controls preload="none" src="${stage.meditationUrl}"></audio></div>`
     : '';
 
+  const answerBox = activePath === 'awakening' && lessonNumber === 1
+    ? renderStageOneAnswer(activePath)
+    : '';
+  const earlierAnswers = activePath === 'awakening' && lessonNumber === 7
+    ? renderEarlierAnswers(activePath)
+    : '';
+
   wrap.innerHTML = `
     <div class="lesson">
       <div class="tag">ЭТАП ${lessonNumber} ИЗ 7</div>
@@ -2057,6 +2055,8 @@ async function openLesson(lessonNumber, path = null) {
       ${stage.text}
       ${voice}
       <div class="lesson-practice">${stage.practice}</div>
+      ${answerBox}
+      ${earlierAnswers}
       ${meditation}
       <div class="lesson-complete">
         <button class="primary" onclick="completeLesson(${lessonNumber}, '${activePath}')">
