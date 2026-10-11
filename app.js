@@ -145,7 +145,7 @@ const awakeningStages = [
       <p><strong>«Кто я, если убрать мои роли, обязанности и ожидания других?»</strong></p>
       <p>Напиши минимум 10 ответов. Не анализируй их. Пиши первое, что приходит.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/kto-ya.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_1_%D0%9A%D1%82%D0%BE_%D1%8F.m4a'
   },
   {
     number: 2,
@@ -164,7 +164,7 @@ const awakeningStages = [
       <p><strong>Я готова отпустить...</strong></p>
       <p>Выбери минимум три пункта, которые больше не должны переходить вместе с тобой дальше.</p>
     `,
-    voiceUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_2_%D0%A7%D0%B8%D1%81%D1%82%D0%BA%D0%B0_%D0%BF%D0%BE%D0%BB%D1%8F.m4a'
   },
   {
     number: 3,
@@ -184,7 +184,7 @@ const awakeningStages = [
       <p><strong>Если бы мне не нужно было никому ничего доказывать, я бы...</strong></p>
       <p><strong>Если бы я не боялась осуждения, я бы...</strong></p>
     `,
-    voiceUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a'
   },
   {
     number: 4,
@@ -203,7 +203,7 @@ const awakeningStages = [
       <p><strong>Я больше не обязана...</strong></p>
       <p>Затем выбери одну реальную ситуацию, где ты обычно говоришь «да», хотя хочешь сказать «нет».</p>
     `,
-    voiceUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_4_%D0%9C%D0%BE%D1%91_%D0%BD%D0%B5%D1%82.m4a'
   },
   {
     number: 5,
@@ -220,7 +220,7 @@ const awakeningStages = [
       <p>Запиши: что произошло? Что я подумала? Что почувствовала? Что захотела сделать автоматически? Что я выбрала сделать?</p>
       <p>Не исправляй себя. Просто наблюдай.</p>
     `,
-    voiceUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_5_%D0%9D%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C.m4a'
   },
   {
     number: 6,
@@ -237,7 +237,7 @@ const awakeningStages = [
       <p>Что меня здесь больше не устраивает?<br>Чего я хочу вместо этого?<br>Что зависит от меня?<br>Что я могу сделать в ближайшие 24 часа?</p>
       <p>И обязательно сделай этот шаг.</p>
     `,
-    voiceUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_6_%D0%9C%D0%BE%D1%8F_%D0%B6%D0%B8%D0%B7%D0%BD%D1%8C.m4a'
   },
   {
     number: 7,
@@ -262,7 +262,7 @@ const awakeningStages = [
       <p><strong>Мой следующий шаг...</strong></p>
       <p>Сохрани эти ответы. Это твоя точка опоры после прохождения пути.</p>
     `,
-    voiceUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_7_%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9_%D1%84%D1%83%D0%BD%D0%B4%D0%B0%D0%BC%D0%B5%D0%BD%D1%82.m4a'
   }
 ];
 
@@ -281,7 +281,7 @@ const creatorStages = [
       <p>Что есть в твоей жизни? Как ты живёшь? С кем? Чем занимаешься? Что чувствуешь?</p>
       <p>Не пиши «идеальную жизнь». Пиши <strong>свою</strong>.</p>
     `,
-    voiceUrl: '',
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B2%D0%BE%D1%8E_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
     meditationUrl: ''
   },
   {
@@ -297,7 +297,7 @@ const creatorStages = [
       <p>Выбери одно желание и ответь:</p>
       <p>Чего я хочу? Зачем мне это? Что я хочу почувствовать, когда это получу? Это действительно моё или я пытаюсь кому-то что-то доказать?</p>
     `,
-    voiceUrl: '',
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_%D0%9C%D0%BE%D1%91_%D0%B6%D0%B5%D0%BB%D0%B0%D0%BD%D0%B8%D0%B5.m4a',
     meditationUrl: ''
   },
   {
@@ -314,7 +314,7 @@ const creatorStages = [
       <p>Не составляй идеальный план. Сделай <strong>первый конкретный шаг сегодня</strong>.</p>
       <p>Запиши: что я решила? Что я сделаю? Когда именно?</p>
     `,
-    voiceUrl: '',
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_%D0%9C%D0%BE%D0%B9_%D0%B2%D1%8B%D0%B1%D0%BE%D1%80.m4a',
     meditationUrl: ''
   },
   {
@@ -330,7 +330,7 @@ const creatorStages = [
       <p>Рядом напиши: что я могу перестать делать, изменить или ограничить?</p>
       <p>Выбери одну утечку и начни возвращать себе энергию уже сегодня.</p>
     `,
-    voiceUrl: '',
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_%D0%9C%D0%BE%D1%8F_%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%B8%D1%8F.m4a',
     meditationUrl: ''
   },
   {
@@ -346,7 +346,7 @@ const creatorStages = [
       <p>Сделай сегодня одно действие, после которого реальность действительно станет другой.</p>
       <p>Не планируй действие. <strong>Сделай его.</strong></p>
     `,
-    voiceUrl: '',
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_%D0%AF_%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D1%83%D1%8E.m4a',
     meditationUrl: ''
   },
   {
@@ -363,7 +363,7 @@ const creatorStages = [
       <p><strong>Как было.</strong><br><strong>Как есть сейчас.</strong><br><strong>Что я выбираю создавать дальше.</strong></p>
       <p>Запиши минимум по три пункта.</p>
     `,
-    voiceUrl: '',
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_%D0%9C%D0%BE%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
     meditationUrl: ''
   },
   {
@@ -380,7 +380,7 @@ const creatorStages = [
       <p><strong>Кто я?</strong><br><strong>Чего я хочу?</strong><br><strong>Что я выбираю?</strong><br><strong>Что я больше не принимаю?</strong><br><strong>Во что я верю?</strong><br><strong>Какие действия я совершаю?</strong><br><strong>Какую жизнь я создаю?</strong></p>
       <p>Сохрани этот текст как свою новую точку опоры.</p>
     `,
-    voiceUrl: '',
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_%D0%AF_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86.m4a',
     meditationUrl: ''
   }
 ];
@@ -840,12 +840,12 @@ async function ensureUser() {
    СОХРАНЕНИЕ ПРОГРЕССА
 ===================================================== */
 
-async function saveProgress(progress, currentLesson) {
+async function saveProgress(progress, currentLesson, forcedPath = null) {
   const telegramId = getTelegramId();
   if (!telegramId) return false;
 
   const local = readLocal();
-  const activePath = getPathKey(
+  const activePath = forcedPath || getPathKey(
     local.current_test_stage || local.final_stage || local.initial_stage,
     local.product
   );
@@ -1963,6 +1963,40 @@ function savePracticeAnswer(path, stageNumber, value) {
   if (status) status.textContent = 'Ответ сохранён автоматически';
 }
 
+
+function renderPracticeAnswer(path, stageNumber, stage) {
+  const saved = getSavedPracticeAnswers();
+  const value = saved[path]?.[String(stageNumber)] || '';
+  const prompts = {
+    awakening: [
+      'Запиши свои ответы: кто я без ролей, обязанностей и ожиданий других?',
+      'Что я больше не хочу нести? Что не моё? Что я готова отпустить?',
+      'Чего хочу именно я? Что для меня действительно важно?',
+      'С чем я больше не согласна? Что больше не позволяю?',
+      'Что произошло, что я подумала и почувствовала? Что выбрала сделать?',
+      'Что меня не устраивает, чего я хочу вместо этого и какой мой ближайший шаг?',
+      'Я больше не… Я выбираю… Я разрешаю себе… Мой следующий шаг…'
+    ],
+    creator: [
+      'Опиши реальность, которую ты выбираешь создавать.',
+      'Какое желание ты выбираешь и почему оно действительно твоё?',
+      'Какое решение ты принимаешь и когда сделаешь первый шаг?',
+      'Куда уходит твоя энергия и как ты вернёшь её себе?',
+      'Какое конкретное действие ты совершишь сегодня?',
+      'Как было, как есть сейчас и что ты выбираешь создавать дальше?',
+      'Запиши свой манифест Творца: кто ты, чего хочешь и какую жизнь создаёшь?'
+    ]
+  };
+  const prompt = prompts[path]?.[stageNumber - 1] || 'Запиши свои ответы по практике этого этапа.';
+  return `
+    <section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
+      <label for="practice-answer-${path}-${stageNumber}" style="display:block;font-weight:600;margin-bottom:10px">МОИ ОТВЕТЫ</label>
+      <p>${escapeLessonHtml(prompt)}</p>
+      <textarea id="practice-answer-${path}-${stageNumber}" rows="7" placeholder="Напиши свой ответ здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value)" style="box-sizing:border-box;width:100%;min-height:150px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
+      <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>
+    </section>`;
+}
+
 function renderStageOneAnswer(path) {
   const saved = getSavedPracticeAnswers();
   const value = saved[path]?.['1'] || '';
@@ -2041,9 +2075,7 @@ async function openLesson(lessonNumber, path = null) {
     ? `<div class="lesson-audio"><p><strong>🧘 Медитация</strong></p><audio controls preload="none" src="${stage.meditationUrl}"></audio></div>`
     : '';
 
-  const answerBox = activePath === 'awakening' && lessonNumber === 1
-    ? renderStageOneAnswer(activePath)
-    : '';
+  const answerBox = renderPracticeAnswer(activePath, lessonNumber, stage);
   const earlierAnswers = activePath === 'awakening' && lessonNumber === 7
     ? renderEarlierAnswers(activePath)
     : '';
@@ -2067,6 +2099,32 @@ async function openLesson(lessonNumber, path = null) {
   `;
 }
 
+
+
+function renderPathResult(path) {
+  const saved = getSavedPracticeAnswers();
+  const stages = getStagesForPath(path);
+  const answersByStage = saved[path] || {};
+  const pathName = path === 'awakening' ? 'Пробуждение' : 'Творец';
+  const items = stages.map(stage => {
+    const answer = String(answersByStage[String(stage.number)] || '').trim();
+    return `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px">
+      <h3>${stage.number}. ${escapeLessonHtml(stage.title)}</h3>
+      <div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${answer ? escapeLessonHtml(answer) : '<em>Ответ не заполнен</em>'}</div>
+    </section>`;
+  }).join('');
+  const wrap = document.getElementById('lesson-wrap');
+  if (!wrap) return;
+  showScreen('lesson');
+  wrap.innerHTML = `<div class="lesson">
+    <div class="tag">РЕЗУЛЬТАТ</div>
+    <h2>Ты прошла путь «${pathName}»!</h2>
+    <p>Поздравляю с завершением всех семи этапов. Ты уделила время себе, своим желаниям, выборам и новой реальности. Сохрани этот результат и возвращайся к своим ответам, когда захочешь увидеть, как ты изменилась.</p>
+    <h3>Твои ответы за весь путь</h3>
+    ${items}
+    <button class="primary" onclick="openCabinet()">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
+  </div>`;
+}
 
 /* =====================================================
    ЗАВЕРШЕНИЕ ЭТАПА
@@ -2098,7 +2156,26 @@ async function completeLesson(lessonNumber, path = null) {
     Math.round((lessonNumber / stages.length) * 100)
   );
 
-  await saveProgress(newProgress, lessonNumber);
+  const existingLocal = readLocal();
+  writeLocal({ product: activePath === 'awakening' ? 'Пробуждение' : 'Творец' });
+  await saveProgress(newProgress, lessonNumber, activePath);
+  if (lessonNumber === stages.length && newProgress >= 100) {
+    const wrap = document.getElementById('lesson-wrap');
+    if (wrap) {
+      showScreen('lesson');
+      wrap.innerHTML = `
+        <div class="lesson">
+          <div class="tag">ПУТЬ ПРОЙДЕН</div>
+          <h2>Ты завершила все 7 этапов!</h2>
+          <p>Это твой путь, твои решения и твои изменения. Поздравляю с завершением программы.</p>
+          <button class="primary" onclick="renderPathResult('${activePath}')">РЕЗУЛЬТАТ</button>
+          <button class="secondary" onclick="openCabinet()" style="margin-top:10px">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
+        </div>`;
+    } else {
+      await openCabinet();
+    }
+    return;
+  }
   await openCabinet();
 }
 
