@@ -1967,48 +1967,12 @@ function savePracticeAnswer(path, stageNumber, value) {
 function renderPracticeAnswer(path, stageNumber, stage) {
   const saved = getSavedPracticeAnswers();
   const value = saved[path]?.[String(stageNumber)] || '';
-  const prompts = {
-    awakening: [
-      'Запиши свои ответы: кто я без ролей, обязанностей и ожиданий других?',
-      'Что я больше не хочу нести? Что не моё? Что я готова отпустить?',
-      'Чего хочу именно я? Что для меня действительно важно?',
-      'С чем я больше не согласна? Что больше не позволяю?',
-      'Что произошло, что я подумала и почувствовала? Что выбрала сделать?',
-      'Что меня не устраивает, чего я хочу вместо этого и какой мой ближайший шаг?',
-      'Я больше не… Я выбираю… Я разрешаю себе… Мой следующий шаг…'
-    ],
-    creator: [
-      'Опиши реальность, которую ты выбираешь создавать.',
-      'Какое желание ты выбираешь и почему оно действительно твоё?',
-      'Какое решение ты принимаешь и когда сделаешь первый шаг?',
-      'Куда уходит твоя энергия и как ты вернёшь её себе?',
-      'Какое конкретное действие ты совершишь сегодня?',
-      'Как было, как есть сейчас и что ты выбираешь создавать дальше?',
-      'Запиши свой манифест Творца: кто ты, чего хочешь и какую жизнь создаёшь?'
-    ]
-  };
-  const prompt = prompts[path]?.[stageNumber - 1] || 'Запиши свои ответы по практике этого этапа.';
   return `
-    <section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-      <label for="practice-answer-${path}-${stageNumber}" style="display:block;font-weight:600;margin-bottom:10px">МОИ ОТВЕТЫ</label>
-      <p>${escapeLessonHtml(prompt)}</p>
-      <textarea id="practice-answer-${path}-${stageNumber}" rows="7" placeholder="Напиши свой ответ здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value)" style="box-sizing:border-box;width:100%;min-height:150px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
-      <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>
-    </section>`;
-}
-
-function renderStageOneAnswer(path) {
-  const saved = getSavedPracticeAnswers();
-  const value = saved[path]?.['1'] || '';
-  return `
-    <section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-      <label for="stage-one-answer" style="display:block;font-weight:600;margin-bottom:10px">Моя точка</label>
-      <p>Кто я, если убрать мои роли, обязанности и ожидания других?</p>
-      <p style="font-size:14px;opacity:.75">Напиши минимум 10 ответов — каждый с новой строки. Не нужно искать правильные формулировки. Пиши то, что действительно приходит тебе в голову.</p>
-      <textarea id="stage-one-answer" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('${path}', 1, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
+    <section class="lesson-practice practice-answer" style="margin-top:18px;padding:18px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
+      ${stage.practice || ''}
+      <textarea id="practice-answer-${path}-${stageNumber}" rows="8" aria-label="Ответ на практику этапа ${stageNumber}" placeholder="Запиши свои ответы здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;margin-top:12px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
       <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответы сохраняются автоматически по мере ввода'}</p>
-    </section>
-  `;
+    </section>`;
 }
 
 function renderEarlierAnswers(path) {
@@ -2086,7 +2050,6 @@ async function openLesson(lessonNumber, path = null) {
       <h2>${stage.title}</h2>
       ${stage.text}
       ${voice}
-      <div class="lesson-practice">${stage.practice}</div>
       ${answerBox}
       ${earlierAnswers}
       ${meditation}
