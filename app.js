@@ -1820,7 +1820,10 @@ async function openCabinet() {
   }
 
   const local = readLocal();
-  const currentStage = local.current_test_stage || local.final_stage || user.current_stage || '';
+  const rawStage = local.current_test_stage || local.final_stage || user.current_stage || '';
+  // В продукте две ветки: «Пробуждение» и «Творец». Цифровой результат теста не показываем как название ветки.
+  const stageLabels = { '1': 'Автопилот', '2': 'Толчок', '3': 'Пробуждение', '4': 'Творец' };
+  const currentStage = stageLabels[String(rawStage)] || rawStage;
   let activePath = getPathKey(currentStage, user.product || local.product);
   const accessAwakening = Boolean(user.access_awakening);
   const accessCreator = Boolean(user.access_creator);
@@ -1839,7 +1842,7 @@ async function openCabinet() {
       ? accessCreator
       : false;
 
-  stageElement.textContent = currentStage;
+  stageElement.textContent = activePath === 'awakening' ? 'Пробуждение' : activePath === 'creator' ? 'Творец' : (currentStage || 'Личный путь');
   progressElement.style.width = Math.max(0, Math.min(100, progress)) + '%';
   progressText.textContent = activePath ? `${progress}% пройдено` : 'Переход завершён';
 
@@ -1872,8 +1875,7 @@ async function openCabinet() {
 
   message.innerHTML = `
     <h3>ТВОЙ ПУТЬ ОТКРЫТ</h3>
-    <p>Твой результат теста: <strong>${currentStage}</strong></p>
-    <p>Это ветка: <strong>${activePath === 'awakening' ? 'Пробуждение' : 'Творец'}</strong>.</p>
+    <p>По результату теста тебе открыта ветка: <strong>${activePath === 'awakening' ? 'Пробуждение' : 'Творец'}</strong>.</p>
     <p>Прогресс сохраняется автоматически.</p>
   `;
 
@@ -1959,7 +1961,7 @@ function savePracticeAnswer(path, stageNumber, value) {
   allAnswers[path] = pathAnswers;
   writeLocal({ practice_answers: allAnswers });
 
-  const status = document.getElementById('practice-save-status');
+  const status = document.getElementById(`practice-save-status-${path}-${stageNumber}`);
   if (status) status.textContent = 'Ответ сохранён автоматически';
 }
 
@@ -1968,11 +1970,12 @@ function renderPracticeAnswer(path, stageNumber, stage) {
   const saved = getSavedPracticeAnswers();
   const value = saved[path]?.[String(stageNumber)] || '';
   return `
-    <section class="lesson-practice practice-answer" style="margin-top:18px;padding:18px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-      ${stage.practice || ''}
-      <textarea id="practice-answer-${path}-${stageNumber}" rows="8" aria-label="Ответ на практику этапа ${stageNumber}" placeholder="Запиши свои ответы здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;margin-top:12px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
-      <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответы сохраняются автоматически по мере ввода'}</p>
-    </section>`;
+    <div class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px;background:rgba(0,0,0,.08)">
+      <label for="practice-answer-${path}-${stageNumber}" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ К ПРАКТИКЕ</label>
+      <textarea id="practice-answer-${path}-${stageNumber}" rows="8" placeholder="Запиши ответы на вопросы из практики выше.
+Каждый пункт можно начать с новой строки..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
+      <p id="practice-save-status-${path}-${stageNumber}" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>
+    </div>`;
 }
 
 function renderEarlierAnswers(path) {
@@ -2050,7 +2053,10 @@ async function openLesson(lessonNumber, path = null) {
       <h2>${stage.title}</h2>
       ${stage.text}
       ${voice}
-      ${answerBox}
+      <div class="lesson-practice">
+        ${stage.practice}
+        ${answerBox}
+      </div>
       ${earlierAnswers}
       ${meditation}
       <div class="lesson-complete">
