@@ -1990,24 +1990,32 @@ function getPracticePrompts(path, stageNumber) {
 }
 
 function renderPracticeAnswer(path, stageNumber, stage) {
+  // Практика всегда строится по полям конкретного этапа, а не одним общим textarea.
+  // Название этапа страхует от устаревшего ключа ветки.
+  const awakeningTitles = ['Кто я?', 'Чистка поля', 'Я выбираю себя', 'Моё «нет»', 'Наблюдатель', 'Моя жизнь', 'Мой новый фундамент'];
+  const creatorTitles = ['Я выбираю свою реальность', 'Моё желание', 'Мой выбор', 'Моя энергия', 'Я действую', 'Моя новая реальность', 'Я — Творец'];
+  const resolvedPath = awakeningTitles.includes(stage?.title) ? 'awakening'
+    : creatorTitles.includes(stage?.title) ? 'creator' : path;
   const saved = getSavedPracticeAnswers();
-  const stageSaved = saved[path]?.[String(stageNumber)];
+  const stageSaved = saved[resolvedPath]?.[String(stageNumber)];
   const values = stageSaved && typeof stageSaved === 'object'
     ? stageSaved
     : (stageSaved ? { general: stageSaved } : {});
-  const prompts = getPracticePrompts(path, stageNumber);
-  const isSpecialPractice = (path === 'awakening' && [2,3,4,5,6,7].includes(Number(stageNumber))) || path === 'creator';
+  const prompts = getPracticePrompts(resolvedPath, stageNumber);
   const fields = prompts.map((prompt, index) => {
     const key = `field_${index + 1}`;
     const oldValue = values[key] ?? (prompts.length === 1 ? values.general : '');
+    const id = `practice-answer-${resolvedPath}-${stageNumber}-${key}`;
+    const statusId = `practice-save-status-${resolvedPath}-${stageNumber}-${key}`;
     return `
-      <div class="practice-answer-field" style="margin-top:16px">
-        <label for="practice-answer-${path}-${stageNumber}-${key}" style="display:block;font-weight:600;margin-bottom:8px;line-height:1.5">${escapeLessonHtml(prompt)}</label>
-        <textarea id="practice-answer-${path}-${stageNumber}-${key}" rows="4" placeholder="Напиши свой ответ здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value, '${key}')" style="box-sizing:border-box;width:100%;min-height:105px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(oldValue)}</textarea>
-        <p id="practice-save-status-${path}-${stageNumber}-${key}" aria-live="polite" style="font-size:13px;opacity:.75;margin:6px 0 0">${oldValue ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>
+      <div class="practice-answer-field" style="margin:18px 0 0">
+        <label for="${id}" style="display:block;font-weight:600;margin-bottom:8px;line-height:1.5">${escapeLessonHtml(prompt)}</label>
+        <textarea id="${id}" rows="4" placeholder="Напиши свой ответ здесь..." oninput="savePracticeAnswer('${resolvedPath}', ${stageNumber}, this.value, '${key}')" style="display:block;box-sizing:border-box;width:100%;min-height:105px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(oldValue)}</textarea>
+        <p id="${statusId}" aria-live="polite" style="font-size:13px;opacity:.75;margin:6px 0 0">${oldValue ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>
       </div>`;
   }).join('');
   return `<section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
+    <h3 style="margin:0 0 8px">ТВОИ ОТВЕТЫ К ПРАКТИКЕ</h3>
     ${fields}
   </section>`;
 }
