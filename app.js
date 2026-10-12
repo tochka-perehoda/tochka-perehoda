@@ -201,7 +201,6 @@ const awakeningStages = [
       <p><strong>Я больше не согласна...</strong></p>
       <p><strong>Я больше не позволяю...</strong></p>
       <p><strong>Я больше не обязана...</strong></p>
-      <p>Затем выбери одну реальную ситуацию, где ты обычно говоришь «да», хотя хочешь сказать «нет».</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_4_%D0%9C%D0%BE%D1%91_%D0%BD%D0%B5%D1%82.m4a'
   },
@@ -1820,10 +1819,7 @@ async function openCabinet() {
   }
 
   const local = readLocal();
-  const rawStage = local.current_test_stage || local.final_stage || user.current_stage || '';
-  // В продукте две ветки: «Пробуждение» и «Творец». Цифровой результат теста не показываем как название ветки.
-  const stageLabels = { '1': 'Автопилот', '2': 'Толчок', '3': 'Пробуждение', '4': 'Творец' };
-  const currentStage = stageLabels[String(rawStage)] || rawStage;
+  const currentStage = local.current_test_stage || local.final_stage || user.current_stage || '';
   let activePath = getPathKey(currentStage, user.product || local.product);
   const accessAwakening = Boolean(user.access_awakening);
   const accessCreator = Boolean(user.access_creator);
@@ -1842,7 +1838,8 @@ async function openCabinet() {
       ? accessCreator
       : false;
 
-  stageElement.textContent = activePath === 'awakening' ? 'Пробуждение' : activePath === 'creator' ? 'Творец' : (currentStage || 'Личный путь');
+  const displayStage = ({'1':'Автопилот','2':'Толчок','3':'Пробуждение','4':'Творец'})[String(currentStage)] || currentStage;
+  stageElement.textContent = activePath === 'awakening' ? 'Пробуждение' : activePath === 'creator' ? 'Творец' : displayStage;
   progressElement.style.width = Math.max(0, Math.min(100, progress)) + '%';
   progressText.textContent = activePath ? `${progress}% пройдено` : 'Переход завершён';
 
@@ -1875,7 +1872,8 @@ async function openCabinet() {
 
   message.innerHTML = `
     <h3>ТВОЙ ПУТЬ ОТКРЫТ</h3>
-    <p>По результату теста тебе открыта ветка: <strong>${activePath === 'awakening' ? 'Пробуждение' : 'Творец'}</strong>.</p>
+    <p>Твой результат теста: <strong>${displayStage}</strong></p>
+    <p>Это ветка: <strong>${activePath === 'awakening' ? 'Пробуждение' : 'Творец'}</strong>.</p>
     <p>Прогресс сохраняется автоматически.</p>
   `;
 
@@ -1953,29 +1951,94 @@ function getSavedPracticeAnswers() {
   return local.practice_answers || {};
 }
 
-function savePracticeAnswer(path, stageNumber, value) {
+function savePracticeAnswer(path, stageNumber, value, fieldKey = null) {
   const local = readLocal();
   const allAnswers = local.practice_answers || {};
   const pathAnswers = allAnswers[path] || {};
-  pathAnswers[String(stageNumber)] = value;
+  const key = String(stageNumber);
+  if (fieldKey) {
+    const stageAnswers = (pathAnswers[key] && typeof pathAnswers[key] === 'object')
+      ? pathAnswers[key]
+      : (pathAnswers[key] ? { general: pathAnswers[key] } : {});
+    stageAnswers[fieldKey] = value;
+    pathAnswers[key] = stageAnswers;
+  } else {
+    pathAnswers[key] = value;
+  }
   allAnswers[path] = pathAnswers;
   writeLocal({ practice_answers: allAnswers });
-
-  const status = document.getElementById(`practice-save-status-${path}-${stageNumber}`);
+  const status = document.getElementById(`practice-save-status-${path}-${stageNumber}-${fieldKey || 'general'}`);
   if (status) status.textContent = 'Ответ сохранён автоматически';
 }
 
-
 function renderPracticeAnswer(path, stageNumber, stage) {
   const saved = getSavedPracticeAnswers();
-  const value = saved[path]?.[String(stageNumber)] || '';
+  const stageSaved = saved[path]?.[String(stageNumber)];
+  const oldValue = typeof stageSaved === 'string' ? stageSaved : '';
+  const style = 'box-sizing:border-box;width:100%;min-height:100px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical';
+  const field = (key, label, hint = '') => {
+    const value = (stageSaved && typeof stageSaved === 'object' ? stageSaved[key] : '') || '';
+    const id = `practice-answer-${path}-${stageNumber}-${key}`;
+    return `<div style="margin-top:14px"><label for="${id}" style="display:block;font-weight:600;margin-bottom:8px">${escapeLessonHtml(label)}</label>${hint ? `<p style="margin:0 0 8px;opacity:.8">${escapeLessonHtml(hint)}</p>` : ''}<textarea id="${id}" rows="4" placeholder="Запиши свой ответ здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value, '${key}')" style="${style}">${escapeLessonHtml(value)}</textarea><p id="practice-save-status-${path}-${stageNumber}-${key}" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p></div>`;
+  };
+  const sectionStart = '<section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">';
+  const sectionEnd = '</section>';
+
+  if (path === 'awakening' && stageNumber === 1) {
+    const value = oldValue || (stageSaved && stageSaved.general) || '';
+    return `${sectionStart}<label for="practice-answer-awakening-1-general" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ</label><p>Кто я, если убрать мои роли, обязанности и ожидания других?</p><p style="font-size:14px;opacity:.75">Напиши минимум 10 ответов — каждый с новой строки. Не нужно искать правильные формулировки. Пиши то, что действительно приходит тебе в голову.</p><textarea id="practice-answer-awakening-1-general" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('awakening', 1, this.value, 'general')" style="${style}">${escapeLessonHtml(value)}</textarea><p id="practice-save-status-awakening-1-general" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>${sectionEnd}`;
+  }
+
+  if (path === 'awakening' && stageNumber === 2) {
+    return `${sectionStart}${field('want','Я больше не хочу…')}${field('notMine','Это вообще не моё…')}${field('release','Я готова отпустить…')}${sectionEnd}`;
+  }
+  if (path === 'awakening' && stageNumber === 3) {
+    return `${sectionStart}${field('want','Я хочу…')}${field('noLongerWant','Я больше не хочу…')}${field('important','Мне действительно важно…')}${field('prove','Если бы мне не нужно было никому ничего доказывать, я бы…')}${field('judgement','Если бы я не боялась осуждения, я бы…')}${sectionEnd}`;
+  }
+  if (path === 'awakening' && stageNumber === 4) {
+    return `${sectionStart}${field('disagree','Я больше не согласна…')}${field('allow','Я больше не позволяю…')}${field('obliged','Я больше не обязана…')}${sectionEnd}`;
+  }
+  if (path === 'awakening' && stageNumber === 5) {
+    let html = sectionStart;
+    for (let i = 1; i <= 3; i++) html += `<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(180,160,130,.25)"><h4>Ситуация ${i}</h4>${field(`situation${i}`, 'Ситуация', 'Что произошло?')}${field(`reaction${i}`, 'Реакция', 'Что я подумала и почувствовала? Что захотела сделать автоматически? Что выбрала сделать?')}</div>`;
+    return html + sectionEnd;
+  }
+  if (path === 'awakening' && stageNumber === 6) {
+    return `${sectionStart}${field('sphere','Сфера','Какую сферу жизни я выбираю?')}${field('notSatisfied','Что меня здесь больше не устраивает?')}${field('wantInstead','Чего я хочу вместо этого?')}${field('depends','Что зависит от меня?')}${field('next24','Что я могу сделать в ближайшие 24 часа?')}${sectionEnd}`;
+  }
+  if (path === 'awakening' && stageNumber === 7) {
+    return `${sectionStart}${field('noLonger','Я больше не…')}${field('choose','Я выбираю…')}${field('allowMyself','Я разрешаю себе…')}${field('noAllow','Я больше не позволяю…')}${field('important','Для меня важно…')}${field('afraid','Когда мне страшно, я…')}${field('dontKnow','Когда я не знаю, что делать, я…')}${field('nextStep','Мой следующий шаг…')}<p style="margin-top:16px">Сохрани эти ответы. Это твоя точка опоры после прохождения пути.</p>${sectionEnd}`;
+  }
+
+  // For the Creator branch, preserve its current single answer field and prompt.
+  const prompts = {
+    creator: [
+      'Опиши реальность, которую ты выбираешь создавать.',
+      'Какое желание ты выбираешь и почему оно действительно твоё?',
+      'Какое решение ты принимаешь и когда сделаешь первый шаг?',
+      'Куда уходит твоя энергия и как ты вернёшь её себе?',
+      'Какое конкретное действие ты совершишь сегодня?',
+      'Как было, как есть сейчас и что ты выбираешь создавать дальше?',
+      'Запиши свой манифест Творца: кто ты, чего хочешь и какую жизнь создаёшь?'
+    ]
+  };
+  const prompt = prompts[path]?.[stageNumber - 1] || 'Запиши свои ответы по практике этого этапа.';
+  const value = oldValue;
+  return `${sectionStart}<label for="practice-answer-${path}-${stageNumber}-general" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ К ПРАКТИКЕ</label><p>${escapeLessonHtml(prompt)}</p><textarea id="practice-answer-${path}-${stageNumber}-general" rows="7" placeholder="Напиши свой ответ здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value, 'general')" style="${style}">${escapeLessonHtml(value)}</textarea><p id="practice-save-status-${path}-${stageNumber}-general" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>${sectionEnd}`;
+}
+
+function renderStageOneAnswer(path) {
+  const saved = getSavedPracticeAnswers();
+  const value = saved[path]?.['1'] || '';
   return `
-    <div class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px;background:rgba(0,0,0,.08)">
-      <label for="practice-answer-${path}-${stageNumber}" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ К ПРАКТИКЕ</label>
-      <textarea id="practice-answer-${path}-${stageNumber}" rows="8" placeholder="Запиши ответы на вопросы из практики выше.
-Каждый пункт можно начать с новой строки..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
-      <p id="practice-save-status-${path}-${stageNumber}" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>
-    </div>`;
+    <section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
+      <label for="stage-one-answer" style="display:block;font-weight:600;margin-bottom:10px">Моя точка</label>
+      <p>Кто я, если убрать мои роли, обязанности и ожидания других?</p>
+      <p style="font-size:14px;opacity:.75">Напиши минимум 10 ответов — каждый с новой строки. Не нужно искать правильные формулировки. Пиши то, что действительно приходит тебе в голову.</p>
+      <textarea id="stage-one-answer" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('${path}', 1, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
+      <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответы сохраняются автоматически по мере ввода'}</p>
+    </section>
+  `;
 }
 
 function renderEarlierAnswers(path) {
@@ -2043,9 +2106,6 @@ async function openLesson(lessonNumber, path = null) {
     : '';
 
   const answerBox = renderPracticeAnswer(activePath, lessonNumber, stage);
-  const earlierAnswers = activePath === 'awakening' && lessonNumber === 7
-    ? renderEarlierAnswers(activePath)
-    : '';
 
   wrap.innerHTML = `
     <div class="lesson">
@@ -2053,15 +2113,11 @@ async function openLesson(lessonNumber, path = null) {
       <h2>${stage.title}</h2>
       ${stage.text}
       ${voice}
-      <div class="lesson-practice">
-        ${stage.practice}
-        ${answerBox}
-      </div>
-      ${earlierAnswers}
+      <div class="lesson-practice">${stage.practice}${answerBox}</div>
       ${meditation}
       <div class="lesson-complete">
-        <button class="primary" onclick="completeLesson(${lessonNumber}, '${activePath}')">
-          Я ПРОШЛА ЭТОТ ЭТАП
+        <button class="primary" onclick="${lessonNumber === 7 ? `completeLesson(7, '${activePath}')` : `completeLesson(${lessonNumber}, '${activePath}')`}">
+          ${lessonNumber === 7 ? 'РЕЗУЛЬТАТ' : 'Я ПРОШЛА ЭТОТ ЭТАП'}
         </button>
       </div>
     </div>
@@ -2076,12 +2132,24 @@ function renderPathResult(path) {
   const answersByStage = saved[path] || {};
   const pathName = path === 'awakening' ? 'Пробуждение' : 'Творец';
   const items = stages.map(stage => {
-    const answer = String(answersByStage[String(stage.number)] || '').trim();
-    return `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px">
-      <h3>${stage.number}. ${escapeLessonHtml(stage.title)}</h3>
-      <div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${answer ? escapeLessonHtml(answer) : '<em>Ответ не заполнен</em>'}</div>
-    </section>`;
+    const raw = answersByStage[String(stage.number)];
+    const entries = raw && typeof raw === 'object'
+      ? Object.entries(raw).filter(([, value]) => String(value || '').trim())
+      : (String(raw || '').trim() ? [['Ответ', raw]] : []);
+    const labels = {
+      want:'Я больше не хочу…', notMine:'Это вообще не моё…', release:'Я готова отпустить…',
+      noLongerWant:'Я больше не хочу…', important:'Мне действительно важно…', prove:'Если бы мне не нужно было никому ничего доказывать, я бы…', judgement:'Если бы я не боялась осуждения, я бы…',
+      disagree:'Я больше не согласна…', allow:'Я больше не позволяю…', obliged:'Я больше не обязана…',
+      sphere:'Сфера', notSatisfied:'Что меня здесь больше не устраивает?', wantInstead:'Чего я хочу вместо этого?', depends:'Что зависит от меня?', next24:'Что я могу сделать в ближайшие 24 часа?',
+      noLonger:'Я больше не…', choose:'Я выбираю…', allowMyself:'Я разрешаю себе…', noAllow:'Я больше не позволяю…', afraid:'Когда мне страшно, я…', dontKnow:'Когда я не знаю, что делать, я…', nextStep:'Мой следующий шаг…',
+      situation1:'Ситуация 1', reaction1:'Реакция 1', situation2:'Ситуация 2', reaction2:'Реакция 2', situation3:'Ситуация 3', reaction3:'Реакция 3', general:'Ответ'
+    };
+    const content = entries.map(([key, value]) => `<p><strong>${escapeLessonHtml(labels[key] || key)}</strong></p><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(value)}</div>`).join('') || '<em>Ответы не заполнены</em>';
+    return `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>${stage.number}. ${escapeLessonHtml(stage.title)}</h3>${content}</section>`;
   }).join('');
+  if (answersByStage['1_review']) {
+    // The first-stage reflection is also part of the final result.
+  }
   const wrap = document.getElementById('lesson-wrap');
   if (!wrap) return;
   showScreen('lesson');
@@ -2091,6 +2159,7 @@ function renderPathResult(path) {
     <p>Поздравляю с завершением всех семи этапов. Ты уделила время себе, своим желаниям, выборам и новой реальности. Сохрани этот результат и возвращайся к своим ответам, когда захочешь увидеть, как ты изменилась.</p>
     <h3>Твои ответы за весь путь</h3>
     ${items}
+    ${answersByStage['1_review'] ? `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>Что изменилось во мне?</h3><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(answersByStage['1_review'])}</div></section>` : ''}
     <button class="primary" onclick="openCabinet()">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
   </div>`;
 }
@@ -2129,20 +2198,7 @@ async function completeLesson(lessonNumber, path = null) {
   writeLocal({ product: activePath === 'awakening' ? 'Пробуждение' : 'Творец' });
   await saveProgress(newProgress, lessonNumber, activePath);
   if (lessonNumber === stages.length && newProgress >= 100) {
-    const wrap = document.getElementById('lesson-wrap');
-    if (wrap) {
-      showScreen('lesson');
-      wrap.innerHTML = `
-        <div class="lesson">
-          <div class="tag">ПУТЬ ПРОЙДЕН</div>
-          <h2>Ты завершила все 7 этапов!</h2>
-          <p>Это твой путь, твои решения и твои изменения. Поздравляю с завершением программы.</p>
-          <button class="primary" onclick="renderPathResult('${activePath}')">РЕЗУЛЬТАТ</button>
-          <button class="secondary" onclick="openCabinet()" style="margin-top:10px">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
-        </div>`;
-    } else {
-      await openCabinet();
-    }
+    renderPathResult(activePath);
     return;
   }
   await openCabinet();
