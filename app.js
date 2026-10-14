@@ -1450,8 +1450,8 @@ async function renderResult() {
     : 'Практики и медитации помогут перейти от осознания к созданию собственной реальности.';
 
   const productButtonTitle = targetPath === 'awakening'
-    ? 'ПЕРЕЙТИ В ПРОБУЖДЕНИЕ'
-    : 'ПЕРЕЙТИ В ТВОРЦА';
+    ? 'ПЕРЕЙТИ В<br>ПРОБУЖДЕНИЕ • 990 ₽'
+    : 'ПЕРЕЙТИ В<br>ТВОРЦА • 990 ₽';
 
   const productCardTitle = targetPath === 'awakening'
     ? 'Самостоятельный путь к Пробуждению'
