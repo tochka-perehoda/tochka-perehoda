@@ -184,7 +184,7 @@ const awakeningStages = [
       <p><strong>Если бы мне не нужно было никому ничего доказывать, я бы...</strong></p>
       <p><strong>Если бы я не боялась осуждения, я бы...</strong></p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3__%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a'
   },
   {
     number: 4,
