@@ -1462,7 +1462,7 @@ async function renderResult() {
     : 'Самостоятельный путь к Творцу';
 
   const selfButton =
-    `<div class="result-button-wrap" style="display:flex;justify-content:center;width:100%"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center;white-space:normal;line-height:1.25" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle}</button></div>`;
+    `<div class="result-button-wrap" style="display:flex;justify-content:center;align-items:center;width:100%;text-align:center"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center !important;white-space:normal;line-height:1.25" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle}</button></div>`;
 
   const choices = `
     <section class="result-choices" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(180,160,130,.35)">
@@ -1471,7 +1471,7 @@ async function renderResult() {
 
       <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
         <div class="tag">ПУТЬ 1 · САМОСТОЯТЕЛЬНО</div>
-        <h3 style="text-align:center">${productCardTitle}</h3>
+        <h3 style="text-align:center !important;width:100%;display:block;margin-left:auto;margin-right:auto">${productCardTitle}</h3>
         <p>${targetDescription}</p>
         <p><strong>990 ₽</strong></p>
         ${selfButton}
@@ -1479,10 +1479,10 @@ async function renderResult() {
 
       <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
         <div class="tag">ПУТЬ 2 · С ПОДДЕРЖКОЙ</div>
-        <h3 style="text-align:center">Разобраться вместе с Еленой</h3>
+        <h3 style="text-align:center !important;width:100%;display:block;margin-left:auto;margin-right:auto">Разобраться вместе с Еленой</h3>
         <p>Личная консультация-разбор продолжительностью 30–60 минут в зависимости от ситуации. Разберём, что происходит именно у тебя, и определим следующие шаги.</p>
         <p><strong>3 333 ₽</strong></p>
-        <div class="result-button-wrap" style="display:flex;justify-content:center;width:100%"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center;white-space:normal;line-height:1.25" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ<br>РАЗБОР • 3 333 ₽</button></div>
+        <div class="result-button-wrap" style="display:flex;justify-content:center;align-items:center;width:100%;text-align:center"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center !important;white-space:normal;line-height:1.25" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ<br>РАЗБОР • 3 333 ₽</button></div>
       </div>
     </section>
   `;
