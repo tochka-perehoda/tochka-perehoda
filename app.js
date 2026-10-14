@@ -1909,7 +1909,23 @@ function renderPathResult(path) {
       noLonger:'Я больше не…', choose:'Я выбираю…', allowMyself:'Я разрешаю себе…', noAllow:'Я больше не позволяю…', afraid:'Когда мне страшно, я…', dontKnow:'Когда я не знаю, что делать, я…', nextStep:'Мой следующий шаг…',
       situation1:'Ситуация 1', reaction1:'Реакция 1', situation2:'Ситуация 2', reaction2:'Реакция 2', situation3:'Ситуация 3', reaction3:'Реакция 3', general:'Ответ'
     };
-    const content = entries.map(([key, value]) => `<p><strong>${escapeLessonHtml(labels[key] || key)}</strong></p><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(value)}</div>`).join('') || '<em>Ответы не заполнены</em>';
+    const stageFieldLabels = {
+      1: ['Твои ответы на вопрос «Кто я без ролей?»'],
+      2: ['Я больше не хочу…', 'Это вообще не моё…', 'Я готова отпустить…'],
+      3: ['Я хочу…', 'Я больше не хочу…', 'Мне действительно важно…', 'Если бы мне не нужно было никому ничего доказывать, я бы…', 'Если бы я не боялась осуждения, я бы…'],
+      4: ['Я больше не согласна…', 'Я больше не позволяю…', 'Я больше не обязана…'],
+      5: ['Ситуация 1', 'Реакция 1', 'Ситуация 2', 'Реакция 2', 'Ситуация 3', 'Реакция 3'],
+      6: ['Сфера', 'Что меня здесь больше не устраивает?', 'Чего я хочу вместо этого?', 'Что зависит от меня?', 'Что я могу сделать в ближайшие 24 часа?'],
+      7: ['Я больше не…', 'Я выбираю…', 'Я разрешаю себе…', 'Я больше не позволяю…', 'Для меня важно…', 'Когда мне страшно, я…', 'Когда я не знаю, что делать, я…', 'Мой следующий шаг…']
+    };
+    const content = entries.map(([key, value], index) => {
+      const legacyField = /^field_(\d+)$/.exec(key);
+      const legacyLabel = legacyField
+        ? (stageFieldLabels[stage.number]?.[Number(legacyField[1]) - 1] || `Ответ ${legacyField[1]}`)
+        : null;
+      const label = labels[key] || legacyLabel || (key === 'general' ? 'Ответ' : key);
+      return `<p><strong>${escapeLessonHtml(label)}</strong></p><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(value)}</div>`;
+    }).join('') || '<em>Ответы не заполнены</em>';
     return `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>${stage.number}. ${escapeLessonHtml(stage.title)}</h3>${content}</section>`;
   }).join('');
   if (answersByStage['1_review']) {
