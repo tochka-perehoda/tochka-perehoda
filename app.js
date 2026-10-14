@@ -1458,7 +1458,7 @@ async function renderResult() {
     : 'Самостоятельный путь к Творцу';
 
   const selfButton =
-    `<button class="primary" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle} · 990 ₽</button>`;
+    `<button class="primary" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle}</button>`;
 
   const choices = `
     <section class="result-choices" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(180,160,130,.35)">
@@ -1478,7 +1478,7 @@ async function renderResult() {
         <h3>Разобраться вместе с Еленой</h3>
         <p>Личная консультация-разбор продолжительностью 30–60 минут в зависимости от ситуации. Разберём, что происходит именно у тебя, и определим следующие шаги.</p>
         <p><strong>3 333 ₽</strong></p>
-        <button class="primary" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ РАЗБОР · 3 333 ₽</button>
+        <button class="primary" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ РАЗБОР</button>
       </div>
     </section>
   `;
