@@ -280,8 +280,8 @@ const creatorStages = [
       <p>Что есть в твоей жизни? Как ты живёшь? С кем? Чем занимаешься? Что чувствуешь?</p>
       <p>Не пиши «идеальную жизнь». Пиши <strong>свою</strong>.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B2%D0%BE%D1%8E_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
-    meditationUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_%D0%9C%D0%BE%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
   },
   {
     number: 2,
@@ -297,7 +297,7 @@ const creatorStages = [
       <p>Чего я хочу? Зачем мне это? Что я хочу почувствовать, когда это получу? Это действительно моё или я пытаюсь кому-то что-то доказать?</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_%D0%9C%D0%BE%D1%91_%D0%B6%D0%B5%D0%BB%D0%B0%D0%BD%D0%B8%D0%B5.m4a',
-    meditationUrl: ''
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
   },
   {
     number: 3,
@@ -314,7 +314,7 @@ const creatorStages = [
       <p>Запиши: что я решила? Что я сделаю? Когда именно?</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_%D0%9C%D0%BE%D0%B9_%D0%B2%D1%8B%D0%B1%D0%BE%D1%80.m4a',
-    meditationUrl: ''
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
   },
   {
     number: 4,
@@ -330,7 +330,7 @@ const creatorStages = [
       <p>Выбери одну утечку и начни возвращать себе энергию уже сегодня.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_%D0%9C%D0%BE%D1%8F_%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%B8%D1%8F.m4a',
-    meditationUrl: ''
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
   },
   {
     number: 5,
@@ -346,7 +346,7 @@ const creatorStages = [
       <p>Не планируй действие. <strong>Сделай его.</strong></p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_%D0%AF_%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D1%83%D1%8E.m4a',
-    meditationUrl: ''
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
   },
   {
     number: 6,
@@ -362,8 +362,8 @@ const creatorStages = [
       <p><strong>Как было.</strong><br><strong>Как есть сейчас.</strong><br><strong>Что я выбираю создавать дальше.</strong></p>
       <p>Запиши минимум по три пункта.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_%D0%9C%D0%BE%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
-    meditationUrl: ''
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B2%D0%BE%D1%8E_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
   },
   {
     number: 7,
@@ -380,7 +380,7 @@ const creatorStages = [
       <p>Сохрани этот текст как свою новую точку опоры.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_%D0%AF_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86.m4a',
-    meditationUrl: ''
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
   }
 ];
 
@@ -1542,9 +1542,9 @@ async function renderResult() {
 
   wrap.innerHTML = `
     <div class="result">
-      <div class="tag">ТВОЙ РЕЗУЛЬТАТ</div>
+      <div class="tag" style="text-align:center;width:100%">ТВОЙ РЕЗУЛЬТАТ</div>
       <h2 style="text-align:center !important;width:100%;display:block">${stage}</h2>
-      <h3>${title}</h3>
+      <h3 style="text-align:center">${title}</h3>
       ${text}
       ${choices}
     </div>
@@ -1867,7 +1867,7 @@ async function openLesson(lessonNumber, path = null) {
     : '';
 
   const meditation = stage.meditationUrl
-    ? `<div class="lesson-audio"><p><strong>🧘 Медитация</strong></p><audio controls preload="none" src="${stage.meditationUrl}"></audio></div>`
+    ? `<div class="lesson-audio meditation-audio"><p><strong>🧘 Медитация</strong></p><p style="font-size:13px;line-height:1.5;color:#b8b8b8;margin:4px 0 12px">Включи медитацию, устройся поудобнее и позволь себе расслабиться. Отпусти лишние мысли, обрати внимание внутрь себя и просто побудь в этом состоянии. Это время для тебя — позволь новому проявиться.</p><audio controls preload="none" src="${stage.meditationUrl}"></audio></div>`
     : '';
 
   const answerBox = renderPracticeAnswer(activePath, lessonNumber, stage);
@@ -1878,8 +1878,8 @@ async function openLesson(lessonNumber, path = null) {
       <h2>${stage.title}</h2>
       ${stage.text}
       ${voice}
-      <div class="lesson-practice">${stage.practice}${answerBox}</div>
       ${meditation}
+      <div class="lesson-practice">${stage.practice}${answerBox}</div>
       <div class="lesson-complete">
         <button class="primary" onclick="${lessonNumber === 7 ? `completeLesson(7, '${activePath}')` : `completeLesson(${lessonNumber}, '${activePath}')`}">
           ${lessonNumber === 7 ? 'РЕЗУЛЬТАТ' : 'Я ПРОШЛА ЭТОТ ЭТАП'}
