@@ -1420,7 +1420,11 @@ function isFinalRetest() {
    РЕЗУЛЬТАТ ТЕСТА
 ===================================================== */
 
+let resultRenderInProgress = false;
+
 async function renderResult() {
+  if (resultRenderInProgress) return;
+  resultRenderInProgress = true;
   const stage = calculateStage();
   const user = await loadUser();
   const access = await getAccess();
@@ -1458,7 +1462,7 @@ async function renderResult() {
     : 'Самостоятельный путь к Творцу';
 
   const selfButton =
-    `<button class="primary" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle}</button>`;
+    `<button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center;white-space:normal;line-height:1.25" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle}</button>`;
 
   const choices = `
     <section class="result-choices" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(180,160,130,.35)">
@@ -1478,7 +1482,7 @@ async function renderResult() {
         <h3>Разобраться вместе с Еленой</h3>
         <p>Личная консультация-разбор продолжительностью 30–60 минут в зависимости от ситуации. Разберём, что происходит именно у тебя, и определим следующие шаги.</p>
         <p><strong>3 333 ₽</strong></p>
-        <button class="primary" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ РАЗБОР</button>
+        <button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center;white-space:normal;line-height:1.25" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ РАЗБОР</button>
       </div>
     </section>
   `;
@@ -1500,6 +1504,7 @@ async function renderResult() {
       </div>
     `;
     writeLocal({ final_retest_mode: false });
+    resultRenderInProgress = false;
     return;
   }
 
@@ -1544,6 +1549,7 @@ async function renderResult() {
       ${choices}
     </div>
   `;
+  resultRenderInProgress = false;
 }
 
 /* =====================================================
