@@ -1466,7 +1466,7 @@ async function renderResult() {
 
   const choices = `
     <section class="result-choices" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(180,160,130,.35)">
-      <h3>КАК ТЫ ХОЧЕШЬ ПРОЙТИ СВОЙ ПЕРЕХОД?</h3>
+      <h3 style="text-align:center !important;width:100%;display:block">КАК ТЫ ХОЧЕШЬ ПРОЙТИ СВОЙ ПЕРЕХОД?</h3>
       <p>У тебя есть два пути. Выбирай тот, который подходит тебе сейчас.</p>
 
       <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
@@ -1491,7 +1491,7 @@ async function renderResult() {
     wrap.innerHTML = `
       <div class="result">
         <div class="tag">РЕЗУЛЬТАТ ПОВТОРНОГО ТЕСТА</div>
-        <h2>${stage}</h2>
+        <h2 style="text-align:center !important;width:100%;display:block">${stage}</h2>
         ${
           history.initialStage
             ? `<p><strong>В начале пути:</strong> ${history.initialStage}</p>`
@@ -1543,7 +1543,7 @@ async function renderResult() {
   wrap.innerHTML = `
     <div class="result">
       <div class="tag">ТВОЙ РЕЗУЛЬТАТ</div>
-      <h2>${stage}</h2>
+      <h2 style="text-align:center !important;width:100%;display:block">${stage}</h2>
       <h3>${title}</h3>
       ${text}
       ${choices}
