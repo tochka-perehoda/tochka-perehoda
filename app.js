@@ -84,22 +84,11 @@ async function supabaseRest(path, options = {}) {
 
 
 
-function showEntryGate() {
-  injectEntryDescription();
-  document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-  const home = document.getElementById('screen-home');
-  if (home) home.classList.add('active');
-  window.scrollTo(0, 0);
-}
-
 /* =====================================================
    TRIBUTE
 ===================================================== */
 
 const LINKS = {
-
-  entry:
-    'https://web.tribute.tg/p/Hcd',
 
   awakening:
     'https://web.tribute.tg/p/Hcd',
@@ -121,8 +110,6 @@ const LINKS = {
 ===================================================== */
 
 const PRODUCT_IDS = {
-
-  entry: null,
 
   awakening: '156084',
 
@@ -158,7 +145,8 @@ const awakeningStages = [
       <p><strong>«Кто я, если убрать мои роли, обязанности и ожидания других?»</strong></p>
       <p>Напиши минимум 10 ответов. Не анализируй их. Пиши первое, что приходит.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_1_%D0%9A%D1%82%D0%BE_%D1%8F.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_1_%D0%9A%D1%82%D0%BE_%D1%8F.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
   },
   {
     number: 2,
@@ -177,7 +165,8 @@ const awakeningStages = [
       <p><strong>Я готова отпустить...</strong></p>
       <p>Выбери минимум три пункта, которые больше не должны переходить вместе с тобой дальше.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_2_%D0%A7%D0%B8%D1%81%D1%82%D0%BA%D0%B0_%D0%BF%D0%BE%D0%BB%D1%8F.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_2_%D0%A7%D0%B8%D1%81%D1%82%D0%BA%D0%B0_%D0%BF%D0%BE%D0%BB%D1%8F.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
   },
   {
     number: 3,
@@ -197,7 +186,8 @@ const awakeningStages = [
       <p><strong>Если бы мне не нужно было никому ничего доказывать, я бы...</strong></p>
       <p><strong>Если бы я не боялась осуждения, я бы...</strong></p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3__%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3__%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
   },
   {
     number: 4,
@@ -215,7 +205,8 @@ const awakeningStages = [
       <p><strong>Я больше не позволяю...</strong></p>
       <p><strong>Я больше не обязана...</strong></p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_4_%D0%9C%D0%BE%D1%91_%D0%BD%D0%B5%D1%82.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_4_%D0%9C%D0%BE%D1%91_%D0%BD%D0%B5%D1%82.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
   },
   {
     number: 5,
@@ -232,7 +223,8 @@ const awakeningStages = [
       <p>Запиши: что произошло? Что я подумала? Что почувствовала? Что захотела сделать автоматически? Что я выбрала сделать?</p>
       <p>Не исправляй себя. Просто наблюдай.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_5_%D0%9D%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_5_%D0%9D%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
   },
   {
     number: 6,
@@ -249,7 +241,8 @@ const awakeningStages = [
       <p>Что меня здесь больше не устраивает?<br>Чего я хочу вместо этого?<br>Что зависит от меня?<br>Что я могу сделать в ближайшие 24 часа?</p>
       <p>И обязательно сделай этот шаг.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_6_%D0%9C%D0%BE%D1%8F_%D0%B6%D0%B8%D0%B7%D0%BD%D1%8C.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_6_%D0%9C%D0%BE%D1%8F_%D0%B6%D0%B8%D0%B7%D0%BD%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
   },
   {
     number: 7,
@@ -274,10 +267,10 @@ const awakeningStages = [
       <p><strong>Мой следующий шаг...</strong></p>
       <p>Сохрани эти ответы. Это твоя точка опоры после прохождения пути.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_7_%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9_%D1%84%D1%83%D0%BD%D0%B4%D0%B0%D0%BC%D0%B5%D0%BD%D1%82.m4a'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_7_%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9_%D1%84%D1%83%D0%BD%D0%B4%D0%B0%D0%BC%D0%B5%D0%BD%D1%82.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
   }
 ];
-
 const creatorStages = [
   {
     number: 1,
@@ -683,14 +676,13 @@ async function loadUser() {
       progress: Number(pathState.progress ?? local.progress ?? 0),
       current_lesson: Number(pathState.currentLesson ?? local.current_lesson ?? 0),
       access_awakening: Boolean(local.access_awakening),
-      access_creator: Boolean(local.access_creator),
-      has_paid_access: Boolean(local.has_paid_access)
+      access_creator: Boolean(local.access_creator)
     };
   };
 
   try {
     const rows = await supabaseRest(
-      `users?telegram_id=eq.${encodeURIComponent(telegramId)}&select=telegram_id,product,current_stage,progress,current_lesson,access_awakening,access_creator,has_paid_access&limit=1`,
+      `users?telegram_id=eq.${encodeURIComponent(telegramId)}&select=telegram_id,product,current_stage,progress,current_lesson,access_awakening,access_creator&limit=1`,
       { method: 'GET' }
     );
 
@@ -719,8 +711,7 @@ async function loadUser() {
       progress: Number(data.progress || 0),
       current_lesson: Number(data.current_lesson || 0),
       access_awakening: Boolean(data.access_awakening),
-      access_creator: Boolean(data.access_creator),
-      has_paid_access: Boolean(data.has_paid_access)
+      access_creator: Boolean(data.access_creator)
     });
 
     return result;
@@ -1013,46 +1004,7 @@ async function saveFinalTestResult(
    НАВИГАЦИЯ
 ===================================================== */
 
-const ENTRY_DESCRIPTION = `
-  <div class="entry-intro" style="margin:16px 0;padding:20px;border:1px solid rgba(180,160,130,.4);border-radius:16px">
-    <div class="tag">🔥 ТОЧКА ПЕРЕХОДА</div>
-    <p>Ты чувствуешь, что прежняя жизнь больше не работает, но не понимаешь, куда двигаться дальше?</p>
-    <p>Пройди тест, определи свой текущий этап и получи доступ к своей ветке перехода.</p>
-    <p>✨ Внутри тебя ждут 7 последовательных этапов с практиками, которые помогут выйти из привычных сценариев, лучше понять себя и перейти на новый уровень осознанности.</p>
-    <p>Это твой первый шаг от автопилота к созданию собственной реальности.</p>
-    <p><strong>Начни свой переход.</strong></p>
-    <button class="primary" style="width:100%;white-space:normal" onclick="startEntryPayment()">ОПЛАТИТЬ ДОСТУП • 990 ₽</button>
-    <p style="font-size:12px;opacity:.7;margin-bottom:0">После подтверждения оплаты откроется тест.</p>
-  </div>`;
-
-function userHasPaidEntry(user) {
-  return Boolean(user?.has_paid_access || readLocal().has_paid_access);
-}
-
-async function startEntryPayment() {
-  writeLocal({ pending_payment_type: 'entry', pending_payment_started_at: Date.now() });
-  openTribute(LINKS.entry);
-}
-
-async function checkEntryPayment() {
-  const local = readLocal();
-  if (local.pending_payment_type !== 'entry') return false;
-  const user = await loadUser();
-  if (userHasPaidEntry(user)) {
-    writeLocal({ pending_payment_type: null, pending_payment_started_at: null });
-    showScreen('test');
-    return true;
-  }
-  return false;
-}
-
-function injectEntryDescription() {
-  const home = document.getElementById('screen-home');
-  if (!home || home.querySelector('.entry-intro')) return;
-  home.insertAdjacentHTML('afterbegin', ENTRY_DESCRIPTION);
-}
-
-async function showScreen(
+function showScreen(
   name
 ) {
 
@@ -1090,14 +1042,12 @@ async function showScreen(
   );
 
 
-  if (name === 'test') {
-    const user = window.__tpLoadedUser || await loadUser();
-    window.__tpLoadedUser = user;
-    if (!userHasPaidEntry(user)) {
-      showEntryGate();
-      return;
-    }
+  if (
+    name === 'test'
+  ) {
+
     renderTest();
+
   }
 
 }
@@ -1109,32 +1059,47 @@ async function showScreen(
 
 function openTribute(url, pendingPath = null) {
   if (!url) return;
-  if (pendingPath) writeLocal({ pending_payment_path: pendingPath, pending_payment_started_at: Date.now() });
-  if (tg && typeof tg.openLink === 'function') tg.openLink(url);
-  else window.open(url, '_blank', 'noopener');
+
+  if (pendingPath) {
+    writeLocal({
+      pending_payment_path: pendingPath,
+      pending_payment_started_at: Date.now()
+    });
+  }
+
+  if (tg && typeof tg.openLink === 'function') {
+    tg.openLink(url);
+  } else {
+    window.open(url, '_blank');
+  }
 }
 
 async function waitForPaymentAccess(path) {
   if (!path) return;
+
   for (let i = 0; i < 20; i++) {
     const user = await loadUser();
-    const hasAccess = path === 'awakening' ? Boolean(user?.access_awakening) : Boolean(user?.access_creator);
+    const hasAccess = path === 'awakening'
+      ? Boolean(user?.access_awakening)
+      : Boolean(user?.access_creator);
+
     if (hasAccess) {
-      writeLocal({ pending_payment_path: null, pending_payment_started_at: null });
+      writeLocal({
+        pending_payment_path: null,
+        pending_payment_started_at: null
+      });
       await openCabinet();
       return;
     }
+
     await new Promise(resolve => setTimeout(resolve, 1500));
   }
 }
 
 function resumeAfterPayment() {
   const local = readLocal();
-  if (local.pending_payment_type === 'entry') {
-    checkEntryPayment();
-    return;
-  }
-  if (local.pending_payment_path) waitForPaymentAccess(local.pending_payment_path);
+  const path = local.pending_payment_path;
+  if (path) waitForPaymentAccess(path);
 }
 
 document.addEventListener('visibilitychange', () => {
@@ -1142,166 +1107,13 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('focus', resumeAfterPayment);
 
-/* =====================================================
-   ЗАПИСЬ НА КОНСУЛЬТАЦИЮ
-   Слоты и бронирование находятся в Supabase:
-   consultation_slots / consultation_bookings
-===================================================== */
-
-const CONSULTATION_PRICE_RUB = 3333;
-let consultationSlotsLoading = false;
-let consultationBookingInProgress = false;
-
-function ensureConsultationScreen() {
-  let screen = document.getElementById('screen-consultation');
-  if (screen) return screen;
-
-  const app = document.querySelector('.app') || document.body;
-  screen = document.createElement('main');
-  screen.id = 'screen-consultation';
-  screen.className = 'screen';
-  screen.innerHTML = `
-    <button class="back" onclick="showScreen('home')">← Назад</button>
-    <section class="consultation-page" style="padding:8px 0 90px">
-      <div class="tag">ЛИЧНАЯ КОНСУЛЬТАЦИЯ</div>
-      <h2 style="margin-top:10px">Выбери удобное время</h2>
-      <p>Разберём твою ситуацию и определим следующие шаги. Встречи проходят по московскому времени.</p>
-      <p><strong>Стоимость: ${CONSULTATION_PRICE_RUB.toLocaleString('ru-RU')} ₽</strong></p>
-      <div id="consultation-status" aria-live="polite" style="margin:16px 0;line-height:1.5"></div>
-      <div id="consultation-slots" class="consultation-slots"></div>
-      <button class="secondary" style="margin-top:14px" onclick="loadConsultationSlots()">Обновить время</button>
-    </section>
-  `;
-
-  const nav = app.querySelector('.bottom-nav');
-  if (nav) app.insertBefore(screen, nav);
-  else app.appendChild(screen);
-
-  return screen;
-}
-
-function formatConsultationDate(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return String(value || '');
-  return new Intl.DateTimeFormat('ru-RU', {
-    timeZone: 'Europe/Moscow',
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
-  }).format(date);
-}
-
-function formatConsultationTime(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '';
-  return new Intl.DateTimeFormat('ru-RU', {
-    timeZone: 'Europe/Moscow',
-    hour: '2-digit',
-    minute: '2-digit',
-    hourCycle: 'h23'
-  }).format(date);
-}
-
-async function loadConsultationSlots() {
-  const screen = ensureConsultationScreen();
-  const status = screen.querySelector('#consultation-status');
-  const container = screen.querySelector('#consultation-slots');
-  if (!status || !container || consultationSlotsLoading) return;
-
-  consultationSlotsLoading = true;
-  status.textContent = 'Загружаю свободное время…';
-  container.innerHTML = '';
-
-  try {
-    const slots = await supabaseRest('rpc/get_available_consultation_slots', {
-      method: 'POST',
-      body: JSON.stringify({})
-    });
-
-    if (!Array.isArray(slots) || slots.length === 0) {
-      status.textContent = 'Сейчас нет свободного времени для записи. Попробуй обновить список позже.';
-      return;
-    }
-
-    status.textContent = 'Все даты и время указаны по Москве.';
-    container.innerHTML = slots.map(slot => {
-      const start = slot.starts_at;
-      const end = slot.ends_at;
-      const dateLabel = formatConsultationDate(start);
-      const timeLabel = `${formatConsultationTime(start)}–${formatConsultationTime(end)}`;
-      return `
-        <button class="card consultation-slot" style="display:block;width:100%;text-align:left;margin:10px 0;padding:16px"
-          onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')">
-          <b style="display:block;text-transform:capitalize">${dateLabel}</b>
-          <span style="display:block;margin-top:6px">${timeLabel} · Москва</span>
-          <small style="display:block;margin-top:8px">Выбрать это время</small>
-        </button>
-      `;
-    }).join('');
-  } catch (error) {
-    console.error('Ошибка загрузки слотов консультации:', error);
-    status.textContent = 'Не удалось загрузить свободное время. Проверь подключение и попробуй ещё раз.';
-  } finally {
-    consultationSlotsLoading = false;
-  }
-}
-
-async function bookConsultationSlot(slotId) {
-  if (consultationBookingInProgress) return;
-
-  const status = document.getElementById('consultation-status');
-  const telegramId = getTelegramId();
-
-  if (!telegramId) {
-    if (status) status.textContent = 'Чтобы записаться, открой это приложение внутри Telegram.';
-    return;
-  }
-  if (!slotId) {
-    if (status) status.textContent = 'Не удалось определить выбранное время. Обнови список и попробуй снова.';
-    return;
-  }
-
-  consultationBookingInProgress = true;
-  if (status) status.textContent = 'Проверяю доступность времени и создаю запись…';
-
-  try {
-    // SQL-функция сама повторно проверяет слот и создаёт pending_payment.
-    // Уникальный индекс в базе не позволяет занять один слот двум клиентам.
-    await supabaseRest('rpc/create_consultation_booking', {
-      method: 'POST',
-      body: JSON.stringify({
-        p_telegram_id: telegramId,
-        p_slot_id: slotId
-      })
-    });
-
-    writeLocal({
-      pending_consultation_payment: true,
-      pending_consultation_slot_id: slotId,
-      pending_consultation_started_at: Date.now()
-    });
-
-    if (status) status.textContent = 'Время предварительно забронировано. Сейчас откроется страница оплаты.';
-    openTribute(LINKS.consultation);
-  } catch (error) {
-    console.error('Ошибка создания записи на консультацию:', error);
-    const message = String(error?.message || '');
-    const slotUnavailable = /SLOT_UNAVAILABLE|unique|duplicate|already|занят/i.test(message);
-    await loadConsultationSlots();
-    if (status) {
-      status.textContent = slotUnavailable
-        ? 'Это время только что заняли. Список обновлён — выбери другой слот.'
-        : 'Не удалось создать запись. Проверь соединение и попробуй ещё раз.';
-    }
-  } finally {
-    consultationBookingInProgress = false;
-  }
-}
 
 function openConsultation() {
-  ensureConsultationScreen();
-  showScreen('consultation');
-  loadConsultationSlots();
+
+  openTribute(
+    LINKS.consultation
+  );
+
 }
 
 
@@ -1368,7 +1180,10 @@ async function openProduct(
     }
 
 
-    openTribute(LINKS.entry);
+    openTribute(
+      LINKS.awakening,
+      'awakening'
+    );
 
     return;
 
@@ -1645,36 +1460,35 @@ async function renderResult() {
     : 'Практики и медитации помогут перейти от осознания к созданию собственной реальности.';
 
   const productButtonTitle = targetPath === 'awakening'
-    ? 'ОТКРЫТЬ ВЕТКУ «ПРОБУЖДЕНИЕ»'
-    : 'ОТКРЫТЬ ВЕТКУ «ТВОРЕЦ»';
+    ? 'ПЕРЕЙТИ В<br>ПРОБУЖДЕНИЕ • 990 ₽'
+    : 'ПЕРЕЙТИ В<br>ТВОРЦА • 990 ₽';
 
   const productCardTitle = targetPath === 'awakening'
-    ? 'Твой путь к Пробуждению'
-    : 'Твой путь к Творцу';
+    ? 'Самостоятельный путь к Пробуждению'
+    : 'Самостоятельный путь к Творцу';
 
-  const selfButton = targetPath === 'creator'
-    ? `<button class="primary" style="width:100%;white-space:normal" onclick="openCabinet()">${productButtonTitle}</button>`
-    : `<button class="primary" style="width:100%;white-space:normal" onclick="openCabinet()">${productButtonTitle}</button>`;
+  const selfButton =
+    `<div class="result-button-wrap" style="display:flex;justify-content:center;align-items:center;width:100%;text-align:center"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center !important;white-space:normal;line-height:1.25" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle}</button></div>`;
 
   const choices = `
     <section class="result-choices" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(180,160,130,.35)">
-      <h3 style="text-align:center">ТВОЙ СЛЕДУЮЩИЙ ШАГ</h3>
+      <h3 style="text-align:center !important;width:100%;display:block">КАК ТЫ ХОЧЕШЬ ПРОЙТИ СВОЙ ПЕРЕХОД?</h3>
+      <p>У тебя есть два пути. Выбирай тот, который подходит тебе сейчас.</p>
+
       <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-        <div class="tag">ТВОЯ ВЕТКА</div>
-        <h3>${productCardTitle}</h3>
+        <div class="tag">ПУТЬ 1 · САМОСТОЯТЕЛЬНО</div>
+        <h3 style="text-align:center !important;width:100%;display:block;margin-left:auto;margin-right:auto">${productCardTitle}</h3>
         <p>${targetDescription}</p>
+        <p><strong>990 ₽</strong></p>
         ${selfButton}
       </div>
+
       <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-        <div class="tag">ЛИЧНАЯ РАБОТА</div>
-        <h3>Личная консультация</h3>
-        <p>Индивидуальный разбор продолжительностью 30–60 минут. Выбери свободное время, затем оплати консультацию.</p>
-        <button class="primary" style="width:100%;white-space:normal" onclick="openConsultation()">ВЫБРАТЬ ВРЕМЯ КОНСУЛЬТАЦИИ</button>
-      </div>
-      <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-        <div class="tag">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</div>
-        <p>Персональная работа с Еленой в течение месяца.</p>
-        <button class="secondary" style="width:100%;white-space:normal" onclick="openAccompaniment()">УЗНАТЬ О СОПРОВОЖДЕНИИ</button>
+        <div class="tag">ПУТЬ 2 · С ПОДДЕРЖКОЙ</div>
+        <h3 style="text-align:center !important;width:100%;display:block;margin-left:auto;margin-right:auto">Разобраться вместе с Еленой</h3>
+        <p>Личная консультация-разбор продолжительностью 30–60 минут в зависимости от ситуации. Разберём, что происходит именно у тебя, и определим следующие шаги.</p>
+        <p><strong>3 333 ₽</strong></p>
+        <div class="result-button-wrap" style="display:flex;justify-content:center;align-items:center;width:100%;text-align:center"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center !important;white-space:normal;line-height:1.25" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ<br>РАЗБОР • 3 333 ₽</button></div>
       </div>
     </section>
   `;
@@ -2133,10 +1947,12 @@ function renderPathResult(path) {
     <h3>Твои ответы за весь путь</h3>
     ${items}
     ${answersByStage['1_review'] ? `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>Что изменилось во мне?</h3><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(answersByStage['1_review'])}</div></section>` : ''}
-    ${path === 'awakening' ? `<section style="margin:20px 0;padding:16px;border:1px solid rgba(180,160,130,.4);border-radius:14px"><h3>Готова продолжить путь?</h3><p>Следующий этап — ветка «Творец». Она поможет перейти от осознания к созданию собственной реальности.</p><button class="primary" style="width:100%;white-space:normal" onclick="openCreatorUpgrade()">ПЕРЕЙТИ В «ТВОРЦА»</button></section>` : ''}
-    <section style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px"><h3>Личная консультация</h3><p>Индивидуальный разбор 30–60 минут. Сначала выбери свободное время, затем оплати.</p><button class="primary" style="width:100%;white-space:normal" onclick="openConsultation()">ВЫБРАТЬ ВРЕМЯ</button></section>
-    <section style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px"><h3>Личное сопровождение</h3><p>Персональная работа с Еленой на протяжении месяца.</p><button class="secondary" style="width:100%;white-space:normal" onclick="openAccompaniment()">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</button></section>
-    <button class="primary" onclick="openCabinet()">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
+    <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(180,160,130,.35)">
+      ${path === 'awakening' ? `<h3>Хочешь продолжить путь?</h3><p>Следующая ветка — «Творец». Она открывается отдельно, если ты готова перейти от пробуждения к созданию своей реальности.</p><button class="primary" onclick="openProduct('creator')">ОТКРЫТЬ ВЕТКУ «ТВОРЕЦ»</button>` : `<h3>Твой следующий шаг</h3><p>Ты можешь продолжить работу с личным запросом на консультации или выбрать персональное сопровождение.</p>`}
+      <button class="secondary" style="margin-top:10px" onclick="openConsultation()">ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ</button>
+      <button class="secondary" style="margin-top:10px" onclick="openAccompaniment()">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</button>
+      <button class="secondary" style="margin-top:10px" onclick="openCabinet()">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
+    </div>
   </div>`;
 }
 
@@ -2250,10 +2066,6 @@ function resetTest() {
    ЗАПУСК
 ===================================================== */
 
-function openCreatorUpgrade() {
-  openTribute(LINKS.creator, 'creator');
-}
-
 document.addEventListener(
   'DOMContentLoaded',
   async () => {
@@ -2269,9 +2081,7 @@ document.addEventListener(
     );
 
 
-    const user = await ensureUser();
-    window.__tpLoadedUser = user || await loadUser();
-    injectEntryDescription();
+    await ensureUser();
     resumeAfterPayment();
 
   }
