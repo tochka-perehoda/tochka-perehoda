@@ -146,7 +146,7 @@ const awakeningStages = [
       <p>Напиши минимум 10 ответов. Не анализируй их. Пиши первое, что приходит.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_1_%D0%9A%D1%82%D0%BE_%D1%8F.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
   },
   {
     number: 2,
@@ -166,7 +166,7 @@ const awakeningStages = [
       <p>Выбери минимум три пункта, которые больше не должны переходить вместе с тобой дальше.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_2_%D0%A7%D0%B8%D1%81%D1%82%D0%BA%D0%B0_%D0%BF%D0%BE%D0%BB%D1%8F.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
   },
   {
     number: 3,
@@ -187,7 +187,7 @@ const awakeningStages = [
       <p><strong>Если бы я не боялась осуждения, я бы...</strong></p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3__%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
   },
   {
     number: 4,
@@ -206,7 +206,7 @@ const awakeningStages = [
       <p><strong>Я больше не обязана...</strong></p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_4_%D0%9C%D0%BE%D1%91_%D0%BD%D0%B5%D1%82.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
   },
   {
     number: 5,
@@ -224,7 +224,7 @@ const awakeningStages = [
       <p>Не исправляй себя. Просто наблюдай.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_5_%D0%9D%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
   },
   {
     number: 6,
@@ -242,7 +242,7 @@ const awakeningStages = [
       <p>И обязательно сделай этот шаг.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_6_%D0%9C%D0%BE%D1%8F_%D0%B6%D0%B8%D0%B7%D0%BD%D1%8C.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
   },
   {
     number: 7,
@@ -268,7 +268,7 @@ const awakeningStages = [
       <p>Сохрани эти ответы. Это твоя точка опоры после прохождения пути.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_7_%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9_%D1%84%D1%83%D0%BD%D0%B4%D0%B0%D0%BC%D0%B5%D0%BD%D1%82.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
   }
 ];
 const creatorStages = [
@@ -286,8 +286,8 @@ const creatorStages = [
       <p>Что есть в твоей жизни? Как ты живёшь? С кем? Чем занимаешься? Что чувствуешь?</p>
       <p>Не пиши «идеальную жизнь». Пиши <strong>свою</strong>.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_%D0%9C%D0%BE%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B2%D0%BE%D1%8E_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
   },
   {
     number: 2,
@@ -303,7 +303,7 @@ const creatorStages = [
       <p>Чего я хочу? Зачем мне это? Что я хочу почувствовать, когда это получу? Это действительно моё или я пытаюсь кому-то что-то доказать?</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_%D0%9C%D0%BE%D1%91_%D0%B6%D0%B5%D0%BB%D0%B0%D0%BD%D0%B8%D0%B5.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
   },
   {
     number: 3,
@@ -320,7 +320,7 @@ const creatorStages = [
       <p>Запиши: что я решила? Что я сделаю? Когда именно?</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_%D0%9C%D0%BE%D0%B9_%D0%B2%D1%8B%D0%B1%D0%BE%D1%80.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
   },
   {
     number: 4,
@@ -336,7 +336,7 @@ const creatorStages = [
       <p>Выбери одну утечку и начни возвращать себе энергию уже сегодня.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_%D0%9C%D0%BE%D1%8F_%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%B8%D1%8F.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
   },
   {
     number: 5,
@@ -352,7 +352,7 @@ const creatorStages = [
       <p>Не планируй действие. <strong>Сделай его.</strong></p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_%D0%AF_%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D1%83%D1%8E.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
   },
   {
     number: 6,
@@ -368,8 +368,8 @@ const creatorStages = [
       <p><strong>Как было.</strong><br><strong>Как есть сейчас.</strong><br><strong>Что я выбираю создавать дальше.</strong></p>
       <p>Запиши минимум по три пункта.</p>
     `,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B2%D0%BE%D1%8E_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_%D0%9C%D0%BE%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
   },
   {
     number: 7,
@@ -386,7 +386,7 @@ const creatorStages = [
       <p>Сохрани этот текст как свою новую точку опоры.</p>
     `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_%D0%AF_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86.m4a',
-    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
   }
 ];
 
