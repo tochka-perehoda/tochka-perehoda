@@ -1329,6 +1329,15 @@ async function bookConsultationSlot(slotId) {
   if (status) status.textContent = 'Проверяю доступность времени и создаю запись…';
 
   try {
+    // Cancel abandoned pending consultation attempts for this Telegram account.
+    // Tribute currently uses a fixed checkout URL, so keep only one pending
+    // consultation to avoid ambiguous payment matching.
+    await supabaseRest('consultation_bookings?telegram_id=eq.' + encodeURIComponent(telegramId) + '&service_type=eq.consultation&status=eq.pending_payment', {
+      method: 'PATCH',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ status: 'cancelled' })
+    });
+
     // SQL-функция сама повторно проверяет слот и создаёт pending_payment.
     // Уникальный индекс в базе не позволяет занять один слот двум клиентам.
     await supabaseRest('rpc/create_consultation_booking', {
