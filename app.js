@@ -1,4 +1,3 @@
-
 /* =====================================================
    ТОЧКА ПЕРЕХОДА
    APP.JS
@@ -1238,11 +1237,12 @@ function renderConsultationCalendar() {
 
   const selectedSlots = (byDate.get(consultationSelectedDate) || []).sort((a,b) => new Date(a.starts_at) - new Date(b.starts_at));
   const selectedDateLabel = formatConsultationDate(selectedSlots[0]?.starts_at || `${consultationSelectedDate}T12:00:00+03:00`);
-  if (status) status.textContent = `Все даты и время указаны по Москве. Выбрано: ${selectedDateLabel}.`;
-  container.innerHTML = `<h3 style="margin:22px 0 10px;text-transform:capitalize">${selectedDateLabel}</h3>` + selectedSlots.map(slot => {
+  if (status) status.textContent = `Все даты и время указаны по московскому времени. Выбрано: ${selectedDateLabel}.`;
+  container.innerHTML = `<h3 style="margin:22px 0 8px;text-transform:capitalize">${selectedDateLabel}</h3><p style="margin:0 0 14px;color:#b7aa91;font-size:11px;letter-spacing:.09em;text-transform:uppercase">Время по московскому времени</p><div class="consultation-time-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">` + selectedSlots.map(slot => {
     const timeLabel = `${formatConsultationTime(slot.starts_at)}–${formatConsultationTime(slot.ends_at)}`;
-    return `<button class="card consultation-slot" style="display:block;width:100%;text-align:left;margin:10px 0;padding:16px;background:#f1f1f1;color:#171717;border-radius:3px" onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')"><b style="display:block">${timeLabel}</b><small style="display:block;margin-top:8px">Выбрать это время</small></button>`;
-  }).join('') || '<p>На эту дату свободных интервалов нет. Выбери другой день.</p>';
+    const startLabel = formatConsultationTime(slot.starts_at);
+    return `<button type="button" class="consultation-slot" style="display:flex;min-width:0;min-height:78px;flex-direction:column;align-items:center;justify-content:center;gap:7px;margin:0;padding:12px 5px;background:#22201c;color:#f1eee8;border:1px solid #45413b;border-radius:14px;font:inherit;text-align:center;box-shadow:none;transition:background .15s,border-color .15s" onmouseover="this.style.borderColor='#c9b58c';this.style.background='#302b22'" onmouseout="this.style.borderColor='#45413b';this.style.background='#22201c'" onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')" aria-label="Выбрать время ${timeLabel}"><b style="display:block;font-size:15px;line-height:1.2;white-space:nowrap">${startLabel}</b><small style="display:block;margin:0;color:#aaa399;font-size:11px;line-height:1.2">Свободно</small></button>`;
+  }).join('') + `</div>` || '<p>На эту дату свободных интервалов нет. Выбери другой день.</p>';
 }
 
 function selectConsultationDate(dateKey) {
