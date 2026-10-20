@@ -1,4 +1,3 @@
-
 /* =====================================================
    ТОЧКА ПЕРЕХОДА
    APP.JS
@@ -1118,6 +1117,9 @@ window.addEventListener('focus', resumeAfterPayment);
 const CONSULTATION_PRICE_RUB = 3333;
 let consultationSlotsLoading = false;
 let consultationBookingInProgress = false;
+let consultationAllSlots = [];
+let consultationSelectedDate = null;
+let consultationMonth = null;
 
 function ensureConsultationScreen() {
   let screen = document.getElementById('screen-consultation');
@@ -1135,6 +1137,7 @@ function ensureConsultationScreen() {
       <p>Разберём твою ситуацию и определим следующие шаги. Встречи проходят по московскому времени.</p>
       <p><strong>Стоимость: ${CONSULTATION_PRICE_RUB.toLocaleString('ru-RU')} ₽</strong></p>
       <div id="consultation-status" aria-live="polite" style="margin:16px 0;line-height:1.5"></div>
+      <div id="consultation-calendar" class="consultation-calendar"></div>
       <div id="consultation-slots" class="consultation-slots"></div>
       <button class="secondary" style="margin-top:14px" onclick="loadConsultationSlots()">Обновить время</button>
     </section>
@@ -1169,45 +1172,111 @@ function formatConsultationTime(value) {
   }).format(date);
 }
 
+function consultationDateKey(value) {
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date(value));
+  const get = type => parts.find(part => part.type === type)?.value || '';
+  return `${get('year')}-${get('month')}-${get('day')}`;
+}
+
+function consultationMonthKey(dateKey) { return dateKey.slice(0, 7); }
+
+function renderConsultationCalendar() {
+  const screen = document.getElementById('screen-consultation');
+  const calendar = screen?.querySelector('#consultation-calendar');
+  const container = screen?.querySelector('#consultation-slots');
+  const status = screen?.querySelector('#consultation-status');
+  if (!calendar || !container) return;
+
+  const byDate = new Map();
+  consultationAllSlots.forEach(slot => {
+    const key = consultationDateKey(slot.starts_at);
+    if (!byDate.has(key)) byDate.set(key, []);
+    byDate.get(key).push(slot);
+  });
+  const availableDates = [...byDate.keys()].sort();
+  if (!availableDates.length) {
+    calendar.innerHTML = '';
+    container.innerHTML = '';
+    if (status) status.textContent = 'Сейчас нет свободного времени для записи. Попробуй обновить список позже.';
+    return;
+  }
+
+  const todayKey = consultationDateKey(new Date());
+  const futureDates = availableDates.filter(key => key >= todayKey);
+  if (!consultationSelectedDate || !byDate.has(consultationSelectedDate)) consultationSelectedDate = futureDates[0] || availableDates[0];
+  if (!consultationMonth || !availableDates.some(key => consultationMonthKey(key) === consultationMonth)) consultationMonth = consultationMonthKey(consultationSelectedDate);
+
+  const monthDates = availableDates.filter(key => consultationMonthKey(key) === consultationMonth);
+  const [year, month] = consultationMonth.split('-').map(Number);
+  const firstDay = new Date(Date.UTC(year, month - 1, 1));
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  // Monday-first calendar
+  const offset = (firstDay.getUTCDay() + 6) % 7;
+  const monthLabel = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(firstDay);
+  const monthKeys = [...new Set(availableDates.map(consultationMonthKey))].sort();
+  const monthIndex = monthKeys.indexOf(consultationMonth);
+  const prevMonth = monthKeys[monthIndex - 1];
+  const nextMonth = monthKeys[monthIndex + 1];
+  let cells = '';
+  for (let i = 0; i < offset; i++) cells += '<span></span>';
+  for (let day = 1; day <= daysInMonth; day++) {
+    const key = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const enabled = byDate.has(key) && key >= todayKey;
+    const selected = key === consultationSelectedDate;
+    cells += `<button type="button" ${enabled ? `onclick="selectConsultationDate('${key}')"` : 'disabled'} style="min-height:42px;border-radius:10px;border:1px solid ${selected ? '#d7b36b' : enabled ? 'rgba(215,179,107,.42)' : 'rgba(255,255,255,.07)'};background:${selected ? '#d7b36b' : enabled ? '#201d17' : 'transparent'};color:${selected ? '#17130d' : enabled ? '#f2eee5' : '#625e56'};font:inherit;opacity:${enabled ? '1' : '.42'}">${day}</button>`;
+  }
+  calendar.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px;gap:12px">
+      <button type="button" ${prevMonth ? `onclick="changeConsultationMonth('${prevMonth}')"` : 'disabled'} aria-label="Предыдущий месяц" style="border:1px solid #514633;background:transparent;color:#d7b36b;border-radius:9px;padding:8px 13px">‹</button>
+      <strong style="text-transform:capitalize">${monthLabel}</strong>
+      <button type="button" ${nextMonth ? `onclick="changeConsultationMonth('${nextMonth}')"` : 'disabled'} aria-label="Следующий месяц" style="border:1px solid #514633;background:transparent;color:#d7b36b;border-radius:9px;padding:8px 13px">›</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;text-align:center;color:#b7aa91;font-size:12px;margin-bottom:6px">${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<span>${d}</span>`).join('')}</div>
+    <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px">${cells}</div>
+    <p style="font-size:13px;color:#b7aa91;margin:12px 0 4px">Выбери день — ниже появится свободное время.</p>`;
+
+  const selectedSlots = (byDate.get(consultationSelectedDate) || []).sort((a,b) => new Date(a.starts_at) - new Date(b.starts_at));
+  const selectedDateLabel = formatConsultationDate(selectedSlots[0]?.starts_at || `${consultationSelectedDate}T12:00:00+03:00`);
+  if (status) status.textContent = `Все даты и время указаны по Москве. Выбрано: ${selectedDateLabel}.`;
+  container.innerHTML = `<h3 style="margin:22px 0 10px;text-transform:capitalize">${selectedDateLabel}</h3>` + selectedSlots.map(slot => {
+    const timeLabel = `${formatConsultationTime(slot.starts_at)}–${formatConsultationTime(slot.ends_at)}`;
+    return `<button class="card consultation-slot" style="display:block;width:100%;text-align:left;margin:10px 0;padding:16px;background:#f1f1f1;color:#171717;border-radius:3px" onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')"><b style="display:block">${timeLabel}</b><small style="display:block;margin-top:8px">Выбрать это время</small></button>`;
+  }).join('') || '<p>На эту дату свободных интервалов нет. Выбери другой день.</p>';
+}
+
+function selectConsultationDate(dateKey) {
+  consultationSelectedDate = dateKey;
+  consultationMonth = consultationMonthKey(dateKey);
+  renderConsultationCalendar();
+}
+
+function changeConsultationMonth(monthKey) {
+  consultationMonth = monthKey;
+  const firstAvailable = consultationAllSlots.find(slot => consultationMonthKey(consultationDateKey(slot.starts_at)) === monthKey);
+  if (firstAvailable) consultationSelectedDate = consultationDateKey(firstAvailable.starts_at);
+  renderConsultationCalendar();
+}
+
 async function loadConsultationSlots() {
   const screen = ensureConsultationScreen();
   const status = screen.querySelector('#consultation-status');
+  const calendar = screen.querySelector('#consultation-calendar');
   const container = screen.querySelector('#consultation-slots');
   if (!status || !container || consultationSlotsLoading) return;
 
   consultationSlotsLoading = true;
-  status.textContent = 'Загружаю свободное время…';
+  status.textContent = 'Загружаю календарь…';
+  calendar.innerHTML = '';
   container.innerHTML = '';
-
   try {
-    const slots = await supabaseRest('rpc/get_available_consultation_slots', {
-      method: 'POST',
-      body: JSON.stringify({})
-    });
-
-    if (!Array.isArray(slots) || slots.length === 0) {
-      status.textContent = 'Сейчас нет свободного времени для записи. Попробуй обновить список позже.';
-      return;
-    }
-
-    status.textContent = 'Все даты и время указаны по Москве.';
-    container.innerHTML = slots.map(slot => {
-      const start = slot.starts_at;
-      const end = slot.ends_at;
-      const dateLabel = formatConsultationDate(start);
-      const timeLabel = `${formatConsultationTime(start)}–${formatConsultationTime(end)}`;
-      return `
-        <button class="card consultation-slot" style="display:block;width:100%;text-align:left;margin:10px 0;padding:16px"
-          onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')">
-          <b style="display:block;text-transform:capitalize">${dateLabel}</b>
-          <span style="display:block;margin-top:6px">${timeLabel} · Москва</span>
-          <small style="display:block;margin-top:8px">Выбрать это время</small>
-        </button>
-      `;
-    }).join('');
+    const slots = await supabaseRest('rpc/get_available_consultation_slots', { method: 'POST', body: JSON.stringify({}) });
+    consultationAllSlots = Array.isArray(slots) ? slots.filter(slot => slot?.id && slot?.starts_at && slot?.ends_at && consultationDateKey(slot.starts_at) >= consultationDateKey(new Date())) : [];
+    consultationSelectedDate = null;
+    consultationMonth = null;
+    renderConsultationCalendar();
   } catch (error) {
     console.error('Ошибка загрузки слотов консультации:', error);
-    status.textContent = 'Не удалось загрузить свободное время. Проверь подключение и попробуй ещё раз.';
+    status.textContent = 'Не удалось загрузить календарь. Проверь подключение и попробуй ещё раз.';
   } finally {
     consultationSlotsLoading = false;
   }
@@ -1836,11 +1905,12 @@ function renderStageList(progress, hasAccess, path = null) {
     return `
       <button
         class="stage-button ${isDone ? 'done' : ''} ${isOpen ? 'current' : 'locked'}"
+        style="box-sizing:border-box;display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:18px;width:100%;min-height:112px;padding:22px 24px;margin:0 0 16px;border:2px solid ${isOpen ? '#806b48' : '#292a2a'};border-radius:28px;background:${isOpen ? '#1d1b17' : '#171918'};color:${isOpen ? '#eeeae2' : '#777977'};text-align:left;font:inherit;"
         ${isOpen ? `onclick="openLesson(${stage.number}, '${path}')"` : 'disabled'}
       >
-        <span class="stage-number">${stage.number}</span>
-        <span class="stage-name">${stage.title}</span>
-        <span class="stage-state">${state}</span>
+        <span class="stage-number" style="display:flex;align-items:center;justify-content:center;width:50px;height:50px;border:2px solid #6e5c3d;border-radius:50%;color:#c5a56a;font-size:22px">${stage.number}</span>
+        <span class="stage-name" style="font-size:clamp(16px,4vw,23px);line-height:1.35;min-width:0">${stage.title}</span>
+        <span class="stage-state" style="font-size:clamp(12px,3vw,16px);white-space:nowrap;color:${isOpen ? '#cbb17c' : '#777977'}">${state}</span>
       </button>
     `;
   }).join('');
@@ -1866,11 +1936,11 @@ function renderStageList(progress, hasAccess, path = null) {
 
 function escapeLessonHtml(value) {
   return String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
+    .replace(/'/g, ''');
 }
 
 function getSavedPracticeAnswers() {
