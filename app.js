@@ -1,3 +1,4 @@
+
 /* =====================================================
    ТОЧКА ПЕРЕХОДА
    APP.JS
@@ -1121,7 +1122,33 @@ let consultationAllSlots = [];
 let consultationSelectedDate = null;
 let consultationMonth = null;
 
+function ensureConsultationSlotStyles() {
+  if (document.getElementById('consultation-slot-theme')) return;
+  const style = document.createElement('style');
+  style.id = 'consultation-slot-theme';
+  style.textContent = `
+    #screen-consultation .consultation-time-grid { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:9px !important; }
+    #screen-consultation button.consultation-slot,
+    #screen-consultation .consultation-time-grid button.consultation-slot {
+      box-sizing:border-box !important; display:flex !important; min-width:0 !important; min-height:78px !important;
+      flex-direction:column !important; align-items:center !important; justify-content:center !important; gap:7px !important;
+      margin:0 !important; padding:12px 5px !important; background:#22201c !important; color:#f1eee8 !important;
+      border:1px solid #45413b !important; border-radius:14px !important; font:inherit !important;
+      text-align:center !important; box-shadow:none !important; text-transform:none !important;
+      letter-spacing:normal !important; opacity:1 !important; white-space:normal !important;
+      transition:background .15s,border-color .15s !important;
+    }
+    #screen-consultation button.consultation-slot b { display:block !important; color:#f1eee8 !important; font-size:15px !important; line-height:1.2 !important; white-space:nowrap !important; }
+    #screen-consultation button.consultation-slot small { display:block !important; margin:0 !important; color:#aaa399 !important; font-size:11px !important; line-height:1.2 !important; }
+    #screen-consultation button.consultation-slot:hover,
+    #screen-consultation button.consultation-slot:focus-visible { background:#302b22 !important; border-color:#c9b58c !important; outline:none !important; }
+    @media (max-width:360px) { #screen-consultation .consultation-time-grid { gap:6px !important; } #screen-consultation button.consultation-slot { padding:10px 2px !important; } #screen-consultation button.consultation-slot b { font-size:14px !important; } }
+  `;
+  document.head.appendChild(style);
+}
+
 function ensureConsultationScreen() {
+  ensureConsultationSlotStyles();
   let screen = document.getElementById('screen-consultation');
   if (screen) return screen;
 
