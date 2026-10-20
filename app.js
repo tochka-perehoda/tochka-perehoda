@@ -1101,7 +1101,58 @@ function resumeAfterPayment() {
   const local = readLocal();
   const path = local.pending_payment_path;
   if (path) waitForPaymentAccess(path);
+  resumeAfterConsultationPayment();
 }
+
+async function resumeAfterConsultationPayment() {
+  const local = readLocal();
+  if (!local.pending_consultation_payment) return;
+
+  const telegramId = getTelegramId();
+  if (!telegramId) return;
+
+  try {
+    const rows = await supabaseRest(
+      'consultation_bookings?telegram_id=eq.' + encodeURIComponent(String(telegramId)) +
+      '&service_type=eq.consultation&status=eq.paid&select=id,slot_id,amount_rub,paid_at,consultation_slots(starts_at)&order=paid_at.desc&limit=1'
+    );
+    const booking = Array.isArray(rows) ? rows[0] : null;
+    if (!booking) return;
+
+    writeLocal({
+      pending_consultation_payment: false,
+      confirmed_consultation_booking_id: booking.id
+    });
+
+    const start = booking.consultation_slots?.starts_at;
+    const when = start
+      ? new Intl.DateTimeFormat('ru-RU', {
+          timeZone: 'Europe/Moscow', day: 'numeric', month: 'long', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        }).format(new Date(start)) + ' (МСК)'
+      : 'Время указано в выбранном слоте';
+
+    showScreen('consultation');
+    const wrap = document.getElementById('consultation-wrap');
+    if (!wrap) return;
+    wrap.innerHTML = `
+      <div class="lesson">
+        <div class="tag">ЗАПИСЬ ПОДТВЕРЖДЕНА</div>
+        <h2>🔥 Ты записана на консультацию!</h2>
+        <p>Оплата прошла успешно. Сохрани информацию о записи.</p>
+        <section style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.4);border-radius:14px">
+          <p><strong>Дата и время:</strong><br>${when}</p>
+          <p><strong>Формат:</strong><br>Онлайн-консультация. Елена свяжется с тобой в Telegram, чтобы согласовать способ подключения.</p>
+          <p><strong>Продолжительность:</strong><br>60–90 минут</p>
+        </section>
+        <p>Если нужно уточнить детали, напиши Елене в Direct.</p>
+        <button class="primary" onclick="openCabinet()">ВЕРНУТЬСЯ В ПРИЛОЖЕНИЕ</button>
+      </div>`;
+  } catch (error) {
+    console.error('Не удалось проверить оплату консультации:', error);
+  }
+}
+
 
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') resumeAfterPayment();
