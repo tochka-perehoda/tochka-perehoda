@@ -1134,8 +1134,9 @@ function ensureConsultationScreen() {
     <section class="consultation-page" style="padding:8px 0 90px">
       <div class="tag">ЛИЧНАЯ КОНСУЛЬТАЦИЯ</div>
       <h2 style="margin-top:10px">Выбери удобное время</h2>
-      <p>Разберём твою ситуацию и определим следующие шаги. Встречи проходят по московскому времени.</p>
+      <p>Разберём твою ситуацию и определим следующие шаги.</p>
       <p><strong>Стоимость: ${CONSULTATION_PRICE_RUB.toLocaleString('ru-RU')} ₽</strong></p>
+      <p class="consultation-timezone-note">Все даты и время указаны по Москве.</p>
       <div id="consultation-status" aria-live="polite" style="margin:16px 0;line-height:1.5"></div>
       <div id="consultation-calendar" class="consultation-calendar"></div>
       <div id="consultation-slots" class="consultation-slots"></div>
@@ -1237,7 +1238,7 @@ function renderConsultationCalendar() {
 
   const selectedSlots = (byDate.get(consultationSelectedDate) || []).sort((a,b) => new Date(a.starts_at) - new Date(b.starts_at));
   const selectedDateLabel = formatConsultationDate(selectedSlots[0]?.starts_at || `${consultationSelectedDate}T12:00:00+03:00`);
-  if (status) status.textContent = `Все даты и время указаны по Москве. Выбрано: ${selectedDateLabel}.`;
+  if (status) status.textContent = `Выбрано: ${selectedDateLabel}.`;
   container.innerHTML = `<h3 style="margin:22px 0 10px;text-transform:capitalize">${selectedDateLabel}</h3>` + selectedSlots.map(slot => {
     const timeLabel = `${formatConsultationTime(slot.starts_at)}–${formatConsultationTime(slot.ends_at)}`;
     return `<button class="card consultation-slot" style="display:block;width:100%;text-align:left;margin:10px 0;padding:16px;background:#f1f1f1;color:#171717;border-radius:3px" onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')"><b style="display:block">${timeLabel}</b><small style="display:block;margin-top:8px">Выбрать это время</small></button>`;
@@ -1905,12 +1906,12 @@ function renderStageList(progress, hasAccess, path = null) {
     return `
       <button
         class="stage-button ${isDone ? 'done' : ''} ${isOpen ? 'current' : 'locked'}"
-        style="box-sizing:border-box;display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:18px;width:100%;min-height:112px;padding:22px 24px;margin:0 0 16px;border:2px solid ${isOpen ? '#806b48' : '#292a2a'};border-radius:28px;background:${isOpen ? '#1d1b17' : '#171918'};color:${isOpen ? '#eeeae2' : '#777977'};text-align:left;font:inherit;"
+        style="box-sizing:border-box;display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:18px;width:100%;min-height:112px;padding:22px 24px;margin:0 0 16px;border:2px solid ${isOpen ? '#806b48' : '#292a2a'};border-radius:28px;background:${isOpen ? '#1d1b17' : '#171918'};color:${isOpen ? '#eeeae2' : '#777977'};text-align:left;font:inherit;white-space:normal;"
         ${isOpen ? `onclick="openLesson(${stage.number}, '${path}')"` : 'disabled'}
       >
-        <span class="stage-number" style="display:flex;align-items:center;justify-content:center;width:50px;height:50px;border:2px solid #6e5c3d;border-radius:50%;color:#c5a56a;font-size:22px">${stage.number}</span>
+        <span class="stage-number" style="display:flex;align-items:center;justify-content:center;flex-shrink:0;width:50px;height:50px;min-width:50px;border:2px solid #6e5c3d;border-radius:50%;color:#c5a56a;font-size:22px">${stage.number}</span>
         <span class="stage-name" style="font-size:clamp(16px,4vw,23px);line-height:1.35;min-width:0">${stage.title}</span>
-        <span class="stage-state" style="font-size:clamp(12px,3vw,16px);white-space:nowrap;color:${isOpen ? '#cbb17c' : '#777977'}">${state}</span>
+        <span class="stage-state" style="font-size:clamp(12px,3vw,16px);white-space:normal;text-align:right;color:${isOpen ? '#cbb17c' : '#777977'}">${state}</span>
       </button>
     `;
   }).join('');
@@ -1936,11 +1937,11 @@ function renderStageList(progress, hasAccess, path = null) {
 
 function escapeLessonHtml(value) {
   return String(value ?? '')
-    .replace(/&/g, '&')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
-    .replace(/"/g, '"')
-    .replace(/'/g, ''');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function getSavedPracticeAnswers() {
