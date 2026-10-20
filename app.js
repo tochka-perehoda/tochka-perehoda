@@ -1319,7 +1319,7 @@ function renderConsultationCalendar() {
   container.innerHTML = `<h3 style="margin:22px 0 8px;text-transform:capitalize">${selectedDateLabel}</h3><p style="margin:0 0 14px;color:#b7aa91;font-size:11px;letter-spacing:.09em;text-transform:uppercase">Время по московскому времени</p><div class="consultation-time-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">` + selectedSlots.map(slot => {
     const timeLabel = `${formatConsultationTime(slot.starts_at)}–${formatConsultationTime(slot.ends_at)}`;
     const startLabel = formatConsultationTime(slot.starts_at);
-    return `<button type="button" class="consultation-slot" style="display:flex;min-width:0;min-height:78px;flex-direction:column;align-items:center;justify-content:center;gap:7px;margin:0;padding:12px 5px;background:#22201c;color:#f1eee8;border:1px solid #45413b;border-radius:14px;font:inherit;text-align:center;box-shadow:none;transition:background .15s,border-color .15s" onmouseover="this.style.borderColor='#c9b58c';this.style.background='#302b22'" onmouseout="this.style.borderColor='#45413b';this.style.background='#22201c'" onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')" aria-label="Выбрать время ${timeLabel}"><b style="display:block;font-size:15px;line-height:1.2;white-space:nowrap">${startLabel}</b><small style="display:block;margin:0;color:#aaa399;font-size:11px;line-height:1.2">Свободно</small></button>`;
+    return `<button type="button" class="consultation-slot" style="display:flex;min-width:0;min-height:78px;flex-direction:column;align-items:center;justify-content:center;gap:7px;margin:0;padding:12px 5px;background:#22201c;color:#f1eee8;border:1px solid #45413b;border-radius:14px;font:inherit;text-align:center;box-shadow:none;transition:background .15s,border-color .15s" onmouseover="this.style.borderColor='#c9b58c';this.style.background='#302b22'" onmouseout="this.style.borderColor='#45413b';this.style.background='#22201c'" onclick="showConsultationContactForm('${String(slot.id).replace(/'/g, '')}')" aria-label="Выбрать время ${timeLabel}"><b style="display:block;font-size:15px;line-height:1.2;white-space:nowrap">${startLabel}</b><small style="display:block;margin:0;color:#aaa399;font-size:11px;line-height:1.2">Свободно</small></button>`;
   }).join('') + `</div>` || '<p>На эту дату свободных интервалов нет. Выбери другой день.</p>';
 }
 
@@ -1361,7 +1361,98 @@ async function loadConsultationSlots() {
   }
 }
 
-async function bookConsultationSlot(slotId) {
+let consultationPendingSlotId = null;
+
+function showConsultationContactForm(slotId) {
+  if (!getTelegramId()) {
+    const status = document.getElementById('consultation-status');
+    if (status) status.textContent = 'Чтобы записаться, открой приложение внутри Telegram.';
+    return;
+  }
+  consultationPendingSlotId = slotId;
+  const user = tg?.initDataUnsafe?.user || {};
+  const defaultName = [user.first_name, user.last_name].filter(Boolean).join(' ');
+  const screen = ensureConsultationScreen();
+  const status = screen.querySelector('#consultation-status');
+  const form = document.createElement('div');
+  form.id = 'consultation-contact-form';
+  form.style.cssText = 'margin:18px 0;padding:16px;border:1px solid #514633;border-radius:16px;background:#1d1b18';
+  form.innerHTML = `
+    <h3 style="margin:0 0 8px">Как с тобой связаться?</h3>
+    <p style="font-size:13px;color:#b7aa91;line-height:1.5">Заполни данные перед оплатой — они попадут в уведомление о записи.</p>
+    <label style="display:block;margin:12px 0 6px">Имя и фамилия *</label>
+    <input id="consultation-client-name" type="text" maxlength="120" autocomplete="name" value="${escapeHtml(defaultName)}" placeholder="Как к тебе обращаться" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #514633;background:#111;color:#fff;font:inherit">
+    <label style="display:block;margin:12px 0 6px">Удобный способ связи *</label>
+    <select id="consultation-contact-method" onchange="toggleConsultationPhone()" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #514633;background:#111;color:#fff;font:inherit">
+      <option value="telegram">Telegram</option><option value="max">МАКС</option><option value="whatsapp">WhatsApp</option><option value="phone">Звонок по телефону</option>
+    </select>
+    <div id="consultation-phone-wrap" style="display:none">
+      <label id="consultation-phone-label" style="display:block;margin:12px 0 6px">Номер телефона *</label>
+      <input id="consultation-contact-phone" type="tel" maxlength="40" autocomplete="tel" placeholder="+7 ..." style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #514633;background:#111;color:#fff;font:inherit">
+    </div>
+    <p style="font-size:12px;color:#b7aa91;line-height:1.5">Твой Telegram: ${user.username ? '@'+escapeHtml(user.username) : 'username не указан в профиле'}. Эти данные увидит администратор записи.</p>
+    <button type="button" onclick="submitConsultationContactForm()" style="width:100%;margin-top:12px;padding:13px;border-radius:12px;background:#d7b36b;color:#17130d;border:0;font:inherit;font-weight:700">Продолжить к оплате</button>
+    <button type="button" onclick="cancelConsultationContactForm()" style="width:100%;margin-top:8px;padding:10px;border-radius:12px;background:transparent;color:#f2eee5;border:1px solid #514633;font:inherit">Назад</button>
+  `;
+  document.getElementById('consultation-contact-form')?.remove();
+  screen.querySelector('#consultation-slots')?.prepend(form);
+  if (status) status.textContent = 'Выбери способ связи и проверь контактные данные.';
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  toggleConsultationPhone();
+}
+
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function toggleConsultationPhone() {
+  const method = document.getElementById('consultation-contact-method')?.value || 'telegram';
+  const wrap = document.getElementById('consultation-phone-wrap');
+  const input = document.getElementById('consultation-contact-phone');
+  const label = document.getElementById('consultation-phone-label');
+  const required = method !== 'telegram';
+  if (wrap) wrap.style.display = required ? 'block' : 'none';
+  if (input) input.required = required;
+  if (label) label.textContent = method === 'phone' ? 'Номер для звонка *' : 'Номер телефона для связи *';
+}
+
+function cancelConsultationContactForm() {
+  document.getElementById('consultation-contact-form')?.remove();
+  consultationPendingSlotId = null;
+}
+
+async function submitConsultationContactForm() {
+  const name = document.getElementById('consultation-client-name')?.value.trim() || '';
+  const method = document.getElementById('consultation-contact-method')?.value || 'telegram';
+  const phone = document.getElementById('consultation-contact-phone')?.value.trim() || '';
+  const status = document.getElementById('consultation-status');
+  if (!name) { if (status) status.textContent = 'Укажи имя, чтобы Елена знала, к кому обращаться.'; return; }
+  if (!['telegram','max','whatsapp','phone'].includes(method)) { if (status) status.textContent = 'Выбери способ связи.'; return; }
+  if (method !== 'telegram' && !phone) { if (status) status.textContent = 'Укажи номер телефона для выбранного способа связи.'; return; }
+  const user = tg?.initDataUnsafe?.user || {};
+  const details = {
+    client_name: name,
+    telegram_username: user.username || null,
+    telegram_first_name: user.first_name || null,
+    telegram_last_name: user.last_name || null,
+    contact_method: method,
+    contact_phone: method === 'telegram' ? null : phone
+  };
+  const slotId = consultationPendingSlotId;
+  if (!slotId) { if (status) status.textContent = 'Сначала выбери время консультации.'; return; }
+  const form = document.getElementById('consultation-contact-form');
+  const button = form?.querySelector('button');
+  if (button) { button.disabled = true; button.textContent = 'Сохраняю данные…'; }
+  try {
+    await bookConsultationSlot(slotId, details);
+    form?.remove();
+  } catch (error) {
+    if (status) status.textContent = 'Не удалось сохранить данные. Проверь соединение и попробуй ещё раз.';
+    if (button) { button.disabled = false; button.textContent = 'Продолжить к оплате'; }
+  }
+}
+
+async function bookConsultationSlot(slotId, contactDetails) {
   if (consultationBookingInProgress) return;
 
   const status = document.getElementById('consultation-status');
@@ -1396,6 +1487,18 @@ async function bookConsultationSlot(slotId) {
       body: JSON.stringify({
         p_telegram_id: telegramId,
         p_slot_id: slotId
+      })
+    });
+
+    const user = tg?.initDataUnsafe?.user || {};
+    await supabaseRest('consultation_bookings?telegram_id=eq.' + encodeURIComponent(telegramId) + '&service_type=eq.consultation&status=eq.pending_payment&slot_id=eq.' + encodeURIComponent(slotId), {
+      method: 'PATCH',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({
+        ...(contactDetails || {}),
+        telegram_username: contactDetails?.telegram_username || user.username || null,
+        telegram_first_name: contactDetails?.telegram_first_name || user.first_name || null,
+        telegram_last_name: contactDetails?.telegram_last_name || user.last_name || null
       })
     });
 
