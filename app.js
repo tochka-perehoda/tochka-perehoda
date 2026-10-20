@@ -60,12 +60,12 @@ async function ensureSupabaseClient() {
 
 async function supabaseRest(path, options = {}) {
   const response = await fetch(
-    \`\${SUPABASE_URL}/rest/v1/\${path}\`,
+    `${SUPABASE_URL}/rest/v1/${path}`,
     {
       ...options,
       headers: {
         apikey: SUPABASE_KEY,
-        Authorization: \`Bearer \${SUPABASE_KEY}\`,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
         ...(options.headers || {})
@@ -76,7 +76,7 @@ async function supabaseRest(path, options = {}) {
   const text = await response.text();
 
   if (!response.ok) {
-    throw new Error(\`Supabase REST \${response.status}: \${text}\`);
+    throw new Error(`Supabase REST ${response.status}: ${text}`);
   }
 
   return text ? JSON.parse(text) : null;
@@ -84,22 +84,11 @@ async function supabaseRest(path, options = {}) {
 
 
 
-function showEntryGate() {
-  injectEntryDescription();
-  document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-  const home = document.getElementById('screen-home');
-  if (home) home.classList.add('active');
-  window.scrollTo(0, 0);
-}
-
 /* =====================================================
    TRIBUTE
 ===================================================== */
 
 const LINKS = {
-
-  entry:
-    'https://web.tribute.tg/p/Hcd',
 
   awakening:
     'https://web.tribute.tg/p/Hcd',
@@ -122,8 +111,6 @@ const LINKS = {
 
 const PRODUCT_IDS = {
 
-  entry: null,
-
   awakening: '156084',
 
   /*
@@ -145,50 +132,52 @@ const awakeningStages = [
   {
     number: 1,
     title: 'Кто я?',
-    text: \`
+    text: `
       <p>Любой настоящий переход начинается с вопроса: <strong>кто я сейчас?</strong></p>
       <p>Не та, кем меня привыкли видеть. Не та, которой нужно быть для семьи, работы, отношений или окружающих.</p>
       <p>Не должность. Не статус. Не набор ролей и достижений.</p>
       <p>Иногда человек прекрасно умеет соответствовать чужим ожиданиям, но почти перестаёт слышать себя.</p>
       <p>Здесь тебе не нужно сразу находить правильный ответ. Сначала нужно увидеть, где заканчивается привычная роль и начинаешься ты.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «КТО Я БЕЗ РОЛЕЙ»</strong></p>
       <p>Ответь письменно:</p>
       <p><strong>«Кто я, если убрать мои роли, обязанности и ожидания других?»</strong></p>
       <p>Напиши минимум 10 ответов. Не анализируй их. Пиши первое, что приходит.</p>
-    \`,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_1_%D0%9A%D1%82%D0%BE_%D1%8F.m4a'
+    `,
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_1_%D0%9A%D1%82%D0%BE_%D1%8F.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
   },
   {
     number: 2,
     title: 'Чистка поля',
-    text: \`
+    text: `
       <p>Когда ты начинаешь видеть себя, становится заметно, сколько всего лишнего ты несёшь.</p>
       <p>Старые правила. Страхи. Чужие ожидания. Незавершённые истории. Сценарии, которые давно перестали быть твоими.</p>
       <p>Невозможно войти в новое, продолжая всеми силами держаться за старое.</p>
       <p>Поэтому сейчас мы не создаём новое. Сначала освобождаем пространство.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «ЧТО Я БОЛЬШЕ НЕ НЕСУ»</strong></p>
       <p>Создай три списка:</p>
       <p><strong>Я больше не хочу...</strong></p>
       <p><strong>Это вообще не моё...</strong></p>
       <p><strong>Я готова отпустить...</strong></p>
       <p>Выбери минимум три пункта, которые больше не должны переходить вместе с тобой дальше.</p>
-    \`,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_2_%D0%A7%D0%B8%D1%81%D1%82%D0%BA%D0%B0_%D0%BF%D0%BE%D0%BB%D1%8F.m4a'
+    `,
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_2_%D0%A7%D0%B8%D1%81%D1%82%D0%BA%D0%B0_%D0%BF%D0%BE%D0%BB%D1%8F.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
   },
   {
     number: 3,
     title: 'Я выбираю себя',
-    text: \`
+    text: `
       <p>После того как ты увидела старое, возникает следующий вопрос:</p>
       <p><strong>«А чего хочу именно я?»</strong></p>
       <p>Не что правильно. Не что удобно. Не что ждут другие. А чего хочешь ты.</p>
       <p>Выбор себя начинается с честности с собой.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «ЧЕГО ХОЧУ Я?»</strong></p>
       <p>Закончи фразы:</p>
       <p><strong>Я хочу...</strong></p>
@@ -196,72 +185,76 @@ const awakeningStages = [
       <p><strong>Мне действительно важно...</strong></p>
       <p><strong>Если бы мне не нужно было никому ничего доказывать, я бы...</strong></p>
       <p><strong>Если бы я не боялась осуждения, я бы...</strong></p>
-    \`,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3__%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a'
+    `,
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_3__%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B5%D0%B1%D1%8F.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
   },
   {
     number: 4,
     title: 'Моё «нет»',
-    text: \`
+    text: `
       <p>Невозможно создать новое, продолжая соглашаться со всем старым.</p>
       <p>Иногда человек говорит «да», хотя внутри всё говорит «нет».</p>
       <p>Потому что страшно обидеть. Страшно потерять. Страшно показаться плохой.</p>
       <p>Но твоё «нет» — это не агрессия. Это граница. Это право сказать: <strong>«Я тоже имею значение».</strong></p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «МОЁ НЕТ»</strong></p>
       <p>Запиши:</p>
       <p><strong>Я больше не согласна...</strong></p>
       <p><strong>Я больше не позволяю...</strong></p>
       <p><strong>Я больше не обязана...</strong></p>
-    \`,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_4_%D0%9C%D0%BE%D1%91_%D0%BD%D0%B5%D1%82.m4a'
+    `,
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_4_%D0%9C%D0%BE%D1%91_%D0%BD%D0%B5%D1%82.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
   },
   {
     number: 5,
     title: 'Наблюдатель',
-    text: \`
+    text: `
       <p>Здесь появляется один из самых важных навыков.</p>
       <p><strong>Ты — не твои мысли.</strong></p>
       <p>Мысль может появиться автоматически. Страх может возникнуть мгновенно. Реакция может включиться раньше, чем ты успеешь её осознать.</p>
       <p>Но между событием и твоим действием есть пространство. Именно там находится выбор.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «ПАУЗА»</strong></p>
       <p>Поймай в течение дня три ситуации с сильной реакцией.</p>
       <p>Запиши: что произошло? Что я подумала? Что почувствовала? Что захотела сделать автоматически? Что я выбрала сделать?</p>
       <p>Не исправляй себя. Просто наблюдай.</p>
-    \`,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_5_%D0%9D%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C.m4a'
+    `,
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_5_%D0%9D%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
   },
   {
     number: 6,
     title: 'Моя жизнь',
-    text: \`
+    text: `
       <p>Осознание ничего не меняет, если оно не становится частью жизни.</p>
       <p>Теперь посмотрим на внешний мир: отношения, деньги, работа, тело, окружение, дом, образ жизни.</p>
       <p>Не спрашивай: «Как сделать идеальную жизнь?»</p>
       <p>Спроси: <strong>«Как выглядит жизнь, которая действительно моя?»</strong></p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «ОДИН РЕАЛЬНЫЙ ШАГ»</strong></p>
       <p>Выбери одну сферу жизни.</p>
       <p>Что меня здесь больше не устраивает?<br>Чего я хочу вместо этого?<br>Что зависит от меня?<br>Что я могу сделать в ближайшие 24 часа?</p>
       <p>И обязательно сделай этот шаг.</p>
-    \`,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_6_%D0%9C%D0%BE%D1%8F_%D0%B6%D0%B8%D0%B7%D0%BD%D1%8C.m4a'
+    `,
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_6_%D0%9C%D0%BE%D1%8F_%D0%B6%D0%B8%D0%B7%D0%BD%D1%8C.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
   },
   {
     number: 7,
     title: 'Мой новый фундамент',
-    text: \`
+    text: `
       <p>Ты дошла до последнего этапа.</p>
       <p>Но это не конец пути.</p>
       <p>Теперь нужно собрать то, что ты увидела о себе, в новый способ жить.</p>
       <p>Новый фундамент строится не из обещаний. Он строится из решений, действий, границ и ответственности за свой выбор.</p>
       <p>И главное: <strong>на что ты теперь хочешь опираться?</strong></p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ФИНАЛЬНАЯ ПРАКТИКА «МОЙ НОВЫЙ ФУНДАМЕНТ»</strong></p>
       <p>Закончи:</p>
       <p><strong>Я больше не...</strong></p>
@@ -273,125 +266,125 @@ const awakeningStages = [
       <p><strong>Когда я не знаю, что делать, я...</strong></p>
       <p><strong>Мой следующий шаг...</strong></p>
       <p>Сохрани эти ответы. Это твоя точка опоры после прохождения пути.</p>
-    \`,
-    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_7_%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9_%D1%84%D1%83%D0%BD%D0%B4%D0%B0%D0%BC%D0%B5%D0%BD%D1%82.m4a'
+    `,
+    voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9F%D1%80%D0%BE%D0%B1%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_7_%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9_%D1%84%D1%83%D0%BD%D0%B4%D0%B0%D0%BC%D0%B5%D0%BD%D1%82.m4a',
+    meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
   }
 ];
-
 const creatorStages = [
   {
     number: 1,
     title: 'Я выбираю свою реальность',
-    text: \`
+    text: `
       <p>Ты уже увидела, что прежняя жизнь не обязана оставаться твоей навсегда.</p>
       <p>Теперь начинается следующий уровень: не только понимать, а <strong>создавать</strong>.</p>
       <p>Первый вопрос Творца: какую реальность я действительно выбираю?</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «МОЯ РЕАЛЬНОСТЬ»</strong></p>
       <p>Опиши свою жизнь через год так, как будто тебе не нужно соответствовать чужим ожиданиям.</p>
       <p>Что есть в твоей жизни? Как ты живёшь? С кем? Чем занимаешься? Что чувствуешь?</p>
       <p>Не пиши «идеальную жизнь». Пиши <strong>свою</strong>.</p>
-    \`,
+    `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_%D0%9C%D0%BE%D1%8F_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
     meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_The%20wind.mp3'
   },
   {
     number: 2,
     title: 'Моё желание',
-    text: \`
+    text: `
       <p>Не каждое желание действительно твоё.</p>
       <p>Иногда мы хотим то, что красиво выглядит, что принято хотеть или что должно доказать нашу ценность.</p>
       <p>Творец начинает с честного контакта со своим желанием.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «Я ХОЧУ»</strong></p>
       <p>Выбери одно желание и ответь:</p>
       <p>Чего я хочу? Зачем мне это? Что я хочу почувствовать, когда это получу? Это действительно моё или я пытаюсь кому-то что-то доказать?</p>
-    \`,
+    `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_%D0%9C%D0%BE%D1%91_%D0%B6%D0%B5%D0%BB%D0%B0%D0%BD%D0%B8%D0%B5.m4a',
     meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_2_Quantum%20consciousness.mp3'
   },
   {
     number: 3,
     title: 'Мой выбор',
-    text: \`
+    text: `
       <p>Пробуждение без действий остаётся только осознанием.</p>
       <p>На этом этапе ты переходишь от «я понимаю» к <strong>«я выбираю»</strong>.</p>
       <p>Выбор — это ответственность за направление своей жизни.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «ОДНО РЕШЕНИЕ»</strong></p>
       <p>Выбери одно решение, которое ты давно откладываешь.</p>
       <p>Не составляй идеальный план. Сделай <strong>первый конкретный шаг сегодня</strong>.</p>
       <p>Запиши: что я решила? Что я сделаю? Когда именно?</p>
-    \`,
+    `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_%D0%9C%D0%BE%D0%B9_%D0%B2%D1%8B%D0%B1%D0%BE%D1%80.m4a',
     meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_3_The%20night%20forest.mp3'
   },
   {
     number: 4,
     title: 'Моя энергия',
-    text: \`
+    text: `
       <p>Творец не может создавать, если вся его энергия уходит на прошлое, страх, контроль и попытки удержать то, что уже закончилось.</p>
       <p>Сейчас мы смотрим, куда ты отдаёшь свою силу.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «КУДА УХОДИТ МОЯ СИЛА»</strong></p>
       <p>Запиши три главных источника утечки энергии.</p>
       <p>Рядом напиши: что я могу перестать делать, изменить или ограничить?</p>
       <p>Выбери одну утечку и начни возвращать себе энергию уже сегодня.</p>
-    \`,
+    `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_%D0%9C%D0%BE%D1%8F_%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%B8%D1%8F.m4a',
     meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_4_The%20power.mp3'
   },
   {
     number: 5,
     title: 'Я действую',
-    text: \`
+    text: `
       <p><strong>Творец — это не тот, кто много осознал. Творец — тот, кто создаёт.</strong></p>
       <p>Теперь действие становится частью твоего нового состояния.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «СОЗДАЙ ДВИЖЕНИЕ»</strong></p>
       <p>Выбери одну сферу жизни, которую хочешь изменить.</p>
       <p>Сделай сегодня одно действие, после которого реальность действительно станет другой.</p>
       <p>Не планируй действие. <strong>Сделай его.</strong></p>
-    \`,
+    `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_%D0%AF_%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D1%83%D1%8E.m4a',
     meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_5_The%20fire.mp3'
   },
   {
     number: 6,
     title: 'Моя новая реальность',
-    text: \`
+    text: `
       <p>Посмотри, что уже изменилось.</p>
       <p>Не обесценивай маленькие изменения. Именно из них складывается новая реальность.</p>
       <p>Теперь важно не вернуться автоматически в старую версию себя.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ПРАКТИКА «БЫЛО → ЕСТЬ → БУДЕТ»</strong></p>
       <p>Сравни три точки:</p>
       <p><strong>Как было.</strong><br><strong>Как есть сейчас.</strong><br><strong>Что я выбираю создавать дальше.</strong></p>
       <p>Запиши минимум по три пункта.</p>
-    \`,
+    `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_1_%D0%AF_%D0%B2%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D1%8E_%D1%81%D0%B2%D0%BE%D1%8E_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C.m4a',
     meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_6_Rainbow.mp3'
   },
   {
     number: 7,
     title: 'Я — Творец',
-    text: \`
+    text: `
       <p>Финал этой ветки — не обещание, что жизнь станет идеальной.</p>
       <p>Это понимание: <strong>я могу влиять на свою жизнь через свои выборы и действия.</strong></p>
       <p>Теперь твоя задача — продолжать создавать, а не ждать разрешения на свою жизнь.</p>
-    \`,
-    practice: \`
+    `,
+    practice: `
       <p><strong>ФИНАЛЬНАЯ ПРАКТИКА «Я СОЗДАЮ СВОЮ ЖИЗНЬ»</strong></p>
       <p>Создай свой личный манифест:</p>
       <p><strong>Кто я?</strong><br><strong>Чего я хочу?</strong><br><strong>Что я выбираю?</strong><br><strong>Что я больше не принимаю?</strong><br><strong>Во что я верю?</strong><br><strong>Какие действия я совершаю?</strong><br><strong>Какую жизнь я создаю?</strong></p>
       <p>Сохрани этот текст как свою новую точку опоры.</p>
-    \`,
+    `,
     voiceUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_%D0%AF_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86.m4a',
     meditationUrl: 'https://raw.githubusercontent.com/tochka-perehoda/tochka-perehoda/main/audio/%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F_%D0%A2%D0%B2%D0%BE%D1%80%D0%B5%D1%86_7_The%20Elfin.mp3'
   }
@@ -683,14 +676,13 @@ async function loadUser() {
       progress: Number(pathState.progress ?? local.progress ?? 0),
       current_lesson: Number(pathState.currentLesson ?? local.current_lesson ?? 0),
       access_awakening: Boolean(local.access_awakening),
-      access_creator: Boolean(local.access_creator),
-      has_paid_access: Boolean(local.has_paid_access)
+      access_creator: Boolean(local.access_creator)
     };
   };
 
   try {
     const rows = await supabaseRest(
-      \`users?telegram_id=eq.\${encodeURIComponent(telegramId)}&select=telegram_id,product,current_stage,progress,current_lesson,access_awakening,access_creator,has_paid_access&limit=1\`,
+      `users?telegram_id=eq.${encodeURIComponent(telegramId)}&select=telegram_id,product,current_stage,progress,current_lesson,access_awakening,access_creator&limit=1`,
       { method: 'GET' }
     );
 
@@ -719,8 +711,7 @@ async function loadUser() {
       progress: Number(data.progress || 0),
       current_lesson: Number(data.current_lesson || 0),
       access_awakening: Boolean(data.access_awakening),
-      access_creator: Boolean(data.access_creator),
-      has_paid_access: Boolean(data.has_paid_access)
+      access_creator: Boolean(data.access_creator)
     });
 
     return result;
@@ -811,7 +802,7 @@ async function ensureUser() {
     .insert(
       newUser
     )
-    .select(\`
+    .select(`
       telegram_id,
       product,
       current_stage,
@@ -819,7 +810,7 @@ async function ensureUser() {
       current_lesson,
       access_awakening,
       access_creator
-    \`)
+    `)
     .single();
 
 
@@ -1013,46 +1004,7 @@ async function saveFinalTestResult(
    НАВИГАЦИЯ
 ===================================================== */
 
-const ENTRY_DESCRIPTION = \`
-  <div class="entry-intro" style="margin:16px 0;padding:20px;border:1px solid rgba(180,160,130,.4);border-radius:16px">
-    <div class="tag">🔥 ТОЧКА ПЕРЕХОДА</div>
-    <p>Ты чувствуешь, что прежняя жизнь больше не работает, но не понимаешь, куда двигаться дальше?</p>
-    <p>Пройди тест, определи свой текущий этап и получи доступ к своей ветке перехода.</p>
-    <p>✨ Внутри тебя ждут 7 последовательных этапов с практиками, которые помогут выйти из привычных сценариев, лучше понять себя и перейти на новый уровень осознанности.</p>
-    <p>Это твой первый шаг от автопилота к созданию собственной реальности.</p>
-    <p><strong>Начни свой переход.</strong></p>
-    <button class="primary" style="width:100%;white-space:normal" onclick="startEntryPayment()">ОПЛАТИТЬ ДОСТУП • 990 ₽</button>
-    <p style="font-size:12px;opacity:.7;margin-bottom:0">После подтверждения оплаты откроется тест.</p>
-  </div>\`;
-
-function userHasPaidEntry(user) {
-  return Boolean(user?.has_paid_access || readLocal().has_paid_access);
-}
-
-async function startEntryPayment() {
-  writeLocal({ pending_payment_type: 'entry', pending_payment_started_at: Date.now() });
-  openTribute(LINKS.entry);
-}
-
-async function checkEntryPayment() {
-  const local = readLocal();
-  if (local.pending_payment_type !== 'entry') return false;
-  const user = await loadUser();
-  if (userHasPaidEntry(user)) {
-    writeLocal({ pending_payment_type: null, pending_payment_started_at: null });
-    showScreen('test');
-    return true;
-  }
-  return false;
-}
-
-function injectEntryDescription() {
-  const home = document.getElementById('screen-home');
-  if (!home || home.querySelector('.entry-intro')) return;
-  home.insertAdjacentHTML('afterbegin', ENTRY_DESCRIPTION);
-}
-
-async function showScreen(
+function showScreen(
   name
 ) {
 
@@ -1090,14 +1042,12 @@ async function showScreen(
   );
 
 
-  if (name === 'test') {
-    const user = window.__tpLoadedUser || await loadUser();
-    window.__tpLoadedUser = user;
-    if (!userHasPaidEntry(user)) {
-      showEntryGate();
-      return;
-    }
+  if (
+    name === 'test'
+  ) {
+
     renderTest();
+
   }
 
 }
@@ -1109,38 +1059,54 @@ async function showScreen(
 
 function openTribute(url, pendingPath = null) {
   if (!url) return;
-  if (pendingPath) writeLocal({ pending_payment_path: pendingPath, pending_payment_started_at: Date.now() });
-  if (tg && typeof tg.openLink === 'function') tg.openLink(url);
-  else window.open(url, '_blank', 'noopener');
+
+  if (pendingPath) {
+    writeLocal({
+      pending_payment_path: pendingPath,
+      pending_payment_started_at: Date.now()
+    });
+  }
+
+  if (tg && typeof tg.openLink === 'function') {
+    tg.openLink(url);
+  } else {
+    window.open(url, '_blank');
+  }
 }
 
 async function waitForPaymentAccess(path) {
   if (!path) return;
+
   for (let i = 0; i < 20; i++) {
     const user = await loadUser();
-    const hasAccess = path === 'awakening' ? Boolean(user?.access_awakening) : Boolean(user?.access_creator);
+    const hasAccess = path === 'awakening'
+      ? Boolean(user?.access_awakening)
+      : Boolean(user?.access_creator);
+
     if (hasAccess) {
-      writeLocal({ pending_payment_path: null, pending_payment_started_at: null });
+      writeLocal({
+        pending_payment_path: null,
+        pending_payment_started_at: null
+      });
       await openCabinet();
       return;
     }
+
     await new Promise(resolve => setTimeout(resolve, 1500));
   }
 }
 
 function resumeAfterPayment() {
   const local = readLocal();
-  if (local.pending_payment_type === 'entry') {
-    checkEntryPayment();
-    return;
-  }
-  if (local.pending_payment_path) waitForPaymentAccess(local.pending_payment_path);
+  const path = local.pending_payment_path;
+  if (path) waitForPaymentAccess(path);
 }
 
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') resumeAfterPayment();
 });
 window.addEventListener('focus', resumeAfterPayment);
+
 
 /* =====================================================
    ЗАПИСЬ НА КОНСУЛЬТАЦИЮ
@@ -1160,18 +1126,18 @@ function ensureConsultationScreen() {
   screen = document.createElement('main');
   screen.id = 'screen-consultation';
   screen.className = 'screen';
-  screen.innerHTML = \`
+  screen.innerHTML = `
     <button class="back" onclick="showScreen('home')">← Назад</button>
     <section class="consultation-page" style="padding:8px 0 90px">
       <div class="tag">ЛИЧНАЯ КОНСУЛЬТАЦИЯ</div>
       <h2 style="margin-top:10px">Выбери удобное время</h2>
       <p>Разберём твою ситуацию и определим следующие шаги. Встречи проходят по московскому времени.</p>
-      <p><strong>Стоимость: \${CONSULTATION_PRICE_RUB.toLocaleString('ru-RU')} ₽</strong></p>
+      <p><strong>Стоимость: ${CONSULTATION_PRICE_RUB.toLocaleString('ru-RU')} ₽</strong></p>
       <div id="consultation-status" aria-live="polite" style="margin:16px 0;line-height:1.5"></div>
       <div id="consultation-slots" class="consultation-slots"></div>
       <button class="secondary" style="margin-top:14px" onclick="loadConsultationSlots()">Обновить время</button>
     </section>
-  \`;
+  `;
 
   const nav = app.querySelector('.bottom-nav');
   if (nav) app.insertBefore(screen, nav);
@@ -1228,15 +1194,15 @@ async function loadConsultationSlots() {
       const start = slot.starts_at;
       const end = slot.ends_at;
       const dateLabel = formatConsultationDate(start);
-      const timeLabel = \`\${formatConsultationTime(start)}–\${formatConsultationTime(end)}\`;
-      return \`
+      const timeLabel = `${formatConsultationTime(start)}–${formatConsultationTime(end)}`;
+      return `
         <button class="card consultation-slot" style="display:block;width:100%;text-align:left;margin:10px 0;padding:16px"
-          onclick="bookConsultationSlot('\${String(slot.id).replace(/'/g, '')}')">
-          <b style="display:block;text-transform:capitalize">\${dateLabel}</b>
-          <span style="display:block;margin-top:6px">\${timeLabel} · Москва</span>
+          onclick="bookConsultationSlot('${String(slot.id).replace(/'/g, '')}')">
+          <b style="display:block;text-transform:capitalize">${dateLabel}</b>
+          <span style="display:block;margin-top:6px">${timeLabel} · Москва</span>
           <small style="display:block;margin-top:8px">Выбрать это время</small>
         </button>
-      \`;
+      `;
     }).join('');
   } catch (error) {
     console.error('Ошибка загрузки слотов консультации:', error);
@@ -1305,6 +1271,8 @@ function openConsultation() {
 }
 
 
+
+
 function openAccompaniment() {
 
   openTribute(
@@ -1368,7 +1336,10 @@ async function openProduct(
     }
 
 
-    openTribute(LINKS.entry);
+    openTribute(
+      LINKS.awakening,
+      'awakening'
+    );
 
     return;
 
@@ -1444,45 +1415,45 @@ function renderTest() {
     ];
 
 
-  wrap.innerHTML = \`
+  wrap.innerHTML = `
 
     <div class="progress">
       ВОПРОС
-      \${number + 1}
+      ${number + 1}
       ИЗ
-      \${questions.length}
+      ${questions.length}
     </div>
 
     <div class="question">
 
       <h3>
-        \${question.text}
+        ${question.text}
       </h3>
 
       <div class="answers">
 
-        \${question.answers
+        ${question.answers
           .map(
             (
               answer,
               index
-            ) => \`
+            ) => `
 
               <button
                 class="answer"
                 onclick="
-                  chooseAnswer(\${index})
+                  chooseAnswer(${index})
                 "
               >
 
-                \${String.fromCharCode(
+                ${String.fromCharCode(
                   65 + index
                 )}.
-                \${answer}
+                ${answer}
 
               </button>
 
-            \`
+            `
           )
           .join('')}
 
@@ -1490,7 +1461,7 @@ function renderTest() {
 
     </div>
 
-  \`;
+  `;
 
 }
 
@@ -1645,56 +1616,55 @@ async function renderResult() {
     : 'Практики и медитации помогут перейти от осознания к созданию собственной реальности.';
 
   const productButtonTitle = targetPath === 'awakening'
-    ? 'ОТКРЫТЬ ВЕТКУ «ПРОБУЖДЕНИЕ»'
-    : 'ОТКРЫТЬ ВЕТКУ «ТВОРЕЦ»';
+    ? 'ПЕРЕЙТИ В<br>ПРОБУЖДЕНИЕ • 990 ₽'
+    : 'ПЕРЕЙТИ В<br>ТВОРЦА • 990 ₽';
 
   const productCardTitle = targetPath === 'awakening'
-    ? 'Твой путь к Пробуждению'
-    : 'Твой путь к Творцу';
+    ? 'Самостоятельный путь к Пробуждению'
+    : 'Самостоятельный путь к Творцу';
 
-  const selfButton = targetPath === 'creator'
-    ? \`<button class="primary" style="width:100%;white-space:normal" onclick="openCabinet()">\${productButtonTitle}</button>\`
-    : \`<button class="primary" style="width:100%;white-space:normal" onclick="openCabinet()">\${productButtonTitle}</button>\`;
+  const selfButton =
+    `<div class="result-button-wrap" style="display:flex;justify-content:center;align-items:center;width:100%;text-align:center"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center !important;white-space:normal;line-height:1.25" onclick="openTribute(LINKS.${targetPath}, '${targetPath}')">${productButtonTitle}</button></div>`;
 
-  const choices = \`
+  const choices = `
     <section class="result-choices" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(180,160,130,.35)">
-      <h3 style="text-align:center">ТВОЙ СЛЕДУЮЩИЙ ШАГ</h3>
+      <h3 style="text-align:center !important;width:100%;display:block">КАК ТЫ ХОЧЕШЬ ПРОЙТИ СВОЙ ПЕРЕХОД?</h3>
+      <p>У тебя есть два пути. Выбирай тот, который подходит тебе сейчас.</p>
+
       <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-        <div class="tag">ТВОЯ ВЕТКА</div>
-        <h3>\${productCardTitle}</h3>
-        <p>\${targetDescription}</p>
-        \${selfButton}
+        <div class="tag">ПУТЬ 1 · САМОСТОЯТЕЛЬНО</div>
+        <h3 style="text-align:center !important;width:100%;display:block;margin-left:auto;margin-right:auto">${productCardTitle}</h3>
+        <p>${targetDescription}</p>
+        <p><strong>990 ₽</strong></p>
+        ${selfButton}
       </div>
+
       <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-        <div class="tag">ЛИЧНАЯ РАБОТА</div>
-        <h3>Личная консультация</h3>
-        <p>Индивидуальный разбор продолжительностью 30–60 минут. Выбери свободное время, затем оплати консультацию.</p>
-        <button class="primary" style="width:100%;white-space:normal" onclick="openConsultation()">ВЫБРАТЬ ВРЕМЯ КОНСУЛЬТАЦИИ</button>
-      </div>
-      <div style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
-        <div class="tag">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</div>
-        <p>Персональная работа с Еленой в течение месяца.</p>
-        <button class="secondary" style="width:100%;white-space:normal" onclick="openAccompaniment()">УЗНАТЬ О СОПРОВОЖДЕНИИ</button>
+        <div class="tag">ПУТЬ 2 · С ПОДДЕРЖКОЙ</div>
+        <h3 style="text-align:center !important;width:100%;display:block;margin-left:auto;margin-right:auto">Разобраться вместе с Еленой</h3>
+        <p>Личная консультация-разбор продолжительностью 30–60 минут в зависимости от ситуации. Разберём, что происходит именно у тебя, и определим следующие шаги.</p>
+        <p><strong>3 333 ₽</strong></p>
+        <div class="result-button-wrap" style="display:flex;justify-content:center;align-items:center;width:100%;text-align:center"><button class="primary result-choice-button" style="display:block;width:100%;max-width:340px;margin:0 auto;text-align:center !important;white-space:normal;line-height:1.25" onclick="openConsultation()">ВЫБРАТЬ ЛИЧНЫЙ<br>РАЗБОР • 3 333 ₽</button></div>
       </div>
     </section>
-  \`;
+  `;
 
   if (finalRetest) {
-    wrap.innerHTML = \`
+    wrap.innerHTML = `
       <div class="result">
         <div class="tag">РЕЗУЛЬТАТ ПОВТОРНОГО ТЕСТА</div>
-        <h2 style="text-align:center !important;width:100%;display:block">\${stage}</h2>
-        \${
+        <h2 style="text-align:center !important;width:100%;display:block">${stage}</h2>
+        ${
           history.initialStage
-            ? \`<p><strong>В начале пути:</strong> \${history.initialStage}</p>\`
+            ? `<p><strong>В начале пути:</strong> ${history.initialStage}</p>`
             : ''
         }
-        <p><strong>Сейчас:</strong> \${stage}</p>
+        <p><strong>Сейчас:</strong> ${stage}</p>
         <h3>Сравни свою точку старта с тем, где ты находишься сейчас.</h3>
-        \${choices}
+        ${choices}
         <button class="secondary" style="margin-top:12px" onclick="openCabinet()">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
       </div>
-    \`;
+    `;
     writeLocal({ final_retest_mode: false });
     resultRenderInProgress = false;
     return;
@@ -1705,42 +1675,42 @@ async function renderResult() {
 
   if (stage === 'Автопилот') {
     title = 'ТЫ ЖИВЁШЬ НА АВТОПИЛОТЕ';
-    text = \`
+    text = `
       <p>Внешне всё может выглядеть нормально. Ты работаешь, решаешь вопросы, заботишься о других.</p>
       <p>Но внутри всё чаще появляется ощущение, что прежний сценарий больше не подходит.</p>
       <p>Это точка, в которой можно начать выбирать себя.</p>
-    \`;
+    `;
   } else if (stage === 'Толчок') {
     title = 'ТЫ В ТОЧКЕ ТОЛЧКА';
-    text = \`
+    text = `
       <p>В твоей жизни уже произошло то, что заставило остановиться.</p>
       <p>Что-то изменилось, разрушилось или перестало работать так, как раньше.</p>
       <p>Теперь важно не вернуть прошлое, а увидеть, куда двигаться дальше.</p>
-    \`;
+    `;
   } else if (stage === 'Пробуждение') {
     title = 'ТЫ В ПРОБУЖДЕНИИ';
-    text = \`
+    text = `
       <p>Ты уже начинаешь видеть себя и свою жизнь по-другому.</p>
       <p>Появляются вопросы, на которые раньше ты могла даже не смотреть.</p>
       <p>Следующий шаг — перестать только искать ответы и начать создавать.</p>
-    \`;
+    `;
   } else {
     title = 'ТЫ — ТВОРЕЦ';
-    text = \`
+    text = `
       <p>Ты уже находишься в состоянии, где можно не ждать, а создавать.</p>
       <p>Твоя задача — продолжать реализовывать то, что ты уже увидела в себе.</p>
-    \`;
+    `;
   }
 
-  wrap.innerHTML = \`
+  wrap.innerHTML = `
     <div class="result">
       <div class="tag" style="text-align:center;width:100%">ТВОЙ РЕЗУЛЬТАТ</div>
-      <h2 style="text-align:center !important;width:100%;display:block">\${stage}</h2>
-      <h3 style="text-align:center">\${title}</h3>
-      \${text}
-      \${choices}
+      <h2 style="text-align:center !important;width:100%;display:block">${stage}</h2>
+      <h3 style="text-align:center">${title}</h3>
+      ${text}
+      ${choices}
     </div>
-  \`;
+  `;
   resultRenderInProgress = false;
 }
 
@@ -1767,10 +1737,10 @@ async function openCabinet() {
   if (!user) {
     stageElement.textContent = 'Личный путь';
     progressText.textContent = 'Открой приложение через Telegram';
-    message.innerHTML = \`
+    message.innerHTML = `
       <h3>TELEGRAM ID НЕ НАЙДЕН</h3>
       <p>Открой Mini App через Telegram.</p>
-    \`;
+    `;
     renderStageList(0, false, null);
     return;
   }
@@ -1798,14 +1768,14 @@ async function openCabinet() {
   const displayStage = ({'1':'Автопилот','2':'Толчок','3':'Пробуждение','4':'Творец'})[String(currentStage)] || currentStage;
   stageElement.textContent = activePath === 'awakening' ? 'Пробуждение' : activePath === 'creator' ? 'Творец' : displayStage;
   progressElement.style.width = Math.max(0, Math.min(100, progress)) + '%';
-  progressText.textContent = activePath ? \`\${progress}% пройдено\` : 'Переход завершён';
+  progressText.textContent = activePath ? `${progress}% пройдено` : 'Переход завершён';
 
   if (!activePath) {
-    message.innerHTML = \`
+    message.innerHTML = `
       <h3>ТЫ — ТВОРЕЦ</h3>
       <p>По результату теста ты уже находишься на уровне Творца.</p>
       <p>Твой следующий шаг — продолжать создавать и реализовывать свою новую реальность.</p>
-    \`;
+    `;
     renderStageList(100, false, null);
     return;
   }
@@ -1815,24 +1785,24 @@ async function openCabinet() {
       ? 'Переход в Пробуждение'
       : 'Переход в Творца';
 
-    message.innerHTML = \`
+    message.innerHTML = `
       <h3>ТВОЙ ПУТЬ ОПРЕДЕЛЁН</h3>
-      <p>По результату теста тебе подходит программа <strong>\${productName}</strong>.</p>
+      <p>По результату теста тебе подходит программа <strong>${productName}</strong>.</p>
       <p>Тест бесплатный. Доступ к этапам открывается после покупки соответствующей программы.</p>
-      <button class="primary" onclick="openProduct('\${activePath}')">
-        \${activePath === 'awakening' ? 'НАЧАТЬ ПЕРЕХОД' : 'ПЕРЕЙТИ В ТВОРЦА'}
+      <button class="primary" onclick="openProduct('${activePath}')">
+        ${activePath === 'awakening' ? 'НАЧАТЬ ПЕРЕХОД' : 'ПЕРЕЙТИ В ТВОРЦА'}
       </button>
-    \`;
+    `;
     renderStageList(0, false, activePath);
     return;
   }
 
-  message.innerHTML = \`
+  message.innerHTML = `
     <h3>ТВОЙ ПУТЬ ОТКРЫТ</h3>
-    <p>Твой результат теста: <strong>\${displayStage}</strong></p>
-    <p>Это ветка: <strong>\${activePath === 'awakening' ? 'Пробуждение' : 'Творец'}</strong>.</p>
+    <p>Твой результат теста: <strong>${displayStage}</strong></p>
+    <p>Это ветка: <strong>${activePath === 'awakening' ? 'Пробуждение' : 'Творец'}</strong>.</p>
     <p>Прогресс сохраняется автоматически.</p>
-  \`;
+  `;
 
   renderStageList(progress, true, activePath);
 }
@@ -1863,29 +1833,29 @@ function renderStageList(progress, hasAccess, path = null) {
     if (isDone) state = 'Пройдено';
     else if (isOpen) state = 'Открыто';
 
-    return \`
+    return `
       <button
-        class="stage-button \${isDone ? 'done' : ''} \${isOpen ? 'current' : 'locked'}"
-        \${isOpen ? \`onclick="openLesson(\${stage.number}, '\${path}')"\` : 'disabled'}
+        class="stage-button ${isDone ? 'done' : ''} ${isOpen ? 'current' : 'locked'}"
+        ${isOpen ? `onclick="openLesson(${stage.number}, '${path}')"` : 'disabled'}
       >
-        <span class="stage-number">\${stage.number}</span>
-        <span class="stage-name">\${stage.title}</span>
-        <span class="stage-state">\${state}</span>
+        <span class="stage-number">${stage.number}</span>
+        <span class="stage-name">${stage.title}</span>
+        <span class="stage-state">${state}</span>
       </button>
-    \`;
+    `;
   }).join('');
 
   if (hasAccess && progress >= 100) {
-    element.innerHTML += \`
+    element.innerHTML += `
       <div class="final-path" style="margin-top:25px">
         <div class="tag">ПУТЬ ПРОЙДЕН</div>
         <h3>100% ЗАВЕРШЕНО</h3>
-        <p>\${path === 'awakening'
+        <p>${path === 'awakening'
           ? 'Ты прошла путь к Пробуждению. Теперь можешь перейти к следующей ветке — Творцу.'
           : 'Ты прошла путь к Творцу. Теперь важно продолжать создавать свою реальность.'}</p>
         <button class="primary" onclick="startFinalRetest()">ПРОЙТИ ТЕСТ ПОВТОРНО</button>
       </div>
-    \`;
+    `;
   }
 }
 
@@ -1924,7 +1894,7 @@ function savePracticeAnswer(path, stageNumber, value, fieldKey = null) {
   }
   allAnswers[path] = pathAnswers;
   writeLocal({ practice_answers: allAnswers });
-  const status = document.getElementById(\`practice-save-status-\${path}-\${stageNumber}-\${fieldKey || 'general'}\`);
+  const status = document.getElementById(`practice-save-status-${path}-${stageNumber}-${fieldKey || 'general'}`);
   if (status) status.textContent = 'Ответ сохранён автоматически';
 }
 
@@ -1935,36 +1905,36 @@ function renderPracticeAnswer(path, stageNumber, stage) {
   const style = 'box-sizing:border-box;width:100%;min-height:100px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical';
   const field = (key, label, hint = '') => {
     const value = (stageSaved && typeof stageSaved === 'object' ? stageSaved[key] : '') || '';
-    const id = \`practice-answer-\${path}-\${stageNumber}-\${key}\`;
-    return \`<div style="margin-top:14px"><label for="\${id}" style="display:block;font-weight:600;margin-bottom:8px">\${escapeLessonHtml(label)}</label>\${hint ? \`<p style="margin:0 0 8px;opacity:.8">\${escapeLessonHtml(hint)}</p>\` : ''}<textarea id="\${id}" rows="4" placeholder="Запиши свой ответ здесь..." oninput="savePracticeAnswer('\${path}', \${stageNumber}, this.value, '\${key}')" style="\${style}">\${escapeLessonHtml(value)}</textarea><p id="practice-save-status-\${path}-\${stageNumber}-\${key}" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">\${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p></div>\`;
+    const id = `practice-answer-${path}-${stageNumber}-${key}`;
+    return `<div style="margin-top:14px"><label for="${id}" style="display:block;font-weight:600;margin-bottom:8px">${escapeLessonHtml(label)}</label>${hint ? `<p style="margin:0 0 8px;opacity:.8">${escapeLessonHtml(hint)}</p>` : ''}<textarea id="${id}" rows="4" placeholder="Запиши свой ответ здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value, '${key}')" style="${style}">${escapeLessonHtml(value)}</textarea><p id="practice-save-status-${path}-${stageNumber}-${key}" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p></div>`;
   };
   const sectionStart = '<section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">';
   const sectionEnd = '</section>';
 
   if (path === 'awakening' && stageNumber === 1) {
     const value = oldValue || (stageSaved && stageSaved.general) || '';
-    return \`\${sectionStart}<label for="practice-answer-awakening-1-general" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ</label><p>Кто я, если убрать мои роли, обязанности и ожидания других?</p><p style="font-size:14px;opacity:.75">Напиши минимум 10 ответов — каждый с новой строки. Не нужно искать правильные формулировки. Пиши то, что действительно приходит тебе в голову.</p><textarea id="practice-answer-awakening-1-general" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('awakening', 1, this.value, 'general')" style="\${style}">\${escapeLessonHtml(value)}</textarea><p id="practice-save-status-awakening-1-general" style="font-size:13px;opacity:.75;margin-bottom:0">\${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>\${sectionEnd}\`;
+    return `${sectionStart}<label for="practice-answer-awakening-1-general" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ</label><p>Кто я, если убрать мои роли, обязанности и ожидания других?</p><p style="font-size:14px;opacity:.75">Напиши минимум 10 ответов — каждый с новой строки. Не нужно искать правильные формулировки. Пиши то, что действительно приходит тебе в голову.</p><textarea id="practice-answer-awakening-1-general" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('awakening', 1, this.value, 'general')" style="${style}">${escapeLessonHtml(value)}</textarea><p id="practice-save-status-awakening-1-general" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>${sectionEnd}`;
   }
 
   if (path === 'awakening' && stageNumber === 2) {
-    return \`\${sectionStart}\${field('want','Я больше не хочу…')}\${field('notMine','Это вообще не моё…')}\${field('release','Я готова отпустить…')}\${sectionEnd}\`;
+    return `${sectionStart}${field('want','Я больше не хочу…')}${field('notMine','Это вообще не моё…')}${field('release','Я готова отпустить…')}${sectionEnd}`;
   }
   if (path === 'awakening' && stageNumber === 3) {
-    return \`\${sectionStart}\${field('want','Я хочу…')}\${field('noLongerWant','Я больше не хочу…')}\${field('important','Мне действительно важно…')}\${field('prove','Если бы мне не нужно было никому ничего доказывать, я бы…')}\${field('judgement','Если бы я не боялась осуждения, я бы…')}\${sectionEnd}\`;
+    return `${sectionStart}${field('want','Я хочу…')}${field('noLongerWant','Я больше не хочу…')}${field('important','Мне действительно важно…')}${field('prove','Если бы мне не нужно было никому ничего доказывать, я бы…')}${field('judgement','Если бы я не боялась осуждения, я бы…')}${sectionEnd}`;
   }
   if (path === 'awakening' && stageNumber === 4) {
-    return \`\${sectionStart}\${field('disagree','Я больше не согласна…')}\${field('allow','Я больше не позволяю…')}\${field('obliged','Я больше не обязана…')}\${sectionEnd}\`;
+    return `${sectionStart}${field('disagree','Я больше не согласна…')}${field('allow','Я больше не позволяю…')}${field('obliged','Я больше не обязана…')}${sectionEnd}`;
   }
   if (path === 'awakening' && stageNumber === 5) {
     let html = sectionStart;
-    for (let i = 1; i <= 3; i++) html += \`<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(180,160,130,.25)"><h4>Ситуация \${i}</h4>\${field(\`situation\${i}\`, 'Ситуация', 'Что произошло?')}\${field(\`reaction\${i}\`, 'Реакция', 'Что я подумала и почувствовала? Что захотела сделать автоматически? Что выбрала сделать?')}</div>\`;
+    for (let i = 1; i <= 3; i++) html += `<div style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(180,160,130,.25)"><h4>Ситуация ${i}</h4>${field(`situation${i}`, 'Ситуация', 'Что произошло?')}${field(`reaction${i}`, 'Реакция', 'Что я подумала и почувствовала? Что захотела сделать автоматически? Что выбрала сделать?')}</div>`;
     return html + sectionEnd;
   }
   if (path === 'awakening' && stageNumber === 6) {
-    return \`\${sectionStart}\${field('sphere','Сфера','Какую сферу жизни я выбираю?')}\${field('notSatisfied','Что меня здесь больше не устраивает?')}\${field('wantInstead','Чего я хочу вместо этого?')}\${field('depends','Что зависит от меня?')}\${field('next24','Что я могу сделать в ближайшие 24 часа?')}\${sectionEnd}\`;
+    return `${sectionStart}${field('sphere','Сфера','Какую сферу жизни я выбираю?')}${field('notSatisfied','Что меня здесь больше не устраивает?')}${field('wantInstead','Чего я хочу вместо этого?')}${field('depends','Что зависит от меня?')}${field('next24','Что я могу сделать в ближайшие 24 часа?')}${sectionEnd}`;
   }
   if (path === 'awakening' && stageNumber === 7) {
-    return \`\${sectionStart}\${field('noLonger','Я больше не…')}\${field('choose','Я выбираю…')}\${field('allowMyself','Я разрешаю себе…')}\${field('noAllow','Я больше не позволяю…')}\${field('important','Для меня важно…')}\${field('afraid','Когда мне страшно, я…')}\${field('dontKnow','Когда я не знаю, что делать, я…')}\${field('nextStep','Мой следующий шаг…')}<p style="margin-top:16px">Сохрани эти ответы. Это твоя точка опоры после прохождения пути.</p>\${sectionEnd}\`;
+    return `${sectionStart}${field('noLonger','Я больше не…')}${field('choose','Я выбираю…')}${field('allowMyself','Я разрешаю себе…')}${field('noAllow','Я больше не позволяю…')}${field('important','Для меня важно…')}${field('afraid','Когда мне страшно, я…')}${field('dontKnow','Когда я не знаю, что делать, я…')}${field('nextStep','Мой следующий шаг…')}<p style="margin-top:16px">Сохрани эти ответы. Это твоя точка опоры после прохождения пути.</p>${sectionEnd}`;
   }
 
   // For the Creator branch, preserve its current single answer field and prompt.
@@ -1981,39 +1951,39 @@ function renderPracticeAnswer(path, stageNumber, stage) {
   };
   const prompt = prompts[path]?.[stageNumber - 1] || 'Запиши свои ответы по практике этого этапа.';
   const value = oldValue;
-  return \`\${sectionStart}<label for="practice-answer-\${path}-\${stageNumber}-general" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ К ПРАКТИКЕ</label><p>\${escapeLessonHtml(prompt)}</p><textarea id="practice-answer-\${path}-\${stageNumber}-general" rows="7" placeholder="Напиши свой ответ здесь..." oninput="savePracticeAnswer('\${path}', \${stageNumber}, this.value, 'general')" style="\${style}">\${escapeLessonHtml(value)}</textarea><p id="practice-save-status-\${path}-\${stageNumber}-general" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">\${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>\${sectionEnd}\`;
+  return `${sectionStart}<label for="practice-answer-${path}-${stageNumber}-general" style="display:block;font-weight:600;margin-bottom:10px">ТВОИ ОТВЕТЫ К ПРАКТИКЕ</label><p>${escapeLessonHtml(prompt)}</p><textarea id="practice-answer-${path}-${stageNumber}-general" rows="7" placeholder="Напиши свой ответ здесь..." oninput="savePracticeAnswer('${path}', ${stageNumber}, this.value, 'general')" style="${style}">${escapeLessonHtml(value)}</textarea><p id="practice-save-status-${path}-${stageNumber}-general" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответ сохраняется автоматически по мере ввода'}</p>${sectionEnd}`;
 }
 
 function renderStageOneAnswer(path) {
   const saved = getSavedPracticeAnswers();
   const value = saved[path]?.['1'] || '';
-  return \`
+  return `
     <section class="practice-answer" style="margin-top:18px;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px">
       <label for="stage-one-answer" style="display:block;font-weight:600;margin-bottom:10px">Моя точка</label>
       <p>Кто я, если убрать мои роли, обязанности и ожидания других?</p>
       <p style="font-size:14px;opacity:.75">Напиши минимум 10 ответов — каждый с новой строки. Не нужно искать правильные формулировки. Пиши то, что действительно приходит тебе в голову.</p>
-      <textarea id="stage-one-answer" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('\${path}', 1, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">\${escapeLessonHtml(value)}</textarea>
-      <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">\${value ? 'Ответ сохранён автоматически' : 'Ответы сохраняются автоматически по мере ввода'}</p>
+      <textarea id="stage-one-answer" rows="8" placeholder="Я — ...\nЯ — ...\nЯ — ..." oninput="savePracticeAnswer('${path}', 1, this.value)" style="box-sizing:border-box;width:100%;min-height:170px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(value)}</textarea>
+      <p id="practice-save-status" aria-live="polite" style="font-size:13px;opacity:.75;margin-bottom:0">${value ? 'Ответ сохранён автоматически' : 'Ответы сохраняются автоматически по мере ввода'}</p>
     </section>
-  \`;
+  `;
 }
 
 function renderEarlierAnswers(path) {
   const saved = getSavedPracticeAnswers();
   const firstAnswer = saved[path]?.['1'];
   if (!firstAnswer || !String(firstAnswer).trim()) return '';
-  return \`
+  return `
     <section class="saved-reflection" style="margin:18px 0;padding:16px;border:1px solid rgba(180,160,130,.45);border-radius:14px">
       <div class="tag">ТВОЯ ТОЧКА ОТСЧЁТА</div>
       <h3>Что ты ответила на первом этапе</h3>
       <p>В начале пути ты написала:</p>
-      <div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">\${escapeLessonHtml(firstAnswer)}</div>
+      <div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(firstAnswer)}</div>
       <p style="font-size:14px;opacity:.75">Сравни эти ответы с тем, что ты понимаешь о себе сейчас. Что изменилось? Что ты впервые заметила?</p>
       <label for="stage-one-review" style="display:block;font-weight:600;margin:12px 0 8px">Что изменилось во мне?</label>
-      <textarea id="stage-one-review" rows="5" placeholder="Сейчас я замечаю, что..." oninput="savePracticeAnswer('\${path}', '1_review', this.value)" style="box-sizing:border-box;width:100%;min-height:110px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">\${escapeLessonHtml(saved[path]?.['1_review'] || '')}</textarea>
+      <textarea id="stage-one-review" rows="5" placeholder="Сейчас я замечаю, что..." oninput="savePracticeAnswer('${path}', '1_review', this.value)" style="box-sizing:border-box;width:100%;min-height:110px;padding:13px;border-radius:10px;border:1px solid rgba(180,160,130,.5);background:transparent;color:inherit;font:inherit;resize:vertical">${escapeLessonHtml(saved[path]?.['1_review'] || '')}</textarea>
       <p style="font-size:13px;opacity:.75">Этот ответ тоже сохранится автоматически.</p>
     </section>
-  \`;
+  `;
 }
 
 
@@ -2055,30 +2025,30 @@ async function openLesson(lessonNumber, path = null) {
   if (!wrap) return;
 
   const voice = stage.voiceUrl
-    ? \`<div class="lesson-audio"><p><strong>🎙 Голосовое Елены</strong></p><audio controls preload="none" src="\${stage.voiceUrl}"></audio></div>\`
+    ? `<div class="lesson-audio"><p><strong>🎙 Голосовое Елены</strong></p><audio controls preload="none" src="${stage.voiceUrl}"></audio></div>`
     : '';
 
   const meditation = stage.meditationUrl
-    ? \`<div class="lesson-audio meditation-audio"><p><strong>🧘 Медитация</strong></p><p style="font-size:13px;line-height:1.5;color:#b8b8b8;margin:4px 0 12px">Включи медитацию, устройся поудобнее и позволь себе расслабиться. Отпусти лишние мысли, обрати внимание внутрь себя и просто побудь в этом состоянии. Это время для тебя — позволь новому проявиться.</p><audio controls preload="none" src="\${stage.meditationUrl}"></audio></div>\`
+    ? `<div class="lesson-audio meditation-audio"><p><strong>🧘 Медитация</strong></p><p style="font-size:13px;line-height:1.5;color:#b8b8b8;margin:4px 0 12px">Включи медитацию, устройся поудобнее и позволь себе расслабиться. Отпусти лишние мысли, обрати внимание внутрь себя и просто побудь в этом состоянии. Это время для тебя — позволь новому проявиться.</p><audio controls preload="none" src="${stage.meditationUrl}"></audio></div>`
     : '';
 
   const answerBox = renderPracticeAnswer(activePath, lessonNumber, stage);
 
-  wrap.innerHTML = \`
+  wrap.innerHTML = `
     <div class="lesson">
-      <div class="tag">ЭТАП \${lessonNumber} ИЗ 7</div>
-      <h2>\${stage.title}</h2>
-      \${stage.text}
-      \${voice}
-      \${meditation}
-      <div class="lesson-practice">\${stage.practice}\${answerBox}</div>
+      <div class="tag">ЭТАП ${lessonNumber} ИЗ 7</div>
+      <h2>${stage.title}</h2>
+      ${stage.text}
+      ${voice}
+      ${meditation}
+      <div class="lesson-practice">${stage.practice}${answerBox}</div>
       <div class="lesson-complete">
-        <button class="primary" onclick="\${lessonNumber === 7 ? \`completeLesson(7, '\${activePath}')\` : \`completeLesson(\${lessonNumber}, '\${activePath}')\`}">
-          \${lessonNumber === 7 ? 'РЕЗУЛЬТАТ' : 'Я ПРОШЛА ЭТОТ ЭТАП'}
+        <button class="primary" onclick="${lessonNumber === 7 ? `completeLesson(7, '${activePath}')` : `completeLesson(${lessonNumber}, '${activePath}')`}">
+          ${lessonNumber === 7 ? 'РЕЗУЛЬТАТ' : 'Я ПРОШЛА ЭТОТ ЭТАП'}
         </button>
       </div>
     </div>
-  \`;
+  `;
 }
 
 
@@ -2113,12 +2083,12 @@ function renderPathResult(path) {
     const content = entries.map(([key, value], index) => {
       const legacyField = /^field_(\d+)$/.exec(key);
       const legacyLabel = legacyField
-        ? (stageFieldLabels[stage.number]?.[Number(legacyField[1]) - 1] || \`Ответ \${legacyField[1]}\`)
+        ? (stageFieldLabels[stage.number]?.[Number(legacyField[1]) - 1] || `Ответ ${legacyField[1]}`)
         : null;
       const label = labels[key] || legacyLabel || (key === 'general' ? 'Ответ' : key);
-      return \`<p><strong>\${escapeLessonHtml(label)}</strong></p><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">\${escapeLessonHtml(value)}</div>\`;
+      return `<p><strong>${escapeLessonHtml(label)}</strong></p><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(value)}</div>`;
     }).join('') || '<em>Ответы не заполнены</em>';
-    return \`<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>\${stage.number}. \${escapeLessonHtml(stage.title)}</h3>\${content}</section>\`;
+    return `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>${stage.number}. ${escapeLessonHtml(stage.title)}</h3>${content}</section>`;
   }).join('');
   if (answersByStage['1_review']) {
     // The first-stage reflection is also part of the final result.
@@ -2126,18 +2096,20 @@ function renderPathResult(path) {
   const wrap = document.getElementById('lesson-wrap');
   if (!wrap) return;
   showScreen('lesson');
-  wrap.innerHTML = \`<div class="lesson">
+  wrap.innerHTML = `<div class="lesson">
     <div class="tag">РЕЗУЛЬТАТ</div>
-    <h2>Ты прошла путь «\${pathName}»!</h2>
+    <h2>Ты прошла путь «${pathName}»!</h2>
     <p>Поздравляю с завершением всех семи этапов. Ты уделила время себе, своим желаниям, выборам и новой реальности. Сохрани этот результат и возвращайся к своим ответам, когда захочешь увидеть, как ты изменилась.</p>
     <h3>Твои ответы за весь путь</h3>
-    \${items}
-    \${answersByStage['1_review'] ? \`<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>Что изменилось во мне?</h3><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">\${escapeLessonHtml(answersByStage['1_review'])}</div></section>\` : ''}
-    \${path === 'awakening' ? \`<section style="margin:20px 0;padding:16px;border:1px solid rgba(180,160,130,.4);border-radius:14px"><h3>Готова продолжить путь?</h3><p>Следующий этап — ветка «Творец». Она поможет перейти от осознания к созданию собственной реальности.</p><button class="primary" style="width:100%;white-space:normal" onclick="openCreatorUpgrade()">ПЕРЕЙТИ В «ТВОРЦА»</button></section>\` : ''}
-    <section style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px"><h3>Личная консультация</h3><p>Индивидуальный разбор 30–60 минут. Сначала выбери свободное время, затем оплати.</p><button class="primary" style="width:100%;white-space:normal" onclick="openConsultation()">ВЫБРАТЬ ВРЕМЯ</button></section>
-    <section style="margin:16px 0;padding:16px;border:1px solid rgba(180,160,130,.35);border-radius:14px"><h3>Личное сопровождение</h3><p>Персональная работа с Еленой на протяжении месяца.</p><button class="secondary" style="width:100%;white-space:normal" onclick="openAccompaniment()">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</button></section>
-    <button class="primary" onclick="openCabinet()">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
-  </div>\`;
+    ${items}
+    ${answersByStage['1_review'] ? `<section style="margin:16px 0;padding:14px;border:1px solid rgba(180,160,130,.35);border-radius:12px"><h3>Что изменилось во мне?</h3><div style="white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6">${escapeLessonHtml(answersByStage['1_review'])}</div></section>` : ''}
+    <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(180,160,130,.35)">
+      ${path === 'awakening' ? `<h3>Хочешь продолжить путь?</h3><p>Следующая ветка — «Творец». Она открывается отдельно, если ты готова перейти от пробуждения к созданию своей реальности.</p><button class="primary" onclick="openProduct('creator')">ОТКРЫТЬ ВЕТКУ «ТВОРЕЦ»</button>` : `<h3>Твой следующий шаг</h3><p>Ты можешь продолжить работу с личным запросом на консультации или выбрать персональное сопровождение.</p>`}
+      <button class="secondary" style="margin-top:10px" onclick="openConsultation()">ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ</button>
+      <button class="secondary" style="margin-top:10px" onclick="openAccompaniment()">ЛИЧНОЕ СОПРОВОЖДЕНИЕ</button>
+      <button class="secondary" style="margin-top:10px" onclick="openCabinet()">ВЕРНУТЬСЯ В МОЙ ПУТЬ</button>
+    </div>
+  </div>`;
 }
 
 /* =====================================================
@@ -2250,10 +2222,6 @@ function resetTest() {
    ЗАПУСК
 ===================================================== */
 
-function openCreatorUpgrade() {
-  openTribute(LINKS.creator, 'creator');
-}
-
 document.addEventListener(
   'DOMContentLoaded',
   async () => {
@@ -2269,9 +2237,7 @@ document.addEventListener(
     );
 
 
-    const user = await ensureUser();
-    window.__tpLoadedUser = user || await loadUser();
-    injectEntryDescription();
+    await ensureUser();
     resumeAfterPayment();
 
   }
