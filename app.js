@@ -1316,7 +1316,7 @@ function renderConsultationCalendar() {
   const selectedSlots = (byDate.get(consultationSelectedDate) || []).sort((a,b) => new Date(a.starts_at) - new Date(b.starts_at));
   const selectedDateLabel = formatConsultationDate(selectedSlots[0]?.starts_at || `${consultationSelectedDate}T12:00:00+03:00`);
   if (status) status.textContent = `Все даты и время указаны по московскому времени. Выбрано: ${selectedDateLabel}.`;
-  container.innerHTML = `<h3 style="margin:22px 0 8px;text-transform:capitalize">${selectedDateLabel}</h3><p style="margin:0 0 14px;color:#b7aa91;font-size:11px;letter-spacing:.09em;text-transform:uppercase">Время по московскому времени</p><div class="consultation-time-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">` + selectedSlots.map(slot => {
+  container.innerHTML = `<h3 style="margin:22px 0 8px;text-transform:capitalize">${selectedDateLabel}</h3><p style="margin:0 0 14px;color:#b7aa91;font-size:11px;letter-spacing:.09em;text-transform:uppercase">Время указано по Москве</p><div class="consultation-time-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">` + selectedSlots.map(slot => {
     const timeLabel = `${formatConsultationTime(slot.starts_at)}–${formatConsultationTime(slot.ends_at)}`;
     const startLabel = formatConsultationTime(slot.starts_at);
     return `<button type="button" class="consultation-slot" style="display:flex;min-width:0;min-height:78px;flex-direction:column;align-items:center;justify-content:center;gap:7px;margin:0;padding:12px 5px;background:#22201c;color:#f1eee8;border:1px solid #45413b;border-radius:14px;font:inherit;text-align:center;box-shadow:none;transition:background .15s,border-color .15s" onmouseover="this.style.borderColor='#c9b58c';this.style.background='#302b22'" onmouseout="this.style.borderColor='#45413b';this.style.background='#22201c'" onclick="showConsultationContactForm('${String(slot.id).replace(/'/g, '')}')" aria-label="Выбрать время ${timeLabel}"><b style="display:block;font-size:15px;line-height:1.2;white-space:nowrap">${startLabel}</b><small style="display:block;margin:0;color:#aaa399;font-size:11px;line-height:1.2">Свободно</small></button>`;
@@ -1391,7 +1391,7 @@ function showConsultationContactForm(slotId) {
       <input id="consultation-contact-phone" type="tel" maxlength="40" autocomplete="tel" placeholder="+7 ..." style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #514633;background:#111;color:#fff;font:inherit">
     </div>
     <p style="font-size:12px;color:#b7aa91;line-height:1.5">Твой Telegram: ${user.username ? '@'+escapeHtml(user.username) : 'username не указан в профиле'}. Эти данные увидит администратор записи.</p>
-    <button type="button" onclick="submitConsultationContactForm()" style="width:100%;margin-top:12px;padding:13px;border-radius:12px;background:#d7b36b;color:#17130d;border:0;font:inherit;font-weight:700">Продолжить к оплате</button>
+    <button type="button" onclick="submitConsultationContactForm()" style="width:100%;margin-top:12px;padding:13px;border-radius:12px;background:#d7b36b;color:#17130d;border:0;font:inherit;font-weight:700">Перейти к оплате</button>
     <button type="button" onclick="cancelConsultationContactForm()" style="width:100%;margin-top:8px;padding:10px;border-radius:12px;background:transparent;color:#f2eee5;border:1px solid #514633;font:inherit">Назад</button>
   `;
   document.getElementById('consultation-contact-form')?.remove();
@@ -1448,7 +1448,7 @@ async function submitConsultationContactForm() {
     form?.remove();
   } catch (error) {
     if (status) status.textContent = 'Не удалось сохранить данные. Проверь соединение и попробуй ещё раз.';
-    if (button) { button.disabled = false; button.textContent = 'Продолжить к оплате'; }
+    if (button) { button.disabled = false; button.textContent = 'Перейти к оплате'; }
   }
 }
 
