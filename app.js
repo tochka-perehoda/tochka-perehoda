@@ -1133,7 +1133,7 @@ async function resumeAfterConsultationPayment() {
       : 'Время указано в выбранном слоте';
 
     showScreen('consultation');
-    const wrap = document.getElementById('consultation-wrap');
+    const wrap = document.querySelector('#screen-consultation .consultation-page');
     if (!wrap) return;
     wrap.innerHTML = `
       <div class="lesson">
