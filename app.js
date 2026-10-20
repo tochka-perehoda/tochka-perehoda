@@ -1380,8 +1380,8 @@ function showConsultationContactForm(slotId) {
   form.innerHTML = `
     <h3 style="margin:0 0 8px">Как с тобой связаться?</h3>
     <p style="font-size:13px;color:#b7aa91;line-height:1.5">Заполни данные перед оплатой — они попадут в уведомление о записи.</p>
-    <label style="display:block;margin:12px 0 6px">Имя и фамилия *</label>
-    <input id="consultation-client-name" type="text" maxlength="120" autocomplete="name" value="${escapeHtml(defaultName)}" placeholder="Как к тебе обращаться" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #514633;background:#111;color:#fff;font:inherit">
+    <label style="display:block;margin:12px 0 6px">Имя *</label>
+    <input id="consultation-client-name" type="text" maxlength="120" autocomplete="given-name" value="${escapeHtml(defaultName)}" placeholder="Как к тебе обращаться" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #514633;background:#111;color:#fff;font:inherit">
     <label style="display:block;margin:12px 0 6px">Удобный способ связи *</label>
     <select id="consultation-contact-method" onchange="toggleConsultationPhone()" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #514633;background:#111;color:#fff;font:inherit">
       <option value="telegram">Telegram</option><option value="max">МАКС</option><option value="whatsapp">WhatsApp</option><option value="phone">Звонок по телефону</option>
