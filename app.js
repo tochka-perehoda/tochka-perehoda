@@ -1421,7 +1421,7 @@ function cancelConsultationContactForm() {
   consultationPendingSlotId = null;
 }
 
-async function submitConsultationContactForm() {
+async async function submitConsultationContactForm() {
   const name = document.getElementById('consultation-client-name')?.value.trim() || '';
   const method = document.getElementById('consultation-contact-method')?.value || 'telegram';
   const phone = document.getElementById('consultation-contact-phone')?.value.trim() || '';
